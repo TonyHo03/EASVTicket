@@ -24,7 +24,7 @@
                </children>
             </HBox>
             <Region prefHeight="34.0" prefWidth="424.0" />
-            <Pane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: Black; -fx-border-radius: 100;">
+            <Pane id="ImagePane" fx:id="imagePane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="100.0" stylesheets="@../css/login.css">
                <children>
                   <ImageView fitHeight="90.0" fitWidth="86.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
