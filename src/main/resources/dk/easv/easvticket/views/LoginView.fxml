@@ -6,17 +6,24 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="522.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CONTROLLER_NAME">
+<AnchorPane prefHeight="522.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.LoginController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="522.0" prefWidth="424.0">
          <children>
-            <Region prefHeight="75.0" prefWidth="424.0" />
+            <Region prefHeight="11.0" prefWidth="424.0" />
+            <HBox prefHeight="26.0" prefWidth="424.0">
+               <children>
+                  <Region prefHeight="26.0" prefWidth="14.0" />
+                  <Button mnemonicParsing="false" onAction="#onBackBtnClick" style="-fx-background-color: Transparent;" text="🢀 Back" />
+               </children>
+            </HBox>
+            <Region prefHeight="34.0" prefWidth="424.0" />
             <Pane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: Black; -fx-border-radius: 100;">
                <children>
                   <ImageView fitHeight="90.0" fitWidth="86.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
