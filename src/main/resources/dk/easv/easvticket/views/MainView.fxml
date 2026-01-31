@@ -13,15 +13,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="600.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.MainController">
     <children>
-        <VBox prefHeight="477.0" prefWidth="600.0">
+        <VBox alignment="TOP_CENTER" prefHeight="477.0" prefWidth="600.0">
             <children>
                 <Region prefHeight="13.0" prefWidth="600.0" />
                 <HBox prefHeight="63.0" prefWidth="600.0">
                     <children>
                         <Region prefHeight="62.0" prefWidth="34.0" />
-                        <Pane maxWidth="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="61.0" style="-fx-border-color: Black; -fx-border-radius: 100;">
+                        <Pane fx:id="imagePane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="61.0">
                             <children>
                                 <ImageView fitHeight="47.0" fitWidth="57.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -40,13 +40,22 @@
                                 <Insets />
                             </HBox.margin>
                             <children>
-                                <Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onLoginBtnClick" prefHeight="25.0" prefWidth="85.0" style="-fx-background-color: TRANSPARENT; -fx-border-color: Black; -fx-border-radius: 10;" text="Staff Login" />
+                                <Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onLoginBtnClick" prefHeight="25.0" prefWidth="85.0" text="Staff Login" />
                             </children>
                         </HBox>
                     </children>
                 </HBox>
                 <Region prefHeight="19.0" prefWidth="600.0" />
-                <ScrollPane hbarPolicy="NEVER" prefHeight="348.0" prefWidth="600.0" style="-fx-border-width: 0;" vbarPolicy="ALWAYS" />
+                <ScrollPane fx:id="scrollingPane" hbarPolicy="NEVER" prefHeight="348.0" prefWidth="600.0" vbarPolicy="ALWAYS">
+               <content>
+                  <HBox prefHeight="348.0" prefWidth="600.0">
+                     <children>
+                        <VBox fx:id="contentBox1" alignment="TOP_CENTER" prefHeight="348.0" prefWidth="300.0" />
+                        <VBox fx:id="contentBox2" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="348.0" prefWidth="300.0" />
+                     </children>
+                  </HBox>
+               </content></ScrollPane>
+            <Button mnemonicParsing="false" onAction="#onTestBtnClick" text="Test" />
             </children>
         </VBox>
     </children>

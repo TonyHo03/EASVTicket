@@ -1,6 +1,38 @@
-.imagePane {
+#imagePane {
 
-    border-color: black;
-    border-radius: 100px;
+    -fx-border-color: "BLACK";
+    -fx-border-radius: 100px;
+
+}
+
+#txtFldUser {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+
+}
+
+#txtFldPass {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+
+}
+
+#signInBtn {
+
+    -fx-background-color: "BLACK";
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+
+    -fx-border-color: "WHITE";
+    -fx-border-radius: 10px;
+    -fx-border-width: 1;
+
+}
+
+#backBtn {
+
+    -fx-background-color: "TRANSPARENT";
 
 }

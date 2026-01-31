@@ -1,0 +1,28 @@
+#imagePane {
+
+    -fx-border-color: "BLACK";
+    -fx-border-radius: 100px;
+
+}
+
+#loginBtn {
+
+    -fx-background-color: "TRANSPARENT";
+    -fx-border-color: "BLACK";
+    -fx-border-radius: 20px;
+
+}
+
+.event-box {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+
+    -fx-pref-height: 200px;
+    -fx-pref-width: 200px;
+
+    -fx-min-height: -fx-pref-height;
+    -fx-max-height: -fx-pref-height;
+    -fx-max-width: -fx-pref-width;
+
+}

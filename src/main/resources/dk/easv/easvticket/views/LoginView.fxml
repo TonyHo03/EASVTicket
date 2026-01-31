@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="522.0" prefWidth="424.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.LoginController">
+<AnchorPane prefHeight="522.0" prefWidth="424.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.LoginController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="522.0" prefWidth="424.0">
          <children>
@@ -20,11 +21,11 @@
             <HBox prefHeight="26.0" prefWidth="424.0">
                <children>
                   <Region prefHeight="26.0" prefWidth="14.0" />
-                  <Button mnemonicParsing="false" onAction="#onBackBtnClick" style="-fx-background-color: Transparent;" text="🢀 Back" />
+                  <Button fx:id="backBtn" mnemonicParsing="false" onAction="#onBackBtnClick" text="🢀 Back" />
                </children>
             </HBox>
             <Region prefHeight="34.0" prefWidth="424.0" />
-            <Pane id="ImagePane" fx:id="imagePane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="100.0" stylesheets="@../css/login.css">
+            <Pane fx:id="imagePane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="100.0">
                <children>
                   <ImageView fitHeight="90.0" fitWidth="86.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -49,15 +50,15 @@
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
-            <TextField maxWidth="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="391.0" promptText="Enter your username" />
+            <TextField fx:id="txtFldUser" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="391.0" promptText="Enter your username" />
             <Label layoutX="28.0" layoutY="273.0" prefHeight="39.0" prefWidth="388.0" text="Password">
                <font>
                   <Font name="Arial Bold" size="14.0" />
                </font>
             </Label>
-            <TextField layoutX="27.0" layoutY="312.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="391.0" promptText="Enter your password" />
+            <PasswordField fx:id="txtFldPass" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="31.0" prefWidth="391.0" promptText="Enter your password" />
             <Region prefHeight="33.0" prefWidth="424.0" />
-            <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="394.0" style="-fx-background-color: BLACK; -fx-border-radius: 50;" text="Sign in" textFill="WHITE">
+            <Button fx:id="signInBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="394.0" text="Sign in" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font>
