@@ -18,12 +18,12 @@
         <VBox alignment="TOP_CENTER" prefHeight="477.0" prefWidth="600.0">
             <children>
                 <Region prefHeight="13.0" prefWidth="600.0" />
-                <HBox prefHeight="63.0" prefWidth="600.0">
+                <HBox fx:id="upperPane" alignment="CENTER" prefHeight="75.0" prefWidth="600.0">
                     <children>
                         <Region prefHeight="62.0" prefWidth="34.0" />
-                        <Pane fx:id="imagePane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="61.0" prefWidth="61.0">
+                        <Pane fx:id="imagePane" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0">
                             <children>
-                                <ImageView fitHeight="47.0" fitWidth="57.0" layoutX="7.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fitHeight="43.0" fitWidth="38.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../images/tickets.png" />
                                     </image>
@@ -48,13 +48,16 @@
                 <Region prefHeight="19.0" prefWidth="600.0" />
                 <ScrollPane fx:id="scrollingPane" hbarPolicy="NEVER" prefHeight="348.0" prefWidth="600.0" vbarPolicy="ALWAYS">
                <content>
-                  <HBox prefHeight="348.0" prefWidth="600.0">
+                  <HBox fx:id="innerPane" prefHeight="342.0" prefWidth="600.0">
                      <children>
                         <VBox fx:id="contentBox1" alignment="TOP_CENTER" prefHeight="348.0" prefWidth="300.0" />
                         <VBox fx:id="contentBox2" alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="348.0" prefWidth="300.0" />
                      </children>
                   </HBox>
-               </content></ScrollPane>
+               </content>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></ScrollPane>
             <Button mnemonicParsing="false" onAction="#onTestBtnClick" text="Test" />
             </children>
         </VBox>

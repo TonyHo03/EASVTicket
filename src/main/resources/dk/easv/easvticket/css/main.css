@@ -13,6 +13,36 @@
 
 }
 
+#scrollingPane {
+
+    -fx-background-color: "TRANSPARENT";
+
+}
+
+#upperPane {
+
+    -fx-background-color: "TRANSPARENT";
+    -fx-background-radius: 20px;
+    -fx-background-insets: 1;
+
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-radius: 20px;
+    -fx-border-width: 4;
+
+}
+
+#innerPane {
+
+    -fx-background-color: "TRANSPARENT";
+    -fx-background-radius: 20px;
+    -fx-background-insets: 1;
+
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-radius: 20px;
+    -fx-border-width: 4;
+
+}
+
 .event-box {
 
     -fx-background-color: "WHITE";
