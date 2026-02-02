@@ -68,11 +68,14 @@ public class MainController implements Initializable {
         VBox.setMargin(pane, new Insets(10, 0, 10, 0));
         pane.getStyleClass().add("event-box");
 
+
+
         if (!placementBoolean) {
 
             contentBox1.getChildren().add(pane);
 
-        } else {
+        }
+        else {
 
             contentBox2.getChildren().add(pane);
 

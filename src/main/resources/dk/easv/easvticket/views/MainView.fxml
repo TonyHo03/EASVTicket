@@ -18,7 +18,7 @@
         <VBox alignment="TOP_CENTER" prefHeight="477.0" prefWidth="600.0">
             <children>
                 <Region prefHeight="13.0" prefWidth="600.0" />
-                <HBox fx:id="upperPane" alignment="CENTER" prefHeight="75.0" prefWidth="600.0">
+                <HBox fx:id="upperPane" alignment="CENTER" prefHeight="71.0" prefWidth="595.0">
                     <children>
                         <Region prefHeight="62.0" prefWidth="34.0" />
                         <Pane fx:id="imagePane" maxHeight="-Infinity" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="50.0">
@@ -45,8 +45,9 @@
                         </HBox>
                     </children>
                 </HBox>
+            <Region fx:id="border" layoutX="10.0" layoutY="94.0" prefHeight="5.0" prefWidth="600.0" />
                 <Region prefHeight="19.0" prefWidth="600.0" />
-                <ScrollPane fx:id="scrollingPane" hbarPolicy="NEVER" prefHeight="348.0" prefWidth="600.0" vbarPolicy="ALWAYS">
+                <ScrollPane fx:id="scrollingPane" hbarPolicy="NEVER" prefHeight="348.0" prefWidth="600.0">
                <content>
                   <HBox fx:id="innerPane" prefHeight="342.0" prefWidth="600.0">
                      <children>
