@@ -77,11 +77,17 @@
     -fx-background-color: "WHITE";
     -fx-background-radius: 10px;
 
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-radius: 10px;
+    -fx-border-width: 2;
+
     -fx-pref-height: 200px;
-    -fx-pref-width: 200px;
+    -fx-pref-width: 250px;
 
     -fx-min-height: -fx-pref-height;
     -fx-max-height: -fx-pref-height;
     -fx-max-width: -fx-pref-width;
+
+    -fx-effect: dropshadow(gaussian, rgba(43,43,43,0.2), 10, 0, 0, 10);
 
 }

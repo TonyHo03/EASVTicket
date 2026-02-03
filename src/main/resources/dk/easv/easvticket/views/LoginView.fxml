@@ -67,7 +67,7 @@
                   <Font name="Arial" size="12.0" />
                </font></PasswordField>
             <Region prefHeight="33.0" prefWidth="424.0" />
-            <Button fx:id="signInBtn" mnemonicParsing="false" prefHeight="35.0" prefWidth="394.0" text="Sign in" textFill="WHITE">
+            <Button fx:id="signInBtn" mnemonicParsing="false" onAction="#onSignInBtnClick" prefHeight="35.0" prefWidth="394.0" text="Sign in" textFill="WHITE">
                <font>
                   <Font name="Arial Bold" size="15.0" />
                </font>
