@@ -17,6 +17,9 @@ public class LoginController {
 
     private final String adminUserDemo = "admin";
     private final String adminPassDemo = "admin123";
+    private final String coordUserDemo = "coordinator1";
+    private final String coordPassDemo = "coord123";
+
 
     @FXML
     private TextField txtFldUser;
@@ -61,6 +64,31 @@ public class LoginController {
 
         }
 
+        if (txtFldUser.getText().equals(coordUserDemo) && txtFldPass.getText().equals(coordPassDemo)) {
+
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CoordinatorView.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 600, 427);
+                Stage stage = new Stage();
+
+                CoordinatorController coordinatorController = fxmlLoader.getController();
+                coordinatorController.setStage(stage);
+
+                stage.resizableProperty().setValue(false);
+
+                stage.setTitle("Admin Dashboard");
+                stage.setScene(scene);
+                stage.show();
+
+                currentStage.close();
+
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     public void setStage(Stage stage) {

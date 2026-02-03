@@ -1,0 +1,54 @@
+
+.Purple_Buttons {
+
+    -fx-background-color: rgba(227, 86, 255, 0.36);
+    -fx-text-fill: rgba(213,0,255,1);
+    -fx-background-radius: 10px;
+
+}
+
+.Purple_Buttons:hover {
+
+    -fx-background-color: rgba(227, 86, 255, 0.18);
+
+}
+
+.Purple_Buttons:pressed {
+
+    -fx-background-color: rgba(227, 86, 255, 0.72);
+
+}
+
+#createBtn {
+
+    -fx-background-color: rgba(27, 27 ,27, 1);
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+    -fx-text-fill: rgba(255, 255, 255, 1);
+    -fx-border-color: "Grey";
+    -fx-border-radius: 10px;
+    -fx-border-width: 2;
+
+}
+
+#cancelBtn {
+
+    -fx-background-color: rgba(225, 225 ,225, 1);
+    -fx-background-radius: 10px;
+    -fx-text-fill: rgba(0, 0, 0, 1);
+    -fx-border-color: "GRAY";
+    -fx-border-radius: 10px;
+    -fx-border-width: 2;
+
+}
+
+#topCard, #bottomCard {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+
+    -fx-effect: dropshadow(gaussian, rgba(43,43,43,0.2), 10,0,0,10);
+
+}
+

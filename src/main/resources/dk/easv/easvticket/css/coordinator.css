@@ -1,0 +1,100 @@
+#tabPane {
+
+    -fx-background-color: "TRANSPARENT";
+
+}
+
+.Purple_Buttons {
+
+    -fx-background-color: rgba(227, 86, 255, 0.36);
+    -fx-text-fill: rgba(213,0,255,1);
+    -fx-background-radius: 10px;
+
+}
+
+.Purple_Buttons:hover {
+
+    -fx-background-color: rgba(227, 86, 255, 0.18);
+
+}
+
+.Purple_Buttons:pressed {
+
+    -fx-background-color: rgba(227, 86, 255, 0.72);
+
+}
+
+.Invisible_Buttons {
+
+    -fx-background-color: "TRANSPARENT";
+
+}
+
+#tabPane .tab-header-area .tab-header-background {
+
+    -fx-background-color: "TRANSPARENT";
+
+}
+
+#tabPane .tab-header-area .headers-region .tab {
+
+    -fx-background-color: "TRANSPARENT";
+
+
+}
+
+#tabPane .tab-header-area .headers-region .tab:hover {
+
+    -fx-background-color: rgba(220,220,220, 1);
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+
+}
+
+#tabPane .tab-header-area .headers-region .tab:selected {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+
+}
+
+#tabPane .tab-header-area .headers-region {
+
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-radius: 10px;
+    -fx-border-width: 4;
+
+}
+
+#userManageView, #eventManageView {
+
+    -fx-background-color: TRANSPARENT;
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-radius: 10px;
+    -fx-border-width: 4;
+
+}
+
+#userManageView .column-header-background, #eventManageView .column-header-background {
+
+    -fx-background-color: TRANSPARENT;
+
+}
+
+#userManageView .column-header, #eventManageView .column-header {
+
+    -fx-background-color: TRANSPARENT;
+
+}
+
+#userManageCard, #eventManageCard {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+
+    -fx-effect: dropshadow(gaussian, rgba(43,43,43,0.2), 10,0,0,10);
+
+}
+
