@@ -21,24 +21,36 @@
 
 #createBtn {
 
-    -fx-background-color: rgba(27, 27 ,27, 1);
+    -fx-background-color: rgba(70, 70 ,70, 1);
     -fx-background-radius: 10px;
     -fx-background-insets: 1;
     -fx-text-fill: rgba(255, 255, 255, 1);
-    -fx-border-color: "Grey";
+    -fx-border-color: "BLACK";
     -fx-border-radius: 10px;
     -fx-border-width: 2;
 
 }
 
+#createBtn:hover {
+
+    -fx-background-color: rgba(50, 50 ,50, 1);
+
+}
+
 #cancelBtn {
 
-    -fx-background-color: rgba(225, 225 ,225, 1);
+    -fx-background-color: rgba(240, 240 ,240, 1);
     -fx-background-radius: 10px;
     -fx-text-fill: rgba(0, 0, 0, 1);
-    -fx-border-color: "GRAY";
+    -fx-border-color: "BLACK";
     -fx-border-radius: 10px;
     -fx-border-width: 2;
+
+}
+
+#cancelBtn:hover {
+
+    -fx-background-color: rgba(220, 220 ,220, 1);
 
 }
 
@@ -49,6 +61,18 @@
     -fx-background-insets: 1;
 
     -fx-effect: dropshadow(gaussian, rgba(43,43,43,0.2), 10,0,0,10);
+
+}
+
+#innerCard {
+
+    -fx-background-color: rgba(59, 206, 255, 0.46);
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+
+    -fx-border-color: rgba(19,93,231, 0.5);
+    -fx-border-radius: 10px;
+    -fx-border-width: 2;
 
 }
 

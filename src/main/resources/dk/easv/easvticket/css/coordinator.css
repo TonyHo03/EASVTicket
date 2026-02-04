@@ -27,6 +27,9 @@
 .Invisible_Buttons {
 
     -fx-background-color: "TRANSPARENT";
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-width: 2;
+    -fx-border-radius: 10px;
 
 }
 
@@ -67,7 +70,7 @@
 
 }
 
-#userManageView, #eventManageView {
+#userManageView, #eventManageView, #bottomCard {
 
     -fx-background-color: TRANSPARENT;
     -fx-border-color: "LIGHTGREY";

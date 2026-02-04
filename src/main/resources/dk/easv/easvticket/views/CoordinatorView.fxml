@@ -7,15 +7,17 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="427.0" prefWidth="600.0" stylesheets="@../css/coordinator.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.CoordinatorController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="553.0" prefWidth="600.0" stylesheets="@../css/coordinator.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.CoordinatorController">
    <children>
       <Region prefHeight="14.0" prefWidth="600.0" />
       <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="600.0">
@@ -37,13 +39,13 @@
          </children>
       </HBox>
       <Region layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="600.0" />
-      <TabPane fx:id="tabPane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="306.0" prefWidth="550.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="550.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab closable="false" text="My Events">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="247.0" prefWidth="550.0">
                      <children>
-                        <VBox fx:id="userManageCard" alignment="TOP_CENTER" layoutX="4.0" layoutY="12.0" prefHeight="246.0" prefWidth="542.0">
+                        <VBox fx:id="userManageCard" alignment="TOP_CENTER" layoutX="4.0" layoutY="12.0" prefHeight="356.0" prefWidth="542.0">
                            <children>
                               <Region prefHeight="13.0" prefWidth="542.0" />
                               <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="542.0">
@@ -78,6 +80,9 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <tooltip>
+                                          <Tooltip text="Create Event" />
+                                       </tooltip>
                                     </Button>
                                     <Region layoutX="456.0" layoutY="10.0" prefHeight="33.0" prefWidth="20.0" />
                                     <Button fx:id="assignCoordBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAssignCoordBtnClick" prefHeight="33.0" prefWidth="33.0">
@@ -97,6 +102,9 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <tooltip>
+                                          <Tooltip text="Assign Coordinator" />
+                                       </tooltip>
                                     </Button>
                                     <Region layoutX="166.0" layoutY="10.0" prefHeight="33.0" prefWidth="20.0" />
                                     <Button fx:id="editEventBtn" layoutX="456.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onEditEventBtnClick" prefHeight="33.0" prefWidth="33.0">
@@ -116,6 +124,9 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <tooltip>
+                                          <Tooltip text="Edit Events" />
+                                       </tooltip>
                                     </Button>
                                     <Region layoutX="311.0" layoutY="10.0" prefHeight="33.0" prefWidth="18.0" />
                                     <Button fx:id="deleteEventBtn" layoutX="483.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onDeleteEventBtnClick" prefHeight="33.0" prefWidth="33.0">
@@ -135,6 +146,9 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <tooltip>
+                                          <Tooltip text="Delete Event" />
+                                       </tooltip>
                                     </Button>
                                  </children>
                               </HBox>
@@ -149,7 +163,7 @@
                                  </children>
                               </HBox>
                               <Region prefHeight="25.0" prefWidth="542.0" />
-                              <TableView fx:id="userManageView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="136.0" prefWidth="521.0">
+                              <TableView fx:id="userManageView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="258.0" prefWidth="521.0">
                                 <columns>
                                   <TableColumn prefWidth="75.0" text="Name" />
                                   <TableColumn prefWidth="75.0" text="Username" />
@@ -256,9 +270,9 @@
                   </AnchorPane>
                </content>
                <content>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane prefHeight="200.0" prefWidth="550.0">
                      <children>
-                        <VBox fx:id="eventManageCard" alignment="TOP_CENTER" layoutX="4.0" layoutY="12.0" prefHeight="246.0" prefWidth="542.0">
+                        <VBox fx:id="eventManageCard" alignment="TOP_CENTER" layoutX="4.0" layoutY="12.0" prefHeight="366.0" prefWidth="542.0">
                            <children>
                               <Region prefHeight="13.0" prefWidth="542.0" />
                               <HBox alignment="CENTER_LEFT" prefHeight="33.0" prefWidth="542.0">
@@ -292,6 +306,9 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <tooltip>
+                                          <Tooltip text="Create Tickets" />
+                                       </tooltip>
                                     </Button>
                                     <Region layoutX="311.0" layoutY="10.0" prefHeight="34.0" prefWidth="10.0" />
                                     <Button fx:id="printBtn" layoutX="501.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onPrintBtnClick" prefHeight="33.0" prefWidth="33.0">
@@ -311,6 +328,9 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <tooltip>
+                                          <Tooltip text="Save Receipt as PDF" />
+                                       </tooltip>
                                     </Button>
                                  </children>
                               </HBox>
@@ -337,6 +357,41 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
+                              <Region layoutX="10.0" layoutY="72.0" prefHeight="14.0" prefWidth="542.0" />
+                              <Pane fx:id="bottomCard" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="112.0" prefWidth="521.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="14.0" text="Total Tickets">
+                                       <font>
+                                          <Font name="Arial Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="207.0" layoutY="14.0" text="Active Tickets">
+                                       <font>
+                                          <Font name="Arial Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="397.0" layoutY="14.0" text="Total Revenue">
+                                       <font>
+                                          <Font name="Arial Bold" size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="53.0" layoutY="45.0" text="0">
+                                       <font>
+                                          <Font name="Arial Bold" size="34.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="251.0" layoutY="45.0" text="0">
+                                       <font>
+                                          <Font name="Arial Bold" size="34.0" />
+                                       </font>
+                                    </Label>
+                                    <Label layoutX="432.0" layoutY="45.0" text="0,-" textFill="#00e80c">
+                                       <font>
+                                          <Font name="Arial Bold" size="34.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Pane>
                            </children>
                         </VBox>
                      </children>
