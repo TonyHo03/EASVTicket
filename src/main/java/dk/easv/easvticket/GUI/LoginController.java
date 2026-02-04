@@ -4,14 +4,19 @@ import dk.easv.easvticket.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController {
+public class LoginController implements Initializable {
 
     private Stage currentStage;
 
@@ -20,11 +25,17 @@ public class LoginController {
     private final String coordUserDemo = "coordinator1";
     private final String coordPassDemo = "coord123";
 
+    private boolean isHidden = true;
+
 
     @FXML
     private TextField txtFldUser;
     @FXML
-    private PasswordField txtFldPass;
+    private PasswordField passFldPass;
+    @FXML
+    private TextField txtFldPass;
+    @FXML
+    private ImageView showImg;
 
     @FXML
     private void onBackBtnClick(ActionEvent actionEvent) {
@@ -91,9 +102,54 @@ public class LoginController {
         }
     }
 
+    @FXML
+    private void onShowHideBtnClick() {
+
+        isHidden = !isHidden;
+
+        if (isHidden) {
+
+            showImg.setImage(new Image(MainApplication.class.getResource("images/show.png").toExternalForm()));
+
+            passFldPass.setManaged(true);
+            passFldPass.setVisible(true);
+
+            txtFldPass.setManaged(false);
+            txtFldPass.setVisible(false);
+
+        } else {
+
+            showImg.setImage(new Image(MainApplication.class.getResource("images/hide.png").toExternalForm()));
+
+            passFldPass.setManaged(false);
+            passFldPass.setVisible(false);
+
+            txtFldPass.setManaged(true);
+            txtFldPass.setVisible(true);
+
+        }
+
+    }
+
     public void setStage(Stage stage) {
 
         this.currentStage = stage;
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        passFldPass.textProperty().bindBidirectional(txtFldPass.textProperty());
+
+        passFldPass.setPrefWidth(350);
+        txtFldPass.setPrefWidth(350);
+
+        passFldPass.setManaged(true);
+        passFldPass.setVisible(true);
+
+        txtFldPass.setManaged(false);
+        txtFldPass.setVisible(false);
 
     }
 }
