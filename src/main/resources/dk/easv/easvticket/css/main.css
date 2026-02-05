@@ -30,6 +30,20 @@
 
 }
 
+.ticket-buttons:hover {
+
+    -fx-background-color: rgba(43,43,43,1);
+    -fx-cursor: "HAND";
+
+}
+
+.ticket-buttons:pressed {
+
+    -fx-background-color: "BLACK";
+    -fx-cursor: "HAND";
+
+}
+
 #scrollingPane {
 
     -fx-background-color: "TRANSPARENT";

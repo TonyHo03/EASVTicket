@@ -4,6 +4,18 @@
 
 }
 
+#logoutBtn {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-width: 2;
+    -fx-border-radius: 10px;
+
+}
+
 .Purple_Buttons {
 
     -fx-background-color: rgba(227, 86, 255, 0.36);
