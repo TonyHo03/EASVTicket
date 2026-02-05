@@ -27,14 +27,21 @@
                   <Font name="Arial" size="20.0" />
                </font>
             </Label>
-            <Region layoutX="10.0" layoutY="10.0" prefHeight="54.0" prefWidth="312.0" />
-            <Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#onLogoutBtnClick" prefHeight="33.0" prefWidth="75.0" text="Logout">
+            <Region layoutX="10.0" layoutY="10.0" prefHeight="54.0" prefWidth="348.0" />
+            <Button fx:id="logoutBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#onLogoutBtnClick" prefHeight="33.0" prefWidth="33.0">
                <font>
                   <Font name="Arial Bold" size="12.0" />
                </font>
                <cursor>
                   <Cursor fx:constant="HAND" />
-               </cursor></Button>
+               </cursor>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/logout.gif" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
          </children>
       </HBox>
       <Region layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="600.0" />
@@ -68,7 +75,7 @@
                                        <graphic>
                                           <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../images/adduser.png" />
+                                                <Image url="@../images/adduser.gif" />
                                              </image>
                                              <cursor>
                                                 <Cursor fx:constant="OPEN_HAND" />
@@ -94,7 +101,7 @@
                                        <graphic>
                                           <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../images/edit.png" />
+                                                <Image url="@../images/edit.gif" />
                                              </image>
                                              <cursor>
                                                 <Cursor fx:constant="OPEN_HAND" />
@@ -120,7 +127,7 @@
                                        <graphic>
                                           <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../images/delete.png" />
+                                                <Image url="@../images/delete.gif" />
                                              </image>
                                              <cursor>
                                                 <Cursor fx:constant="OPEN_HAND" />
@@ -301,7 +308,7 @@
                                        <graphic>
                                           <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../images/adduser.png" />
+                                                <Image url="@../images/adduser.gif" />
                                              </image>
                                              <cursor>
                                                 <Cursor fx:constant="OPEN_HAND" />
@@ -327,7 +334,7 @@
                                        <graphic>
                                           <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../images/delete.png" />
+                                                <Image url="@../images/delete.gif" />
                                              </image>
                                              <cursor>
                                                 <Cursor fx:constant="OPEN_HAND" />

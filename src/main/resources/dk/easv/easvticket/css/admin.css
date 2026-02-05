@@ -33,6 +33,18 @@
 
 }
 
+#logoutBtn {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+    -fx-background-insets: 1;
+
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-width: 2;
+    -fx-border-radius: 10px;
+
+}
+
 #tabPane .tab-header-area .tab-header-background {
 
     -fx-background-color: "TRANSPARENT";
