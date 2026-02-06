@@ -17,6 +17,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -93,6 +94,7 @@ public class MainController implements Initializable {
 
         Button ticketButton = new Button("Buy Tickets");
         ticketButton.getStyleClass().add("ticket-buttons");
+        ticketButton.setOnAction(event -> onPurchaseBtnClick());
         buttonBox.getChildren().add(ticketButton);
 
 
@@ -161,6 +163,32 @@ public class MainController implements Initializable {
         headerText.setFont(textDesign);
         headerText.setTextFill(Paint.valueOf(textColor));
         headerBox.getChildren().add(headerText);
+
+    }
+
+    public void onPurchaseBtnClick() {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/PurchaseTicketView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 356, 421);
+            Stage stage = new Stage();
+
+            PurchaseTicketController purchaseTicketController = fxmlLoader.getController();
+            purchaseTicketController.setStage(stage);
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.resizableProperty().setValue(false);
+
+            stage.setTitle("Login");
+            stage.setScene(scene);
+            stage.show();
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
