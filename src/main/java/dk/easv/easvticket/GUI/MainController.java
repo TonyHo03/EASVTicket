@@ -132,8 +132,8 @@ public class MainController implements Initializable {
         headerBox.getChildren().add(headerRegion);
 
         ImageView headerImage = new ImageView(MainApplication.class.getResource(imagePath).toExternalForm());
-        headerImage.setFitWidth(10);
-        headerImage.setFitHeight(10);
+        headerImage.setFitWidth(15);
+        headerImage.setFitHeight(15);
         headerBox.getChildren().add(headerImage);
 
         Region headerRegion2 = new Region();
@@ -195,7 +195,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        System.out.println();
+        addNewEvent();
 
     }
 }

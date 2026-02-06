@@ -107,10 +107,11 @@
 
     -fx-background-color: "WHITE";
     -fx-background-radius: 10px;
+    -fx-background-insets: 1;
 
     -fx-border-color: "LIGHTGREY";
     -fx-border-radius: 10px;
-    -fx-border-width: 2;
+    -fx-border-width: 2.5;
 
     -fx-pref-height: 200px;
     -fx-pref-width: 250px;

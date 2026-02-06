@@ -1,18 +1,25 @@
 package dk.easv.easvticket.GUI;
 
+import dk.easv.easvticket.BE.Event;
+import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.MainApplication;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -22,6 +29,31 @@ public class AdminController implements Initializable {
 
     @FXML
     private Button logoutBtn, addUserBtn, editUserBtn, deleteUserBtn, assignCoordBtn, deleteEventBtn;
+
+    @FXML
+    private TableView<User> userManageView;
+
+    @FXML
+    private TableView<Event> eventManageView;
+
+    @FXML
+    private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
+
+    @FXML
+    private TableColumn<Event, Date> clmDate;
+
+    @FXML
+    private TableColumn<Event, Integer> clmTickets;
+
+    @FXML
+    private TableColumn<User, String> clmName, clmUsername, clmEmail, clmRole;
+
+    private ObservableList<User> userObservableList = FXCollections.observableArrayList();
+
+    private ObservableList<Event> eventObservableList = FXCollections.observableArrayList();
+
+
+
 
     @FXML
     private void onLogoutBtnClick() {
@@ -151,6 +183,27 @@ public class AdminController implements Initializable {
         deleteUserBtn.getStyleClass().add("Invisible_Buttons");
         assignCoordBtn.getStyleClass().add("Invisible_Buttons");
         deleteEventBtn.getStyleClass().add("Invisible_Buttons");
+
+        userObservableList.add(new User("Ismail", "ismahm01", "ismahm01@easv365.dk", "Admin"));
+
+        List<User> coordList = new ArrayList<>();
+        coordList.add(new User("John Coordinator", "johncoord", "johncoord@gmail.com", "Event Coordinator"));
+
+        eventObservableList.add(new Event("Test Event", Date.valueOf(LocalDate.now()), "Esbjerg", coordList, 100));
+
+        clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clmUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+        clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        clmRole.setCellValueFactory(new PropertyValueFactory<>("role"));
+
+        clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        clmLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        clmCoordinators.setCellValueFactory(new PropertyValueFactory<>("coordinators"));
+        clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
+
+        userManageView.setItems(userObservableList);
+        eventManageView.setItems(eventObservableList);
 
     }
 }

@@ -1,18 +1,26 @@
 package dk.easv.easvticket.GUI;
 
+import dk.easv.easvticket.BE.Event;
+import dk.easv.easvticket.BE.Ticket;
+import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.MainApplication;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -21,6 +29,34 @@ public class CoordinatorController implements Initializable {
 
     @FXML
     private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, buyTicketBtn, printBtn, logoutBtn;
+
+    @FXML
+    private TableView<Ticket> ticketManageView;
+
+    @FXML
+    private TableView<Event> eventManageView;
+
+    @FXML
+    private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
+
+    @FXML
+    private TableColumn<Event, Date> clmDate;
+
+    @FXML
+    private TableColumn<Event, Integer> clmTickets;
+
+    @FXML
+    private TableColumn<Ticket, String> clmTicketId, clmCustomer, clmEmail, clmStatus;
+
+    @FXML
+    private TableColumn<Ticket, Event> clmEvent;
+
+    @FXML
+    private TableColumn<Ticket, Integer> clmPrice;
+
+    private ObservableList<Ticket> ticketObservableList = FXCollections.observableArrayList();
+
+    private ObservableList<Event> eventObservableList = FXCollections.observableArrayList();
 
     @FXML
     private void onLogoutBtnClick() {
@@ -167,6 +203,29 @@ public class CoordinatorController implements Initializable {
         deleteEventBtn.getStyleClass().add("Invisible_Buttons");
         buyTicketBtn.getStyleClass().add("Invisible_Buttons");
         printBtn.getStyleClass().add("Invisible_Buttons");
+
+        List<User> coordList = new ArrayList<>();
+        Event newEvent = new Event("Test Event", Date.valueOf(LocalDate.now()), "Esbjerg", coordList, 100);
+        coordList.add(new User("John Coordinator", "johncoord", "johncoord@gmail.com", "Event Coordinator"));
+        ticketObservableList.add(new Ticket("TKT-1770376529733-5O2MEIB04", newEvent, "a", "a@a.a", 50, "Active"));
+
+        eventObservableList.add(newEvent);
+
+        clmTicketId.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
+        clmEvent.setCellValueFactory(new PropertyValueFactory<>("event"));
+        clmCustomer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+        clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        clmStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+
+        clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        clmLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        clmCoordinators.setCellValueFactory(new PropertyValueFactory<>("coordinators"));
+        clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
+
+        ticketManageView.setItems(ticketObservableList);
+        eventManageView.setItems(eventObservableList);
 
     }
 }

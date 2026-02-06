@@ -16,6 +16,14 @@
 
 }
 
+#topCard {
+
+    -fx-background-color: WHITE;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: LIGHTGREY;
+
+}
+
 .Purple_Buttons {
 
     -fx-background-color: rgba(227, 86, 255, 0.36);
@@ -82,7 +90,7 @@
 
 }
 
-#userManageView, #eventManageView, #bottomCard {
+#ticketManageView, #eventManageView, #bottomCard {
 
     -fx-background-color: TRANSPARENT;
     -fx-border-color: "LIGHTGREY";
@@ -91,13 +99,41 @@
 
 }
 
-#userManageView .column-header-background, #eventManageView .column-header-background {
+#ticketManageView .table-row-cell, #eventManageView .table-row-cell {
 
     -fx-background-color: TRANSPARENT;
+    -fx-background-insets: 1;
+    -fx-background-radius: 1px;
 
 }
 
-#userManageView .column-header, #eventManageView .column-header {
+#ticketManageView .table-row-cell:selected , #eventManageView .table-row-cell:selected {
+
+    -fx-background-color: rgba(60, 129, 255, 0.73);
+
+    -fx-border-radius: 1px;
+    -fx-border-color: LIGHTGREY;
+    -fx-border-width: 2;
+
+}
+
+#ticketManageView .table-cell, #eventManageView .table-cell {
+
+    -fx-alignment: CENTER;
+    -fx-font-family: "Arial Bold";
+
+}
+
+#ticketManageView .column-header-background, #eventManageView .column-header-background {
+
+    -fx-background-color: TRANSPARENT;
+
+    -fx-border-color: LIGHTGREY;
+    -fx-border-width: 0 0 3 0;
+
+}
+
+#ticketManageView .column-header, #eventManageView .column-header {
 
     -fx-background-color: TRANSPARENT;
 
@@ -112,4 +148,38 @@
     -fx-effect: dropshadow(gaussian, rgba(43,43,43,0.2), 10,0,0,10);
 
 }
+
+.scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-pref-width: 12;
+}
+
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button {
+    -fx-opacity: 0;
+}
+
+.scroll-bar:vertical .increment-arrow,
+.scroll-bar:vertical .decrement-arrow {
+    -fx-opacity: 0;
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(130, 130, 130, 0.35);
+    -fx-background-radius: 6;
+    -fx-background-insets: 3;
+    -fx-padding: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 6, 0.3, 0, 1);
+    -fx-transition: all 0.25s ease-in-out;
+}
+
+.scroll-bar:vertical:hover .thumb {
+    -fx-background-color: rgba(130, 130, 130, 0.55);
+}
+
+.scroll-bar:vertical .thumb:pressed {
+    -fx-opacity: 1;
+    -fx-background-color: rgba(130, 130, 130, 0.75);
+}
+
 
