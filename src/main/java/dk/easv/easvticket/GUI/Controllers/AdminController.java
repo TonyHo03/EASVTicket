@@ -1,7 +1,8 @@
-package dk.easv.easvticket.GUI;
+package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -178,11 +179,15 @@ public class AdminController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Styling
+
         addUserBtn.getStyleClass().add("Invisible_Buttons");
         editUserBtn.getStyleClass().add("Invisible_Buttons");
         deleteUserBtn.getStyleClass().add("Invisible_Buttons");
         assignCoordBtn.getStyleClass().add("Invisible_Buttons");
         deleteEventBtn.getStyleClass().add("Invisible_Buttons");
+
+        // Test Data
 
         userObservableList.add(new User("Ismail", "ismahm01", "ismahm01@easv365.dk", "Admin"));
 
@@ -191,10 +196,21 @@ public class AdminController implements Initializable {
 
         eventObservableList.add(new Event("Test Event", Date.valueOf(LocalDate.now()), "Esbjerg", coordList, 100));
 
+        // User Table View
+
         clmName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         clmRole.setCellValueFactory(new PropertyValueFactory<>("role"));
+
+        userManageView.setItems(userObservableList);
+
+        TooltipMaker.addTooltipsToColumns(clmName);
+        TooltipMaker.addTooltipsToColumns(clmUsername);
+        TooltipMaker.addTooltipsToColumns(clmEmail);
+        TooltipMaker.addTooltipsToColumns(clmRole);
+
+        // Event Table View
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -202,8 +218,13 @@ public class AdminController implements Initializable {
         clmCoordinators.setCellValueFactory(new PropertyValueFactory<>("coordinators"));
         clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
 
-        userManageView.setItems(userObservableList);
         eventManageView.setItems(eventObservableList);
+
+        TooltipMaker.addTooltipsToColumns(clmEventName);
+        TooltipMaker.addTooltipsToColumns(clmDate);
+        TooltipMaker.addTooltipsToColumns(clmLocation);
+        TooltipMaker.addTooltipsToColumns(clmCoordinators);
+        TooltipMaker.addTooltipsToColumns(clmTickets);
 
     }
 }

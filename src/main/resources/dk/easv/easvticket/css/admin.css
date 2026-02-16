@@ -4,6 +4,14 @@
 
 }
 
+#topCard {
+
+    -fx-background-color: WHITE;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: LIGHTGREY;
+
+}
+
 .Purple_Buttons {
 
     -fx-background-color: rgba(227, 86, 255, 0.36);

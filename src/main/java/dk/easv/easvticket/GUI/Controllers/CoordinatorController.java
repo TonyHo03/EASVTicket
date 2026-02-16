@@ -1,8 +1,9 @@
-package dk.easv.easvticket.GUI;
+package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -197,12 +198,16 @@ public class CoordinatorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        // Styling
+
         addEventBtn.getStyleClass().add("Invisible_Buttons");
         assignCoordBtn.getStyleClass().add("Invisible_Buttons");
         editEventBtn.getStyleClass().add("Invisible_Buttons");
         deleteEventBtn.getStyleClass().add("Invisible_Buttons");
         buyTicketBtn.getStyleClass().add("Invisible_Buttons");
         printBtn.getStyleClass().add("Invisible_Buttons");
+
+        // Test Data
 
         List<User> coordList = new ArrayList<>();
         Event newEvent = new Event("Test Event", Date.valueOf(LocalDate.now()), "Esbjerg", coordList, 100);
@@ -211,6 +216,8 @@ public class CoordinatorController implements Initializable {
 
         eventObservableList.add(newEvent);
 
+        // Ticket Table View
+
         clmTicketId.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
         clmEvent.setCellValueFactory(new PropertyValueFactory<>("event"));
         clmCustomer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
@@ -218,14 +225,30 @@ public class CoordinatorController implements Initializable {
         clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         clmStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
+        ticketManageView.setItems(ticketObservableList);
+
+        TooltipMaker.addTooltipsToColumns(clmTicketId);
+        TooltipMaker.addTooltipsToColumns(clmEvent);
+        TooltipMaker.addTooltipsToColumns(clmCustomer);
+        TooltipMaker.addTooltipsToColumns(clmEmail);
+        TooltipMaker.addTooltipsToColumns(clmPrice);
+        TooltipMaker.addTooltipsToColumns(clmStatus);
+
+        // Event Table View
+
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         clmLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
         clmCoordinators.setCellValueFactory(new PropertyValueFactory<>("coordinators"));
         clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
 
-        ticketManageView.setItems(ticketObservableList);
         eventManageView.setItems(eventObservableList);
+
+        TooltipMaker.addTooltipsToColumns(clmEventName);
+        TooltipMaker.addTooltipsToColumns(clmDate);
+        TooltipMaker.addTooltipsToColumns(clmLocation);
+        TooltipMaker.addTooltipsToColumns(clmCoordinators);
+        TooltipMaker.addTooltipsToColumns(clmTickets);
 
     }
 }

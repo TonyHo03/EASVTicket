@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="522.0" prefWidth="424.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.LoginController">
+<AnchorPane prefHeight="522.0" prefWidth="424.0" stylesheets="@../css/login.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.LoginController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="522.0" prefWidth="424.0">
          <children>

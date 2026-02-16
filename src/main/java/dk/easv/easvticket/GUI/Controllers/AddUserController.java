@@ -1,8 +1,8 @@
-package dk.easv.easvticket.GUI;
+package dk.easv.easvticket.GUI.Controllers;
 
 import javafx.stage.Stage;
 
-public class BuyTicketController {
+public class AddUserController {
 
     private Stage currentStage;
 

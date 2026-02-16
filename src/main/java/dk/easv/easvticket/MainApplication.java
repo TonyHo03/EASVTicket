@@ -1,14 +1,10 @@
 package dk.easv.easvticket;
 
-import dk.easv.easvticket.GUI.MainController;
+import dk.easv.easvticket.GUI.Controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Objects;
 
 public class MainApplication extends Application {
     @Override
