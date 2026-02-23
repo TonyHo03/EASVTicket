@@ -179,14 +179,6 @@ public class AdminController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Styling
-
-        addUserBtn.getStyleClass().add("Invisible_Buttons");
-        editUserBtn.getStyleClass().add("Invisible_Buttons");
-        deleteUserBtn.getStyleClass().add("Invisible_Buttons");
-        assignCoordBtn.getStyleClass().add("Invisible_Buttons");
-        deleteEventBtn.getStyleClass().add("Invisible_Buttons");
-
         // Test Data
 
         userObservableList.add(new User("Ismail", "ismahm01", "ismahm01@easv365.dk", "Admin"));

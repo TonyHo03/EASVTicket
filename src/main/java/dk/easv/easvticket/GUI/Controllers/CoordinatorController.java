@@ -198,15 +198,6 @@ public class CoordinatorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        // Styling
-
-        addEventBtn.getStyleClass().add("Invisible_Buttons");
-        assignCoordBtn.getStyleClass().add("Invisible_Buttons");
-        editEventBtn.getStyleClass().add("Invisible_Buttons");
-        deleteEventBtn.getStyleClass().add("Invisible_Buttons");
-        buyTicketBtn.getStyleClass().add("Invisible_Buttons");
-        printBtn.getStyleClass().add("Invisible_Buttons");
-
         // Test Data
 
         List<User> coordList = new ArrayList<>();

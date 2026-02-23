@@ -1,4 +1,4 @@
 package dk.easv.easvticket.DAL.DAO;
 
-public class EventDataAccess {
+public class TicketDAO {
 }

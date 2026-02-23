@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -74,8 +75,7 @@ public class LoginController implements Initializable {
             }
 
         }
-
-        if (txtFldUser.getText().equals(coordUserDemo) && txtFldPass.getText().equals(coordPassDemo)) {
+        else if (txtFldUser.getText().equals(coordUserDemo) && txtFldPass.getText().equals(coordPassDemo)) {
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CoordinatorView.fxml"));
@@ -98,6 +98,14 @@ public class LoginController implements Initializable {
             {
                 e.printStackTrace();
             }
+
+        }
+        else {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Incorrect information");
+            alert.setContentText("Incorrect username or password. Please try again.");
+            alert.showAndWait();
 
         }
     }
