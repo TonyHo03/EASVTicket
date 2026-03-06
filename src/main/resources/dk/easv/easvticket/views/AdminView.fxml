@@ -26,8 +26,8 @@
                   <Font name="Calibri Bold" size="23.0" />
                </font>
             </Label>
-            <Region layoutX="10.0" layoutY="10.0" prefHeight="54.0" prefWidth="330.0" />
-            <Button fx:id="logoutBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#onLogoutBtnClick" prefHeight="33.0" prefWidth="33.0">
+            <Region layoutX="10.0" layoutY="10.0" prefHeight="72.0" prefWidth="316.0" />
+            <Button fx:id="logoutBtn" minWidth="-Infinity" mnemonicParsing="false" onAction="#onLogoutBtnClick" prefHeight="35.0" prefWidth="35.0">
                <font>
                   <Font name="Arial Bold" size="12.0" />
                </font>
@@ -66,8 +66,8 @@
                                           <Font name="Arial Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="33.0" prefWidth="205.0" />
-                                    <Button fx:id="addUserBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAddUserBtnClick" prefHeight="33.0" prefWidth="33.0" styleClass="Invisible_Buttons">
+                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="196.0" />
+                                    <Button fx:id="addUserBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAddUserBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
@@ -93,7 +93,7 @@
                                        </tooltip>
                                     </Button>
                                     <Region layoutX="166.0" layoutY="10.0" prefHeight="33.0" prefWidth="20.0" />
-                                    <Button fx:id="editUserBtn" layoutX="456.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onEditUserBtnClick" prefHeight="33.0" prefWidth="33.0" styleClass="Invisible_Buttons">
+                                    <Button fx:id="editUserBtn" layoutX="456.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onEditUserBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
@@ -119,7 +119,7 @@
                                        </tooltip>
                                     </Button>
                                     <Region layoutX="311.0" layoutY="10.0" prefHeight="33.0" prefWidth="18.0" />
-                                    <Button fx:id="deleteUserBtn" layoutX="483.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onDeleteUserBtnClick" prefHeight="33.0" prefWidth="33.0" styleClass="Invisible_Buttons">
+                                    <Button fx:id="deleteUserBtn" layoutX="483.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onDeleteUserBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
@@ -299,8 +299,8 @@
                                           <Font name="Arial Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="33.0" prefWidth="252.0" />
-                                    <Button fx:id="assignCoordBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAssignCoordBtnClick" prefHeight="33.0" prefWidth="33.0" styleClass="Invisible_Buttons">
+                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="246.0" />
+                                    <Button fx:id="assignCoordBtn" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAssignCoordBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
@@ -326,7 +326,7 @@
                                        </tooltip>
                                     </Button>
                                     <Region layoutX="311.0" layoutY="10.0" prefHeight="33.0" prefWidth="18.0" />
-                                    <Button fx:id="deleteEventBtn" layoutX="483.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onDeleteEventBtnClick" prefHeight="33.0" prefWidth="33.0" styleClass="Invisible_Buttons">
+                                    <Button fx:id="deleteEventBtn" layoutX="483.0" layoutY="10.0" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onDeleteEventBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
                                        <font>
                                           <Font name="Arial Bold" size="12.0" />
                                        </font>
