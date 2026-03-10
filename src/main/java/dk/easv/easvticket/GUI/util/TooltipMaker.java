@@ -9,7 +9,7 @@ public class TooltipMaker {
     // Method with generic type parameters, since the parameters' type aren't always the same.
     public static <S, T> void addTooltipsToColumns(TableColumn<S, T> column) {
 
-        column.setCellFactory(tc -> new TableCell<S, T>() {
+        column.setCellFactory(tc -> new TableCell<>() {
 
             private Tooltip tooltip = new Tooltip();
 
