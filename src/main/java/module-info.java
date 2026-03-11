@@ -4,6 +4,8 @@ module dk.easv.easvticket {
     requires javafx.graphics;
     requires java.sql;
     requires javafx.base;
+    requires com.microsoft.sqlserver.jdbc;
+    requires java.naming;
 
 
     opens dk.easv.easvticket to javafx.fxml;

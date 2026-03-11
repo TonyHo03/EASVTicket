@@ -4,18 +4,6 @@
 
 }
 
-#logoutBtn {
-
-    -fx-background-color: "WHITE";
-    -fx-background-radius: 10px;
-    -fx-background-insets: 1;
-
-    -fx-border-color: "LIGHTGREY";
-    -fx-border-width: 2;
-    -fx-border-radius: 10px;
-
-}
-
 #topCard {
 
     -fx-background-color: WHITE;
@@ -50,6 +38,22 @@
     -fx-border-color: "LIGHTGREY";
     -fx-border-width: 2;
     -fx-border-radius: 10px;
+
+    transition: -fx-pref-height 300ms ease-out, -fx-pref-width 300ms ease-out;
+
+}
+
+.Invisible_Buttons:hover {
+
+    -fx-pref-height: 40;
+    -fx-pref-width: 40;
+
+}
+
+.Invisible_Buttons:pressed {
+
+    -fx-pref-height: 30;
+    -fx-pref-width: 30;
 
 }
 
