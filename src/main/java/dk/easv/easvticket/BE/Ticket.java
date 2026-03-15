@@ -1,5 +1,7 @@
 package dk.easv.easvticket.BE;
 
+import java.math.BigDecimal;
+
 public class Ticket {
 
     private int id;

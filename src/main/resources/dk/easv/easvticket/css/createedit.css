@@ -19,6 +19,19 @@
 
 }
 
+.text-field, .choice-box {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-radius: 10px;
+    -fx-border-width: 2;
+
+    transition: -fx-border-color 300ms ease-out;
+
+}
+
 #createBtn {
 
     -fx-background-color: rgba(70, 70 ,70, 1);

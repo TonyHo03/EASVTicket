@@ -54,7 +54,7 @@ public class LoginController implements Initializable {
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 427);
+                Scene scene = new Scene(fxmlLoader.load());
                 Stage stage = new Stage();
 
                 AdminController adminController = fxmlLoader.getController();
@@ -79,7 +79,7 @@ public class LoginController implements Initializable {
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CoordinatorView.fxml"));
-                Scene scene = new Scene(fxmlLoader.load(), 600, 553);
+                Scene scene = new Scene(fxmlLoader.load());
                 Stage stage = new Stage();
 
                 CoordinatorController coordinatorController = fxmlLoader.getController();

@@ -17,41 +17,45 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" stylesheets="@../css/coordinator.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.CoordinatorController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" stylesheets="@../css/coordinator.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.CoordinatorController">
    <children>
       <HBox fx:id="topCard" alignment="CENTER" prefHeight="76.0" prefWidth="600.0">
          <children>
-            <Region prefHeight="73.0" prefWidth="15.0" />
             <Label prefHeight="54.0" prefWidth="333.0" text="Event Coordinator Dashboard">
                <font>
                   <Font name="Calibri Bold" size="23.0" />
                </font>
             </Label>
-            <Region layoutX="10.0" layoutY="10.0" prefHeight="73.0" prefWidth="158.0" />
-            <Button fx:id="logoutBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onLogoutBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
-               <font>
-                  <Font name="Arial Bold" size="12.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-               <graphic>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../images/logout.gif" />
-                     </image>
-                  </ImageView>
-               </graphic></Button>
+            <Region layoutX="10.0" layoutY="10.0" prefHeight="73.0" prefWidth="581.0" />
+            <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
+               <children>
+                  <Button fx:id="logoutBtn" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onLogoutBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
+                     <font>
+                        <Font name="Arial Bold" size="12.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <graphic>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/logout.gif" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+               </children>
+            </HBox>
          </children>
       </HBox>
       <Region layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="600.0" />
-      <TabPane fx:id="tabPane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="446.0" prefWidth="550.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="tabPane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="960.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab closable="false" text="My Events">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="247.0" prefWidth="550.0">
                      <children>
-                        <VBox fx:id="userManageCard" alignment="TOP_CENTER" layoutX="4.0" layoutY="12.0" prefHeight="356.0" prefWidth="542.0">
+                        <VBox fx:id="userManageCard" alignment="TOP_CENTER" layoutX="4.0" layoutY="12.0" prefHeight="370.0" prefWidth="950.0">
                            <children>
                               <Region prefHeight="13.0" prefWidth="542.0" />
                               <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="542.0">
@@ -63,104 +67,120 @@
                                        </image>
                                     </ImageView>
                                     <Region layoutX="10.0" layoutY="10.0" prefHeight="34.0" prefWidth="5.0" />
-                                    <Label prefHeight="20.0" prefWidth="147.0" text="My Events">
+                                    <Label prefHeight="22.0" prefWidth="165.0" text="My Events">
                                        <font>
                                           <Font name="Arial Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="137.0" />
-                                    <Button fx:id="addEventBtn" layoutX="405.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAddEventBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
-                                       <font>
-                                          <Font name="Arial Bold" size="12.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/addevent.gif" />
-                                             </image>
+                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="523.0" />
+                                    <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
+                                       <children>
+                                          <Button fx:id="addEventBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAddEventBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
+                                             <font>
+                                                <Font name="Arial Bold" size="12.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/addevent.gif" />
+                                                   </image>
+                                                   <cursor>
+                                                      <Cursor fx:constant="OPEN_HAND" />
+                                                   </cursor>
+                                                </ImageView>
+                                             </graphic>
                                              <cursor>
-                                                <Cursor fx:constant="OPEN_HAND" />
+                                                <Cursor fx:constant="HAND" />
                                              </cursor>
-                                          </ImageView>
-                                       </graphic>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <tooltip>
-                                          <Tooltip text="Create Event" />
-                                       </tooltip>
-                                    </Button>
+                                             <tooltip>
+                                                <Tooltip text="Create Event" />
+                                             </tooltip>
+                                          </Button>
+                                       </children>
+                                    </HBox>
                                     <Region layoutX="456.0" layoutY="10.0" prefHeight="33.0" prefWidth="20.0" />
-                                    <Button fx:id="assignCoordBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAssignCoordBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
-                                       <font>
-                                          <Font name="Arial Bold" size="12.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/adduser.gif" />
-                                             </image>
+                                    <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
+                                       <children>
+                                          <Button fx:id="assignCoordBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAssignCoordBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
+                                             <font>
+                                                <Font name="Arial Bold" size="12.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/adduser.gif" />
+                                                   </image>
+                                                   <cursor>
+                                                      <Cursor fx:constant="OPEN_HAND" />
+                                                   </cursor>
+                                                </ImageView>
+                                             </graphic>
                                              <cursor>
-                                                <Cursor fx:constant="OPEN_HAND" />
+                                                <Cursor fx:constant="HAND" />
                                              </cursor>
-                                          </ImageView>
-                                       </graphic>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <tooltip>
-                                          <Tooltip text="Assign Coordinator" />
-                                       </tooltip>
-                                    </Button>
+                                             <tooltip>
+                                                <Tooltip text="Assign Coordinator" />
+                                             </tooltip>
+                                          </Button>
+                                       </children>
+                                    </HBox>
                                     <Region layoutX="166.0" layoutY="10.0" prefHeight="33.0" prefWidth="20.0" />
-                                    <Button fx:id="editEventBtn" layoutX="456.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onEditEventBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
-                                       <font>
-                                          <Font name="Arial Bold" size="12.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/edit.gif" />
-                                             </image>
+                                    <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
+                                       <children>
+                                          <Button fx:id="editEventBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onEditEventBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
+                                             <font>
+                                                <Font name="Arial Bold" size="12.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/edit.gif" />
+                                                   </image>
+                                                   <cursor>
+                                                      <Cursor fx:constant="OPEN_HAND" />
+                                                   </cursor>
+                                                </ImageView>
+                                             </graphic>
                                              <cursor>
-                                                <Cursor fx:constant="OPEN_HAND" />
+                                                <Cursor fx:constant="HAND" />
                                              </cursor>
-                                          </ImageView>
-                                       </graphic>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <tooltip>
-                                          <Tooltip text="Edit Events" />
-                                       </tooltip>
-                                    </Button>
+                                             <tooltip>
+                                                <Tooltip text="Edit Events" />
+                                             </tooltip>
+                                          </Button>
+                                       </children>
+                                    </HBox>
                                     <Region layoutX="311.0" layoutY="10.0" prefHeight="33.0" prefWidth="18.0" />
-                                    <Button fx:id="deleteEventBtn" layoutX="483.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onDeleteEventBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
-                                       <font>
-                                          <Font name="Arial Bold" size="12.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/delete.gif" />
-                                             </image>
+                                    <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
+                                       <children>
+                                          <Button fx:id="deleteEventBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onDeleteEventBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
+                                             <font>
+                                                <Font name="Arial Bold" size="12.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/delete.gif" />
+                                                   </image>
+                                                   <cursor>
+                                                      <Cursor fx:constant="OPEN_HAND" />
+                                                   </cursor>
+                                                </ImageView>
+                                             </graphic>
                                              <cursor>
-                                                <Cursor fx:constant="OPEN_HAND" />
+                                                <Cursor fx:constant="HAND" />
                                              </cursor>
-                                          </ImageView>
-                                       </graphic>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <tooltip>
-                                          <Tooltip text="Delete Event" />
-                                       </tooltip>
-                                    </Button>
+                                             <tooltip>
+                                                <Tooltip text="Delete Event" />
+                                             </tooltip>
+                                          </Button>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="16.0" prefWidth="542.0">
                                  <children>
-                                    <Region prefHeight="60.0" prefWidth="18.0" />
+                                    <Region prefHeight="17.0" prefWidth="24.0" />
                                     <Label text="Create and manage events" textFill="#6f6f6f">
                                        <font>
                                           <Font name="Arial" size="12.0" />
@@ -169,18 +189,22 @@
                                  </children>
                               </HBox>
                               <Region prefHeight="25.0" prefWidth="542.0" />
-                              <TableView fx:id="eventManageView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="258.0" prefWidth="521.0">
-                                <columns>
-                                  <TableColumn fx:id="clmEventName" prefWidth="75.0" text="Event Name" />
-                                  <TableColumn fx:id="clmDate" prefWidth="75.0" text="Date" />
-                                    <TableColumn fx:id="clmLocation" prefWidth="75.0" text="Location" />
-                                    <TableColumn fx:id="clmCoordinators" prefWidth="75.0" text="Coordinators" />
-                                    <TableColumn fx:id="clmTickets" prefWidth="75.0" text="Available Tickets" />
-                                </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                              </TableView>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <TableView fx:id="eventManageView" prefHeight="255.0" prefWidth="920.0">
+                                      <columns>
+                                        <TableColumn fx:id="clmEventName" prefWidth="75.0" text="Event Name" />
+                                        <TableColumn fx:id="clmDate" prefWidth="75.0" text="Date" />
+                                          <TableColumn fx:id="clmLocation" prefWidth="75.0" text="Location" />
+                                          <TableColumn fx:id="clmCoordinators" prefWidth="75.0" text="Coordinators" />
+                                          <TableColumn fx:id="clmTickets" prefWidth="75.0" text="Available Tickets" />
+                                      </columns>
+                                       <columnResizePolicy>
+                                          <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                       </columnResizePolicy>
+                                    </TableView>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
                      </children>
@@ -279,7 +303,7 @@
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="550.0">
                      <children>
-                        <VBox fx:id="eventManageCard" alignment="TOP_CENTER" layoutX="4.0" layoutY="12.0" prefHeight="366.0" prefWidth="542.0">
+                        <VBox fx:id="eventManageCard" alignment="TOP_CENTER" layoutX="4.0" layoutY="12.0" prefHeight="366.0" prefWidth="950.0">
                            <children>
                               <Region prefHeight="13.0" prefWidth="542.0" />
                               <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" prefWidth="542.0">
@@ -295,55 +319,63 @@
                                           <Font name="Arial Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="36.0" prefWidth="258.0" />
-                                    <Button fx:id="buyTicketBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBuyTicketBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
-                                       <font>
-                                          <Font name="Arial Bold" size="12.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/realshoppingcart.gif" />
-                                             </image>
+                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="648.0" />
+                                    <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
+                                       <children>
+                                          <Button fx:id="buyTicketBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onBuyTicketBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
+                                             <font>
+                                                <Font name="Arial Bold" size="12.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/realshoppingcart.gif" />
+                                                   </image>
+                                                   <cursor>
+                                                      <Cursor fx:constant="OPEN_HAND" />
+                                                   </cursor>
+                                                </ImageView>
+                                             </graphic>
                                              <cursor>
-                                                <Cursor fx:constant="OPEN_HAND" />
+                                                <Cursor fx:constant="HAND" />
                                              </cursor>
-                                          </ImageView>
-                                       </graphic>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <tooltip>
-                                          <Tooltip text="Create Tickets" />
-                                       </tooltip>
-                                    </Button>
-                                    <Region layoutX="311.0" layoutY="10.0" prefHeight="34.0" prefWidth="10.0" />
-                                    <Button fx:id="printBtn" layoutX="501.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onPrintBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
-                                       <font>
-                                          <Font name="Arial Bold" size="12.0" />
-                                       </font>
-                                       <graphic>
-                                          <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../images/cheque.gif" />
-                                             </image>
+                                             <tooltip>
+                                                <Tooltip text="Create Tickets" />
+                                             </tooltip>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <Region layoutX="311.0" layoutY="10.0" prefHeight="34.0" prefWidth="20.0" />
+                                    <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
+                                       <children>
+                                          <Button fx:id="printBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onPrintBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
+                                             <font>
+                                                <Font name="Arial Bold" size="12.0" />
+                                             </font>
+                                             <graphic>
+                                                <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../images/cheque.gif" />
+                                                   </image>
+                                                   <cursor>
+                                                      <Cursor fx:constant="OPEN_HAND" />
+                                                   </cursor>
+                                                </ImageView>
+                                             </graphic>
                                              <cursor>
-                                                <Cursor fx:constant="OPEN_HAND" />
+                                                <Cursor fx:constant="HAND" />
                                              </cursor>
-                                          </ImageView>
-                                       </graphic>
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                       <tooltip>
-                                          <Tooltip text="Save Receipt as PDF" />
-                                       </tooltip>
-                                    </Button>
+                                             <tooltip>
+                                                <Tooltip text="Save Receipt as PDF" />
+                                             </tooltip>
+                                          </Button>
+                                       </children>
+                                    </HBox>
                                  </children>
                               </HBox>
                               <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="16.0" prefWidth="542.0">
                                  <children>
-                                    <Region prefHeight="60.0" prefWidth="18.0" />
+                                    <Region prefHeight="17.0" prefWidth="26.0" />
                                     <Label text="Create and manage your tickets" textFill="#6f6f6f">
                                        <font>
                                           <Font name="Arial" size="12.0" />
@@ -352,7 +384,7 @@
                                  </children>
                               </HBox>
                               <Region prefHeight="25.0" prefWidth="542.0" />
-                              <TableView fx:id="ticketManageView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="136.0" prefWidth="521.0">
+                              <TableView fx:id="ticketManageView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="136.0" prefWidth="920.0">
                                  <columns>
                                     <TableColumn fx:id="clmTicketId" prefWidth="75.0" text="Ticket ID" />
                                     <TableColumn fx:id="clmEvent" prefWidth="75.0" text="Event" />
@@ -366,34 +398,34 @@
                                  </columnResizePolicy>
                               </TableView>
                               <Region layoutX="10.0" layoutY="72.0" prefHeight="14.0" prefWidth="542.0" />
-                              <Pane fx:id="bottomCard" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="112.0" prefWidth="521.0">
+                              <Pane fx:id="bottomCard" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="112.0" prefWidth="920.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Total Tickets">
+                                    <Label layoutX="25.0" layoutY="14.0" text="Total Tickets">
                                        <font>
                                           <Font name="Arial Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="207.0" layoutY="14.0" text="Active Tickets">
+                                    <Label layoutX="411.0" layoutY="14.0" text="Active Tickets">
                                        <font>
                                           <Font name="Arial Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="397.0" layoutY="14.0" text="Total Revenue">
+                                    <Label layoutX="779.0" layoutY="14.0" text="Total Revenue">
                                        <font>
                                           <Font name="Arial Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="53.0" layoutY="45.0" text="0">
+                                    <Label layoutX="62.0" layoutY="45.0" text="0">
                                        <font>
                                           <Font name="Arial Bold" size="34.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="251.0" layoutY="45.0" text="0">
+                                    <Label layoutX="451.0" layoutY="45.0" text="0">
                                        <font>
                                           <Font name="Arial Bold" size="34.0" />
                                        </font>
                                     </Label>
-                                    <Label layoutX="432.0" layoutY="45.0" text="0,-" textFill="#00e80c">
+                                    <Label layoutX="812.0" layoutY="45.0" text="0,-" textFill="#00e80c">
                                        <font>
                                           <Font name="Arial Bold" size="34.0" />
                                        </font>
