@@ -181,7 +181,6 @@
                                        <children>
                                           <TableView fx:id="userManageView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="255.0" prefWidth="920.0">
                                             <columns>
-                                              <TableColumn fx:id="clmName" prefWidth="75.0" text="Name" />
                                               <TableColumn fx:id="clmUsername" prefWidth="75.0" text="Username" />
                                                 <TableColumn fx:id="clmEmail" prefWidth="75.0" text="Email" />
                                                 <TableColumn fx:id="clmRole" prefWidth="75.0" text="Role" />

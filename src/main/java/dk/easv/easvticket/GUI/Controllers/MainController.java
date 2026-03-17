@@ -70,7 +70,7 @@ public class MainController implements Initializable {
 
         List<User> users = new ArrayList<>();
 
-        users.add(new User("John Coordinator", "johncoord", "johncoord123@easv365.dk", "Event Coordinator"));
+        users.add(new User("johncoord", "johncoord123@easv365.dk", "Event Coordinator"));
 
         if (!placementBoolean) {
 
