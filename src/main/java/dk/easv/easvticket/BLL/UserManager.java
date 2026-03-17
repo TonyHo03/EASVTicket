@@ -9,7 +9,7 @@ import java.util.List;
 public class UserManager {
     private IUserDataAccess userDataAccess;
 
-    public UserManager() {
+    public UserManager() throws Exception {
         userDataAccess = new UserDAO();
     }
 

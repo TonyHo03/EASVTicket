@@ -187,7 +187,6 @@ public class AdminController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        userManageView.setItems(adminModel.getUsers());
 
         // User Table View
 
@@ -200,6 +199,8 @@ public class AdminController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmRole);
 
         // Event Table View
+
+        eventManageView.setItems(adminModel.getEvents());
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
