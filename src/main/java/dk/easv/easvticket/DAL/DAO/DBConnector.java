@@ -1,4 +1,5 @@
 package dk.easv.easvticket.DAL.DAO;
+
 //project imports
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import com.microsoft.sqlserver.jdbc.SQLServerException;

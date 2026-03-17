@@ -11,6 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -159,5 +160,33 @@ public class LoginController implements Initializable {
         txtFldPass.setManaged(false);
         txtFldPass.setVisible(false);
 
+    }
+
+    public void onEnterClick(KeyEvent keyEvent) {
+        if (txtFldUser.getText().equals(adminUserDemo) && txtFldPass.getText().equals(adminPassDemo)) {
+
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                Stage stage = new Stage();
+
+                AdminController adminController = fxmlLoader.getController();
+                adminController.setStage(stage);
+
+                stage.resizableProperty().setValue(false);
+
+                stage.setTitle("Admin Dashboard");
+                stage.setScene(scene);
+                stage.show();
+
+                currentStage.close();
+
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+
+        }
     }
 }
