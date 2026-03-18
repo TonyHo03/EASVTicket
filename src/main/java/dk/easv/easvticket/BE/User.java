@@ -63,4 +63,13 @@ public class User {
         return this.username;
     }
 
+    public void setPassword(String newPassword) {
+    }
+
+    public String getPassword() {
+        return "";
+    }
+
+    public void setId(int anInt) {
+    }
 }

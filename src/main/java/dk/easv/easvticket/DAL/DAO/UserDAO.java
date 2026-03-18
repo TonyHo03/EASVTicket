@@ -21,7 +21,27 @@ public class UserDAO implements IUserDataAccess {
 
     @Override
     public User createUser(User newUser) throws Exception {
-        return null;
+        String sql = "INSERT INTO [User] (Username, Password, Email, Role) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+
+            ps.setString(1, newUser.getUsername());
+            ps.setString(2, newUser.getPassword());
+            ps.setString(3, newUser.getEmail());
+            ps.setString(4, newUser.getRole());
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                newUser.setId(rs.getInt(1));
+            }
+
+            return newUser;
+
+        } catch (SQLException e) {
+            throw new Exception("Could not create user", e);
+        }
     }
 
     @Override
@@ -93,11 +113,34 @@ public class UserDAO implements IUserDataAccess {
 
     @Override
     public void updateUser(User user) throws Exception {
+        String sql = "UPDATE [User] SET Username = ?, Email = ?, Role = ? WHERE UserId = ?";
 
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, user.getUsername());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getRole());
+            ps.setInt(4, user.getId());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new Exception("Could not update user", e);
+        }
     }
 
     @Override
     public void deleteUser(int userID) throws Exception {
+        String sql = "DELETE FROM [User] WHERE UserId = ?";
 
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, userID);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new Exception("Could not delete user", e);
+        }
     }
 }

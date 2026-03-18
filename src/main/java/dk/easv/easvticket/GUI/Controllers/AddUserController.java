@@ -1,17 +1,75 @@
 package dk.easv.easvticket.GUI.Controllers;
 
+import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.GUI.Models.AdminModel;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class AddUserController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class AddUserController implements Initializable {
+
+    @FXML private TextField usernameField;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField emailField;
+    @FXML private ChoiceBox<String> choiceBox;
+    @FXML private Button cancelBtn;
+    @FXML private Button createBtn;
 
     private Stage currentStage;
-    private Object ownerController;
+    private AdminModel adminModel;
 
-    public void initializeClass(Stage stage, Object ownerController) {
-
+    public void setStage(Stage stage) {
         this.currentStage = stage;
-        this.ownerController = ownerController;
-
     }
 
+    public void setAdminModel(AdminModel adminModel) {
+        this.adminModel = adminModel;
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        choiceBox.getItems().addAll("Admin", "Event Coordinator");
+    }
+
+    @FXML
+    private void onClickCancel(ActionEvent actionEvent) {
+        currentStage.close();
+    }
+
+    @FXML
+    private void onClickSave(ActionEvent actionEvent) {
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText().trim();
+        String email = emailField.getText().trim();
+        String role = choiceBox.getValue();
+
+        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || role == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Missing fields");
+            alert.setContentText("Please fill in all fields and select a role.");
+            alert.showAndWait();
+            return;
+        }
+
+        try {
+            User newUser = new User(username, password, email, role);
+            adminModel.addUser(newUser);
+            currentStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Create failed");
+            alert.setContentText("Could not create user: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
 }

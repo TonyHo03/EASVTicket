@@ -29,6 +29,14 @@ public class UserModel {
         return userObservableList;
 
     }
+    public void updateUser(User updatedUser) throws Exception {
+        facade.userManager.updateUser(updatedUser);
+        // Update the local observable list so the table refreshes automatically
+        int index = userObservableList.indexOf(updatedUser);
+        if (index >= 0) {
+            userObservableList.set(index, updatedUser);
+        }
+    }
 
     public List<User> getUsersWithRole(Roles role) throws Exception {
 
@@ -36,4 +44,8 @@ public class UserModel {
 
     }
 
+    public void addUser(User newUser) throws Exception {
+        User createdUser = facade.userManager.createUser(newUser);
+        userObservableList.add(createdUser);
+    }
 }
