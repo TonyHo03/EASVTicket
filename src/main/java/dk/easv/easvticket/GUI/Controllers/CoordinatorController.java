@@ -79,7 +79,7 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             CreateEventController createEventController = fxmlLoader.getController();
-            createEventController.setStage(stage);
+            createEventController.initializeClass(stage, this);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -105,7 +105,8 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             AssignCoordController assignCoordController = fxmlLoader.getController();
-            assignCoordController.setStage(stage);
+
+            //assignCoordController.initializeClass(stage, this);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -131,7 +132,7 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             EditEventController editEventController = fxmlLoader.getController();
-            editEventController.setStage(stage);
+            editEventController.initializeClass(stage, this);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -167,7 +168,7 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             BuyTicketController buyTicketController = fxmlLoader.getController();
-            buyTicketController.setStage(stage);
+            buyTicketController.initializeClass(stage, this);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 

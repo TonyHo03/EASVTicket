@@ -1,5 +1,6 @@
 package dk.easv.easvticket.BLL;
 
+import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.DAL.DAO.UserDAO;
 import dk.easv.easvticket.DAL.Interfaces.IUserDataAccess;
@@ -19,6 +20,10 @@ public class UserManager {
 
     public List<User> getUsers() throws Exception {
         return userDataAccess.getUsers();
+    }
+
+    public List<User> getUsersWithRole(Roles role) throws Exception {
+        return userDataAccess.getUsersWithRole(role);
     }
 
     public void updateUser(User updatedUser) throws Exception {
