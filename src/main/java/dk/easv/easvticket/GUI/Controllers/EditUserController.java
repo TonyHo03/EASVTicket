@@ -5,10 +5,12 @@ import javafx.stage.Stage;
 public class EditUserController {
 
     private Stage currentStage;
+    private AdminController adminController;
 
-    public void setStage(Stage stage) {
+    public void initializeClass(Stage stage, AdminController adminController) {
 
         this.currentStage = stage;
+        this.adminController = adminController;
 
     }
 

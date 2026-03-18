@@ -1,12 +1,11 @@
 package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Event;
+import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
-import dk.easv.easvticket.GUI.Models.AdminModel;
+import dk.easv.easvticket.GUI.Models.UserModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,9 +18,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -33,10 +29,10 @@ public class AdminController implements Initializable {
     private Button logoutBtn, addUserBtn, editUserBtn, deleteUserBtn, assignCoordBtn, deleteEventBtn;
 
     @FXML
-    private TableView<User> userManageView;
+    public TableView<User> userManageView;
 
     @FXML
-    private TableView<Event> eventManageView;
+    public TableView<Event> eventManageView;
 
     @FXML
     private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
@@ -50,12 +46,12 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<User, String> clmUsername, clmEmail, clmRole;
 
-    private AdminModel adminModel;
+    private UserModel userModel;
 
     public AdminController() {
 
         try {
-            adminModel = new AdminModel();
+            userModel = new UserModel();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +80,7 @@ public class AdminController implements Initializable {
             Stage stage = new Stage();
 
             AddUserController addUserController = fxmlLoader.getController();
-            addUserController.setStage(stage);
+            addUserController.initializeClass(stage, this);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -111,7 +107,7 @@ public class AdminController implements Initializable {
             Stage stage = new Stage();
 
             EditUserController editUserController = fxmlLoader.getController();
-            editUserController.setStage(stage);
+            editUserController.initializeClass(stage, this);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -138,7 +134,13 @@ public class AdminController implements Initializable {
             Stage stage = new Stage();
 
             AssignCoordController assignCoordController = fxmlLoader.getController();
-            assignCoordController.setStage(stage);
+
+            try {
+                assignCoordController.initializeClass(stage, userModel.getUsersWithRole(Roles.COORDINATOR));
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -187,7 +189,7 @@ public class AdminController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        userManageView.setItems(adminModel.getUsers());
+        userManageView.setItems(userModel.getUsers());
 
         // User Table View
 

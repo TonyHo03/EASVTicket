@@ -1,5 +1,6 @@
 package dk.easv.easvticket.BLL;
 
+import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.DAL.DAO.UserDAO;
 import dk.easv.easvticket.DAL.Interfaces.IUserDataAccess;
@@ -7,25 +8,28 @@ import dk.easv.easvticket.DAL.Interfaces.IUserDataAccess;
 import java.util.List;
 
 public class UserManager {
-    private IUserDataAccess userDataAccess;
 
-    public UserManager() {
-        userDataAccess = new UserDAO();
-    }
+    private IUserDataAccess userDAO = new UserDAO();;
+
+    public UserManager() throws Exception {}
 
     public User createUser(User newUser) throws Exception {
-        return userDataAccess.createUser(newUser);
+        return userDAO.createUser(newUser);
     }
 
     public List<User> getUsers() throws Exception {
-        return userDataAccess.getUsers();
+        return userDAO.getUsers();
+    }
+
+    public List<User> getUsersWithRole(Roles role) throws Exception {
+        return userDAO.getUsersWithRole(role);
     }
 
     public void updateUser(User updatedUser) throws Exception {
-        userDataAccess.updateUser(updatedUser);
+        userDAO.updateUser(updatedUser);
     }
 
     public void deleteUser(User selectedUser) throws Exception {
-        userDataAccess.deleteUser(selectedUser.getId());
+        userDAO.deleteUser(selectedUser.getId());
     }
 }
