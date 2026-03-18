@@ -58,6 +58,15 @@ public class EventDAO implements IEventDataAccess {
 
     @Override
     public void deleteEvent(int eventID) throws Exception {
+        try (Connection con = dbConnector.getConnection()) {
 
+            PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM EventCoordinators WHERE event_id = ?");
+            preparedStatement.setInt(1, eventID);
+            preparedStatement.executeUpdate();
+
+            PreparedStatement preparedStatement1 = con.prepareStatement("DELETE FROM Events WHERE event_id = ?");
+            preparedStatement1.setInt(1, eventID);
+            Integer resultSet = preparedStatement1.executeUpdate();
+        }
     }
 }

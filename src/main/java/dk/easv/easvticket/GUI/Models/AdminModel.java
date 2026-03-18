@@ -37,4 +37,9 @@ public class AdminModel {
         return eventObservableList;
     }
 
+    public void deleteEvent (Event event) throws Exception {
+
+        facade.eventManager.deleteEvent(event);
+        eventObservableList.remove(event);
+    }
 }
