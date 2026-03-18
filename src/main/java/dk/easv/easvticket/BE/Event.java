@@ -3,6 +3,7 @@ package dk.easv.easvticket.BE;
 import javafx.fxml.FXML;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Event {
@@ -29,6 +30,17 @@ public class Event {
         this.location = location;
         this.coordinators = coordinators;
         this.availableTickets = availableTickets;
+    }
+
+
+    public Event(int eventId, String name, Date eventDate, int totalTickets, String locationName, String address, String city) {
+        this.id = eventId;
+        this.name = name;
+        this.date = eventDate;
+        this.location = locationName;
+        this.availableTickets = totalTickets;
+
+
     }
 
     public int getId() {

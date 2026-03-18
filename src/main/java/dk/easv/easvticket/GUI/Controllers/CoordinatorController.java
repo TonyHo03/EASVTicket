@@ -202,7 +202,7 @@ public class CoordinatorController implements Initializable {
 
         List<User> coordList = new ArrayList<>();
         Event newEvent = new Event("Test Event", Date.valueOf(LocalDate.now()), "Esbjerg", coordList, 100);
-        coordList.add(new User("John Coordinator", "johncoord", "johncoord@gmail.com", "Event Coordinator"));
+        coordList.add(new User("johncoord", "johncoord@gmail.com", "Event Coordinator"));
         ticketObservableList.add(new Ticket("TKT-1770376529733-5O2MEIB04", newEvent, "a", "a@a.a", 50, "Active"));
 
         eventObservableList.add(newEvent);
