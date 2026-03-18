@@ -3,6 +3,7 @@ package dk.easv.easvticket.GUI.Controllers;
 import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.Models.UserModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
@@ -50,10 +51,13 @@ public class AdminController implements Initializable {
 
     private UserModel userModel;
 
+    private EventModel eventModel;
+
     public AdminController() {
 
         try {
             userModel = new UserModel();
+            eventModel = new EventModel();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -183,7 +187,7 @@ public class AdminController implements Initializable {
 
                 Optional<ButtonType> result = confirmation.showAndWait();
                 if (result.get() == ButtonType.OK) {
-                    userModel.deleteEvent(selectedEvent);
+                    eventModel.deleteEvent(selectedEvent);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -216,7 +220,7 @@ public class AdminController implements Initializable {
 
         // Event Table View
 
-        eventManageView.setItems(userModel.getEvents());
+        eventManageView.setItems(eventModel.getEvents());
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
