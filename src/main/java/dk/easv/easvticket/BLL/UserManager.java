@@ -8,28 +8,29 @@ import dk.easv.easvticket.DAL.Interfaces.IUserDataAccess;
 import java.util.List;
 
 public class UserManager {
+    private IUserDataAccess userDataAccess;
 
-    private IUserDataAccess userDAO = new UserDAO();;
-
-    public UserManager() throws Exception {}
+    public UserManager() throws Exception {
+        userDataAccess = new UserDAO();
+    }
 
     public User createUser(User newUser) throws Exception {
-        return userDAO.createUser(newUser);
+        return userDataAccess.createUser(newUser);
     }
 
     public List<User> getUsers() throws Exception {
-        return userDAO.getUsers();
+        return userDataAccess.getUsers();
     }
 
     public List<User> getUsersWithRole(Roles role) throws Exception {
-        return userDAO.getUsersWithRole(role);
+        return userDataAccess.getUsersWithRole(role);
     }
 
     public void updateUser(User updatedUser) throws Exception {
-        userDAO.updateUser(updatedUser);
+        userDataAccess.updateUser(updatedUser);
     }
 
     public void deleteUser(User selectedUser) throws Exception {
-        userDAO.deleteUser(selectedUser.getId());
+        userDataAccess.deleteUser(selectedUser.getId());
     }
 }

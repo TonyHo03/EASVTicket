@@ -6,6 +6,8 @@ import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.GUI.Models.UserModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -172,11 +174,22 @@ public class AdminController implements Initializable {
     @FXML
     private void onDeleteEventBtnClick() {
 
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setHeaderText("Delete Event");
-        confirmation.setContentText("Are you sure you want to delete this event? This action cannot be undone.");
+        Event selectedEvent = eventManageView.getSelectionModel().getSelectedItem();
+        if  (selectedEvent != null) {
+            try  {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setHeaderText("Delete Event");
+                confirmation.setContentText("Are you sure you want to delete this event? This action cannot be undone.");
 
-        Optional<ButtonType> result = confirmation.showAndWait();
+                Optional<ButtonType> result = confirmation.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    userModel.deleteEvent(selectedEvent);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
 
     }
 
@@ -202,6 +215,8 @@ public class AdminController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmRole);
 
         // Event Table View
+
+        eventManageView.setItems(userModel.getEvents());
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));

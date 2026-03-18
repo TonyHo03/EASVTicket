@@ -1,5 +1,6 @@
 package dk.easv.easvticket.GUI.Models;
 
+import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.Facade.TicketSystemFacade;
@@ -14,11 +15,14 @@ public class UserModel {
 
     private ObservableList<User> userObservableList;
 
+    private ObservableList<Event>  eventObservableList;
+
     public UserModel() throws Exception {
 
         userObservableList = FXCollections.observableArrayList();
         userObservableList.setAll(facade.userManager.getUsers());
-
+        eventObservableList = FXCollections.observableArrayList();
+        eventObservableList.setAll(facade.eventManager.getEvents());
     }
 
     // User Management
@@ -35,5 +39,13 @@ public class UserModel {
     }
 
     // Event Management
+    public ObservableList<Event> getEvents() {
+        return eventObservableList;
+    }
 
+    public void deleteEvent (Event event) throws Exception {
+
+        facade.eventManager.deleteEvent(event);
+        eventObservableList.remove(event);
+    }
 }

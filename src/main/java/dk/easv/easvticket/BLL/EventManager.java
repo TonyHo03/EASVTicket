@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EventManager {
 
-    private IEventDataAccess eventDataAccess;
+    private static IEventDataAccess eventDataAccess;
 
     public EventManager() throws Exception {
         eventDataAccess = new EventDAO();
