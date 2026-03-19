@@ -1,5 +1,6 @@
 package dk.easv.easvticket.GUI.Controllers;
 
+import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.GUI.Models.AdminModel;
 import javafx.event.ActionEvent;
@@ -20,7 +21,7 @@ public class AddUserController implements Initializable {
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private TextField emailField;
-    @FXML private ChoiceBox<String> choiceBox;
+    @FXML private ChoiceBox<Roles> choiceBox;
     @FXML private Button cancelBtn;
     @FXML private Button createBtn;
 
@@ -37,7 +38,7 @@ public class AddUserController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        choiceBox.getItems().addAll("Admin", "Event Coordinator");
+        choiceBox.getItems().addAll(Roles.values());
     }
 
     @FXML
@@ -50,7 +51,7 @@ public class AddUserController implements Initializable {
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
         String email = emailField.getText().trim();
-        String role = choiceBox.getValue();
+        Roles role = choiceBox.getValue();
 
         if (username.isEmpty() || password.isEmpty() || email.isEmpty() || role == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -61,8 +62,8 @@ public class AddUserController implements Initializable {
         }
 
         try {
-            User newUser = new User(username, password, email, role);
-            adminModel.addUser(newUser);
+            User newUser = new User(username, password, email, role.name());
+            adminModel.createUser(newUser);
             currentStage.close();
         } catch (Exception e) {
             e.printStackTrace();

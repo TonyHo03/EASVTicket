@@ -21,13 +21,13 @@ public class AdminModel {
     }
 
     // User Management
-    public ObservableList<User> getUsers() {
-        return userObservableList;
-    }
-
-    public void addUser(User newUser) throws Exception {
+    public void createUser(User newUser) throws Exception {
         User createdUser = facade.userManager.createUser(newUser);
         userObservableList.add(createdUser);
+    }
+
+    public ObservableList<User> getUsers() {
+        return userObservableList;
     }
 
     public void updateUser(User updatedUser) throws Exception {
