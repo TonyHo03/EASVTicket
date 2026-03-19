@@ -163,30 +163,8 @@ public class LoginController implements Initializable {
     }
 
     public void onEnterClick(KeyEvent keyEvent) {
-        if (txtFldUser.getText().equals(adminUserDemo) && txtFldPass.getText().equals(adminPassDemo)) {
-
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
-                Scene scene = new Scene(fxmlLoader.load());
-                Stage stage = new Stage();
-
-                AdminController adminController = fxmlLoader.getController();
-                adminController.setStage(stage);
-
-                stage.resizableProperty().setValue(false);
-
-                stage.setTitle("Admin Dashboard");
-                stage.setScene(scene);
-                stage.show();
-
-                currentStage.close();
-
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
+        if (keyEvent.getCode() == javafx.scene.input.KeyCode.ENTER) {
+            onSignInBtnClick();
         }
     }
 }

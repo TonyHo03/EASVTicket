@@ -165,13 +165,33 @@ public class AdminController implements Initializable {
 
     @FXML
     private void onDeleteUserBtnClick() {
+        User selectedUser = userManageView.getSelectionModel().getSelectedItem();
+
+        if (selectedUser == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("No user selected");
+            alert.setContentText("Please select a user to delete.");
+            alert.showAndWait();
+            return;
+        }
 
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setHeaderText("Delete User");
-        confirmation.setContentText("Are you sure you want to delete this user? This action cannot be undone.");
+        confirmation.setContentText("Are you sure you want to delete \"" + selectedUser.getUsername() + "\"? This action cannot be undone.");
 
         Optional<ButtonType> result = confirmation.showAndWait();
 
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                adminModel.deleteUser(selectedUser);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Deleting User");
+                alert.setHeaderText("Could not delete user");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
+        }
     }
 
     @FXML
