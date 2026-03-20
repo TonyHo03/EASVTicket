@@ -2,7 +2,7 @@ package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
-import dk.easv.easvticket.GUI.Models.AdminModel;
+import dk.easv.easvticket.GUI.Models.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,14 +26,14 @@ public class AddUserController implements Initializable {
     @FXML private Button createBtn;
 
     private Stage currentStage;
-    private AdminModel adminModel;
+    private UserModel userModel;
 
     public void setStage(Stage stage) {
         this.currentStage = stage;
     }
 
-    public void setAdminModel(AdminModel adminModel) {
-        this.adminModel = adminModel;
+    public void setModel(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class AddUserController implements Initializable {
 
         try {
             User newUser = new User(username, password, email, role.name());
-            adminModel.createUser(newUser);
+            userModel.createUser(newUser);
             currentStage.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,7 +1,7 @@
 package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.User;
-import dk.easv.easvticket.GUI.Models.AdminModel;
+import dk.easv.easvticket.GUI.Models.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,14 +23,14 @@ public class EditUserController implements Initializable {
 
     private Stage currentStage;
     private User selectedUser;
-    private AdminModel adminModel;
+    private UserModel userModel;
 
     public void setStage(Stage stage) {
         this.currentStage = stage;
     }
 
-    public void setAdminModel(AdminModel adminModel) {
-        this.adminModel = adminModel;
+    public void setModel(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     // Called from AdminController after load, to populate fields
@@ -75,7 +75,7 @@ public class EditUserController implements Initializable {
         }
 
         try {
-            adminModel.updateUser(selectedUser);
+            userModel.updateUser(selectedUser);
             currentStage.close();
         } catch (Exception e) {
             e.printStackTrace();

@@ -40,4 +40,9 @@ public class UserModel {
             userObservableList.set(index, updatedUser);
         }
     }
+
+    public void deleteUser(User selectedUser) throws Exception {
+        facade.userManager.deleteUser(selectedUser);
+        userObservableList.remove(selectedUser);
+    }
 }

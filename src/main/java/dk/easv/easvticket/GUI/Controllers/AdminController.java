@@ -2,11 +2,10 @@ package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.User;
-import dk.easv.easvticket.GUI.Models.AdminModel;
+import dk.easv.easvticket.GUI.Models.UserModel;
+import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,9 +18,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -50,12 +46,14 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<User, String> clmUsername, clmEmail, clmRole;
 
-    private AdminModel adminModel;
+    private UserModel userModel;
+    private EventModel eventModel;
 
     public AdminController() {
 
         try {
-            adminModel = new AdminModel();
+            userModel = new UserModel();
+            eventModel = new EventModel();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -85,7 +83,7 @@ public class AdminController implements Initializable {
 
             AddUserController addUserController = fxmlLoader.getController();
             addUserController.setStage(stage);
-            addUserController.setAdminModel(adminModel);
+            addUserController.setModel(userModel);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -122,8 +120,8 @@ public class AdminController implements Initializable {
 
             EditUserController editUserController = fxmlLoader.getController();
             editUserController.setStage(stage);
-            editUserController.setAdminModel(adminModel);  // share the model
-            editUserController.setUser(selectedUser);       // populate fields
+            editUserController.setModel(userModel); // share the model
+            editUserController.setUser(selectedUser); // populate fields
 
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.resizableProperty().setValue(false);
@@ -183,7 +181,7 @@ public class AdminController implements Initializable {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                adminModel.deleteUser(selectedUser);
+                userModel.deleteUser(selectedUser);
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Deleting User");
@@ -216,7 +214,7 @@ public class AdminController implements Initializable {
 
 
         // User Table View
-
+        userManageView.setItems(userModel.getUsers());
         clmUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         clmRole.setCellValueFactory(new PropertyValueFactory<>("role"));
@@ -226,13 +224,7 @@ public class AdminController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmRole);
 
         // Event Table View
-        if (adminModel != null) {
-            userManageView.setItems(adminModel.getUsers());
-            eventManageView.setItems(adminModel.getEvents());
-        } else {
-            System.err.println("AdminModel failed to initialize - check config/config.settings");
-        }
-
+        eventManageView.setItems(eventModel.getEvents());
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));

@@ -47,7 +47,7 @@ public class User {
         return this.role;
     }
     public String getPassword() {
-        return "";
+        return this.password;
     }
 
     public void setId(int anInt) {
@@ -62,6 +62,7 @@ public class User {
         this.role = role;
     }
     public void setPassword(String newPassword) {
+        this.password = newPassword;
     }
 
     @Override
