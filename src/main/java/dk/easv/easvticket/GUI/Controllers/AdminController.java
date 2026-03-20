@@ -1,9 +1,8 @@
 package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Event;
-import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
-import dk.easv.easvticket.GUI.Models.UserModel;
+import dk.easv.easvticket.GUI.Models.AdminModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
 import javafx.collections.FXCollections;
@@ -20,6 +19,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -31,10 +33,10 @@ public class AdminController implements Initializable {
     private Button logoutBtn, addUserBtn, editUserBtn, deleteUserBtn, assignCoordBtn, deleteEventBtn;
 
     @FXML
-    public TableView<User> userManageView;
+    private TableView<User> userManageView;
 
     @FXML
-    public TableView<Event> eventManageView;
+    private TableView<Event> eventManageView;
 
     @FXML
     private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
@@ -48,12 +50,12 @@ public class AdminController implements Initializable {
     @FXML
     private TableColumn<User, String> clmUsername, clmEmail, clmRole;
 
-    private UserModel userModel;
+    private AdminModel adminModel;
 
     public AdminController() {
 
         try {
-            userModel = new UserModel();
+            adminModel = new AdminModel();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -82,7 +84,8 @@ public class AdminController implements Initializable {
             Stage stage = new Stage();
 
             AddUserController addUserController = fxmlLoader.getController();
-            addUserController.initializeClass(stage, this);
+            addUserController.setStage(stage);
+            addUserController.setAdminModel(adminModel);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -102,6 +105,15 @@ public class AdminController implements Initializable {
 
     @FXML
     private void onEditUserBtnClick() {
+        User selectedUser = userManageView.getSelectionModel().getSelectedItem();
+
+        if (selectedUser == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("No user selected");
+            alert.setContentText("Please select a user to edit.");
+            alert.showAndWait();
+            return;
+        }
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/EditUserView.fxml"));
@@ -109,22 +121,19 @@ public class AdminController implements Initializable {
             Stage stage = new Stage();
 
             EditUserController editUserController = fxmlLoader.getController();
-            editUserController.initializeClass(stage, this);
+            editUserController.setStage(stage);
+            editUserController.setAdminModel(adminModel);  // share the model
+            editUserController.setUser(selectedUser);       // populate fields
 
             stage.initModality(Modality.APPLICATION_MODAL);
-
             stage.resizableProperty().setValue(false);
-
-            stage.setTitle("Edit Users");
+            stage.setTitle("Edit User");
             stage.setScene(scene);
             stage.show();
 
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @FXML
@@ -136,13 +145,7 @@ public class AdminController implements Initializable {
             Stage stage = new Stage();
 
             AssignCoordController assignCoordController = fxmlLoader.getController();
-
-            try {
-                assignCoordController.initializeClass(stage, userModel.getUsersWithRole(Roles.COORDINATOR));
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
+            assignCoordController.setStage(stage);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -162,34 +165,43 @@ public class AdminController implements Initializable {
 
     @FXML
     private void onDeleteUserBtnClick() {
+        User selectedUser = userManageView.getSelectionModel().getSelectedItem();
+
+        if (selectedUser == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("No user selected");
+            alert.setContentText("Please select a user to delete.");
+            alert.showAndWait();
+            return;
+        }
 
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setHeaderText("Delete User");
-        confirmation.setContentText("Are you sure you want to delete this user? This action cannot be undone.");
+        confirmation.setContentText("Are you sure you want to delete \"" + selectedUser.getUsername() + "\"? This action cannot be undone.");
 
         Optional<ButtonType> result = confirmation.showAndWait();
 
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                adminModel.deleteUser(selectedUser);
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Deleting User");
+                alert.setHeaderText("Could not delete user");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
+        }
     }
 
     @FXML
     private void onDeleteEventBtnClick() {
 
-        Event selectedEvent = eventManageView.getSelectionModel().getSelectedItem();
-        if  (selectedEvent != null) {
-            try  {
-                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-                confirmation.setHeaderText("Delete Event");
-                confirmation.setContentText("Are you sure you want to delete this event? This action cannot be undone.");
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setHeaderText("Delete Event");
+        confirmation.setContentText("Are you sure you want to delete this event? This action cannot be undone.");
 
-                Optional<ButtonType> result = confirmation.showAndWait();
-                if (result.get() == ButtonType.OK) {
-                    userModel.deleteEvent(selectedEvent);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
+        Optional<ButtonType> result = confirmation.showAndWait();
 
     }
 
@@ -202,7 +214,6 @@ public class AdminController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        userManageView.setItems(userModel.getUsers());
 
         // User Table View
 
@@ -215,8 +226,13 @@ public class AdminController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmRole);
 
         // Event Table View
+        if (adminModel != null) {
+            userManageView.setItems(adminModel.getUsers());
+            eventManageView.setItems(adminModel.getEvents());
+        } else {
+            System.err.println("AdminModel failed to initialize - check config/config.settings");
+        }
 
-        eventManageView.setItems(userModel.getEvents());
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));

@@ -37,7 +37,6 @@ public class User {
     public int getId() {
         return this.id;
     }
-
     public String getUsername() {
         return this.username;
     }
@@ -47,7 +46,12 @@ public class User {
     public String getRole() {
         return this.role;
     }
+    public String getPassword() {
+        return "";
+    }
 
+    public void setId(int anInt) {
+    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -57,10 +61,11 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+    public void setPassword(String newPassword) {
+    }
 
     @Override
     public String toString() {
         return this.username;
     }
-
 }

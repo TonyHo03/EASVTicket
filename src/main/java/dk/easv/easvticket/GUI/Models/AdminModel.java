@@ -1,21 +1,23 @@
 package dk.easv.easvticket.GUI.Models;
 
-import dk.easv.easvticket.BE.Roles;
+import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.Facade.TicketSystemFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.List;
-
-public class UserModel {
+public class AdminModel {
 
     private TicketSystemFacade facade = new TicketSystemFacade();
-    private ObservableList<User> userObservableList;
 
-    public UserModel() throws Exception {
+    private ObservableList<User> userObservableList;
+    private ObservableList<Event> eventObservableList;
+
+    public AdminModel() throws Exception {
         userObservableList = FXCollections.observableArrayList();
         userObservableList.setAll(facade.userManager.getUsers());
+        eventObservableList = FXCollections.observableArrayList();
+        eventObservableList.setAll(facade.eventManager.getEvents());
     }
 
     // User Management
@@ -28,16 +30,21 @@ public class UserModel {
         return userObservableList;
     }
 
-    public List<User> getUsersWithRole(Roles role) throws Exception {
-        return facade.userManager.getUsersWithRole(role);
-    }
-
     public void updateUser(User updatedUser) throws Exception {
         facade.userManager.updateUser(updatedUser);
-        // Update the local observable list so the table refreshes automatically
         int index = userObservableList.indexOf(updatedUser);
         if (index >= 0) {
             userObservableList.set(index, updatedUser);
         }
+    }
+
+    public void deleteUser(User selectedUser) throws Exception {
+        facade.userManager.deleteUser(selectedUser);
+        userObservableList.remove(selectedUser);
+    }
+
+    // Event Management
+    public ObservableList<Event> getEvents() {
+        return eventObservableList;
     }
 }

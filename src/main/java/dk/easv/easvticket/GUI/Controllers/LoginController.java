@@ -1,5 +1,6 @@
 package dk.easv.easvticket.GUI.Controllers;
 
+import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,7 +25,7 @@ public class LoginController implements Initializable {
 
     private final String adminUserDemo = "admin";
     private final String adminPassDemo = "admin123";
-    private final String coordUserDemo = "coordinator1";
+    private final String coordUserDemo = "coordinator";
     private final String coordPassDemo = "coord123";
 
     private boolean isHidden = true;
@@ -51,7 +52,7 @@ public class LoginController implements Initializable {
     @FXML
     private void onSignInBtnClick() {
 
-        if (txtFldUser.getText().equals(adminUserDemo) && txtFldPass.getText().equals(adminPassDemo)) {
+        if (txtFldUser.getText().equals(adminUserDemo) && txtFldPass.getText().equals(adminPassDemo)) { //TODO: User.getRole().equalsIgnoreCase("Admin")
 
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
@@ -163,30 +164,8 @@ public class LoginController implements Initializable {
     }
 
     public void onEnterClick(KeyEvent keyEvent) {
-        if (txtFldUser.getText().equals(adminUserDemo) && txtFldPass.getText().equals(adminPassDemo)) {
-
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
-                Scene scene = new Scene(fxmlLoader.load());
-                Stage stage = new Stage();
-
-                AdminController adminController = fxmlLoader.getController();
-                adminController.setStage(stage);
-
-                stage.resizableProperty().setValue(false);
-
-                stage.setTitle("Admin Dashboard");
-                stage.setScene(scene);
-                stage.show();
-
-                currentStage.close();
-
-            }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
+        if (keyEvent.getCode() == javafx.scene.input.KeyCode.ENTER) {
+            onSignInBtnClick();
         }
     }
 }
