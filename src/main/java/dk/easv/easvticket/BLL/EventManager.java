@@ -1,6 +1,7 @@
 package dk.easv.easvticket.BLL;
 
 import dk.easv.easvticket.BE.Event;
+import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.DAL.DAO.EventDAO;
 import dk.easv.easvticket.DAL.Interfaces.IEventDataAccess;
 
@@ -28,5 +29,11 @@ public class EventManager {
 
     public void deleteEvent(Event selectedEvent) throws Exception {
         eventDataAccess.deleteEvent(selectedEvent.getId()); // deletes by id
+    }
+
+    public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {
+
+        eventDataAccess.assignCoordinatorToEvent(coordinator, selectedEvent);
+
     }
 }

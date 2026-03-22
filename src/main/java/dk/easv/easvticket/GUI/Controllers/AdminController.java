@@ -1,6 +1,7 @@
 package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Event;
+import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.GUI.Models.UserModel;
 import dk.easv.easvticket.GUI.Models.EventModel;
@@ -137,28 +138,33 @@ public class AdminController implements Initializable {
     @FXML
     private void onAssignCoordBtnClick() {
 
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AssignCoordView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 356, 408);
-            Stage stage = new Stage();
+        Event selectedEvent = eventManageView.getSelectionModel().getSelectedItem();
 
-            AssignCoordController assignCoordController = fxmlLoader.getController();
-            assignCoordController.setStage(stage);
+        if (selectedEvent != null) {
+            try {
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AssignCoordView.fxml"));
+                Scene scene = new Scene(fxmlLoader.load(), 356, 408);
+                Stage stage = new Stage();
 
-            stage.initModality(Modality.APPLICATION_MODAL);
+                AssignCoordController assignCoordController = fxmlLoader.getController();
+                try {
+                    assignCoordController.initializeClass(stage, eventModel, userModel.getUsersWithRole(Roles.COORDINATOR), selectedEvent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-            stage.resizableProperty().setValue(false);
+                stage.initModality(Modality.APPLICATION_MODAL);
 
-            stage.setTitle("Assign Coordinators");
-            stage.setScene(scene);
-            stage.show();
+                stage.resizableProperty().setValue(false);
 
+                stage.setTitle("Assign Coordinators");
+                stage.setScene(scene);
+                stage.show();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
     }
 
     @FXML

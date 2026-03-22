@@ -20,7 +20,7 @@ public class Event {
         this.name = name;
         this.date = date;
         this.location = location;
-        this.coordinators = coordinators;
+        this.coordinators = (coordinators == null) ? new ArrayList<>() : coordinators;
         this.availableTickets = availableTickets;
     }
 
@@ -28,19 +28,8 @@ public class Event {
         this.name = name;
         this.date = date;
         this.location = location;
-        this.coordinators = coordinators;
+        this.coordinators = (coordinators == null) ? new ArrayList<>() : coordinators;
         this.availableTickets = availableTickets;
-    }
-
-
-    public Event(int eventId, String name, Date eventDate, int totalTickets, String locationName, String address, String city) {
-        this.id = eventId;
-        this.name = name;
-        this.date = eventDate;
-        this.location = locationName;
-        this.availableTickets = totalTickets;
-
-
     }
 
     public int getId() {
