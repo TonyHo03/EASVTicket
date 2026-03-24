@@ -33,7 +33,7 @@ public class EventboxMaker {
         makeNewLayer(pane, "PLACEHOLDER", new Font("Arial", 14), "GREY", 10);
         makeNewLayer(pane, "", new Font(0), "BLACK", 25);
         makeNewLayer(pane, eventObject.getDate().toString(), new Font(12), "GREY", 5, "images/calender.gif");
-        makeNewLayer(pane, eventObject.getLocation(), new Font(12), "GREY", 5, "images/location.gif");
+        makeNewLayer(pane, eventObject.getLocation().toString(), new Font(12), "GREY", 5, "images/location.gif");
         makeNewLayer(pane, eventObject.getAvailableTickets() + " tickets available", new Font(12), "GREY", 5, "images/smallticket.png");
 
         HBox buttonBox = new HBox();

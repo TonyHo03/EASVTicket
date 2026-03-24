@@ -1,6 +1,7 @@
 package dk.easv.easvticket.DAL.DAO;
 
 import dk.easv.easvticket.BE.Event;
+import dk.easv.easvticket.BE.Location;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.BLL.EventManager;
 import dk.easv.easvticket.DAL.Interfaces.IEventDataAccess;
@@ -27,7 +28,7 @@ public class EventDAO implements IEventDataAccess {
     @Override
     public List<Event> getEvents() throws Exception {
         List<Event> events = new ArrayList<>();
-        String sql = "SELECT e.event_id, e.name, e.event_date, e.total_tickets, l.location_name FROM Events e JOIN Location l ON e.location_id = l.location_id";
+        String sql = "SELECT e.event_id, e.name, e.event_date, e.total_tickets, l.location_id, l.location_name, l.address, l.city FROM Events e JOIN Location l ON e.location_id = l.location_id";
 
         try (Connection con = dbConnector.getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -57,7 +58,7 @@ public class EventDAO implements IEventDataAccess {
                              rs.getInt("event_id"),
                              rs.getString("name"),
                              rs.getDate("event_date"),
-                             rs.getString("location_name"),
+                             new Location(rs.getInt("location_id"), rs.getString("location_name"), rs.getString("address"), rs.getString("city")),
                              coordinators,
                              rs.getInt("total_tickets")
                      );

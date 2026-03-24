@@ -1,6 +1,7 @@
 package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Event;
+import dk.easv.easvticket.BE.Location;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
@@ -202,7 +203,7 @@ public class CoordinatorController implements Initializable {
         // Test Data
 
         List<User> coordList = new ArrayList<>();
-        Event newEvent = new Event("Test Event", Date.valueOf(LocalDate.now()), "Esbjerg", coordList, 100);
+        Event newEvent = new Event("Test Event", Date.valueOf(LocalDate.now()), new Location(0, "", "", "Esbjerg"), coordList, 100);
         coordList.add(new User("johncoord", "johncoord@gmail.com", "Event Coordinator"));
         ticketObservableList.add(new Ticket("TKT-1770376529733-5O2MEIB04", newEvent, "a", "a@a.a", 50, "Active"));
 

@@ -1,6 +1,7 @@
 package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Event;
+import dk.easv.easvticket.BE.Location;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.GUI.util.EventboxMaker;
 import dk.easv.easvticket.MainApplication;
@@ -74,11 +75,11 @@ public class MainController implements Initializable {
 
         if (!placementBoolean) {
 
-            EventboxMaker.addNewEvent(contentBox1, new Event("EASV Bar", Date.valueOf(LocalDate.now()), "Esbjerg", users, 100));
+            EventboxMaker.addNewEvent(contentBox1, new Event("EASV Bar", Date.valueOf(LocalDate.now()), new Location(0, "", "", "Esbjerg"), users, 100));
 
         } else {
 
-            EventboxMaker.addNewEvent(contentBox2, new Event("EASV Bar", Date.valueOf(LocalDate.now()), "Esbjerg", users, 100));
+            EventboxMaker.addNewEvent(contentBox2, new Event("EASV Bar", Date.valueOf(LocalDate.now()), new Location(0, "", "", "Esbjerg"), users, 100));
 
         }
 

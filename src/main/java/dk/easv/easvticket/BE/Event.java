@@ -11,11 +11,11 @@ public class Event {
     private int id;
     private String name;
     private Date date;
-    private String location;
+    private Location location;
     private List<User> coordinators;
     private int availableTickets;
 
-    public Event(int id, String name, Date date, String location, List<User> coordinators, int availableTickets) {
+    public Event(int id, String name, Date date, Location location, List<User> coordinators, int availableTickets) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -24,7 +24,7 @@ public class Event {
         this.availableTickets = availableTickets;
     }
 
-    public Event(String name, Date date, String location, List<User> coordinators, int availableTickets) {
+    public Event(String name, Date date, Location location, List<User> coordinators, int availableTickets) {
         this.name = name;
         this.date = date;
         this.location = location;
@@ -48,10 +48,10 @@ public class Event {
     public void setDate(Date date) {
         this.date = date;
     }
-    public String getLocation() {
+    public Location getLocation() {
         return this.location;
     }
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
     public List<User> getCoordinators() {
