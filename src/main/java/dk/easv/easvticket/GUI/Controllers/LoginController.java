@@ -1,6 +1,6 @@
 package dk.easv.easvticket.GUI.Controllers;
 
-import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.DAL.DAO.DBConnector;
 import dk.easv.easvticket.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -17,28 +18,25 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
     private Stage currentStage;
-
-    private final String adminUserDemo = "admin";
-    private final String adminPassDemo = "admin123";
-    private final String coordUserDemo = "coordinator";
-    private final String coordPassDemo = "coord123";
-
     private boolean isHidden = true;
+    private DBConnector dbConnector = new DBConnector();
 
+    @FXML private TextField txtFldUser, txtFldPass;
+    @FXML private PasswordField passFldPass;
+    @FXML private Label lblSignIn;
+    @FXML private ImageView showImg;
 
-    @FXML
-    private TextField txtFldUser;
-    @FXML
-    private PasswordField passFldPass;
-    @FXML
-    private TextField txtFldPass;
-    @FXML
-    private ImageView showImg;
+    public LoginController() throws IOException {
+    }
 
     @FXML
     private void onBackBtnClick(ActionEvent actionEvent) {
@@ -49,12 +47,41 @@ public class LoginController implements Initializable {
         currentStage.close();
     }
 
+    // Admin            Username: admin     Password: admin123
+    // Coordinator      Username: coord     Password: coord123
     @FXML
-    private void onSignInBtnClick() {
+    private void onSignInBtnClick() throws Exception {
+        String sql = "SELECT * FROM [User] WHERE Username = ? AND Password = ?";
 
-        if (txtFldUser.getText().equals(adminUserDemo) && txtFldPass.getText().equals(adminPassDemo)) { //TODO: User.getRole().equalsIgnoreCase("Admin")
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            try {
+            ps.setString(1, txtFldUser.getText());
+            ps.setString(2, txtFldPass.getText());
+
+            ResultSet rs = ps.executeQuery();
+
+            if (txtFldUser.getText().isEmpty() || txtFldPass.getText().isEmpty()) {
+                lblSignIn.setText("Please fill out all fields.");
+                lblSignIn.getStyleClass().remove("error-label"); // prevents stacking
+                lblSignIn.getStyleClass().add("error-label");
+                return;
+            }
+
+            if (!rs.next()) {
+                /*Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Incorrect information");
+                alert.setContentText("Incorrect username or password. Please try again.");
+                alert.showAndWait();*/
+                lblSignIn.setText("Incorrect username or password. Please try again.");
+                lblSignIn.getStyleClass().remove("error-label"); // prevents stacking
+                lblSignIn.getStyleClass().add("error-label");
+                return;
+            }
+
+            String role = rs.getString("Role");
+
+            if (role.equalsIgnoreCase("Admin")) {
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
                 Scene scene = new Scene(fxmlLoader.load());
                 Stage stage = new Stage();
@@ -69,17 +96,8 @@ public class LoginController implements Initializable {
                 stage.show();
 
                 currentStage.close();
-
             }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        else if (txtFldUser.getText().equals(coordUserDemo) && txtFldPass.getText().equals(coordPassDemo)) {
-
-            try {
+            else if (role.equalsIgnoreCase("Coordinator")) {
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CoordinatorView.fxml"));
                 Scene scene = new Scene(fxmlLoader.load());
                 Stage stage = new Stage();
@@ -94,21 +112,13 @@ public class LoginController implements Initializable {
                 stage.show();
 
                 currentStage.close();
-
             }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
-
-        }
-        else {
-
+        } catch (SQLException ex) {
+            ex.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Incorrect information");
-            alert.setContentText("Incorrect username or password. Please try again.");
+            alert.setHeaderText("Error");
+            alert.setContentText("Something went wrong. Please try again.");
             alert.showAndWait();
-
         }
     }
 
@@ -127,7 +137,7 @@ public class LoginController implements Initializable {
             txtFldPass.setManaged(false);
             txtFldPass.setVisible(false);
 
-        } else {
+        } else {git
 
             showImg.setImage(new Image(MainApplication.class.getResource("images/hide.png").toExternalForm()));
 
@@ -150,6 +160,9 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        txtFldUser.textProperty().addListener((obs, oldVal, newVal) -> resetLabel());
+        passFldPass.textProperty().addListener((obs, oldVal, newVal) -> resetLabel());
+
         passFldPass.textProperty().bindBidirectional(txtFldPass.textProperty());
 
         passFldPass.setPrefWidth(350);
@@ -163,7 +176,12 @@ public class LoginController implements Initializable {
 
     }
 
-    public void onEnterClick(KeyEvent keyEvent) {
+    private void resetLabel() {
+        lblSignIn.setText("Sign in to manage events and tickets");
+        lblSignIn.getStyleClass().remove("error-label");
+    }
+
+    public void onEnterClick(KeyEvent keyEvent) throws Exception {
         if (keyEvent.getCode() == javafx.scene.input.KeyCode.ENTER) {
             onSignInBtnClick();
         }

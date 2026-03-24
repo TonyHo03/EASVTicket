@@ -35,7 +35,7 @@
                   <Font name="Arial Bold" size="26.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="185.0" prefHeight="28.0" prefWidth="424.0" text="Sign in to manage events and tickets" textFill="#979797">
+            <Label fx:id="lblSignIn" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="185.0" prefHeight="28.0" prefWidth="424.0" text="Sign in to manage events and tickets" textFill="#979797">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>

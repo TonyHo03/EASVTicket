@@ -148,7 +148,7 @@ public class AdminController implements Initializable {
 
                 AssignCoordController assignCoordController = fxmlLoader.getController();
                 try {
-                    assignCoordController.initializeClass(stage, eventModel, userModel.getUsersWithRole(Roles.COORDINATOR), selectedEvent);
+                    assignCoordController.initializeClass(stage, eventModel, userModel.getUsersWithRole(Roles.Coordinator), selectedEvent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
