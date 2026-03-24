@@ -14,6 +14,12 @@ public class Location {
         this.city = city;
     }
 
+    public Location(String venueName, String address, String city) {
+        this.venueName = venueName;
+        this.address = address;
+        this.city = city;
+    }
+
     public int getId() {
         return id;
     }

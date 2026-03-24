@@ -51,7 +51,7 @@
       <Region layoutX="10.0" layoutY="10.0" prefHeight="18.0" prefWidth="600.0" />
       <TabPane fx:id="tabPane" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="960.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab closable="false" text="My Events">
+          <Tab fx:id="tabEvent" closable="false">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="247.0" prefWidth="550.0">
                      <children>
@@ -210,8 +210,15 @@
                      </children>
                   </AnchorPane>
             </content>
+               <graphic>
+                  <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="🢀">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </graphic>
           </Tab>
-          <Tab closable="false" text="Tickets">
+          <Tab fx:id="tabTicket" closable="false" text="Tickets">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="247.0" prefWidth="550.0">
                      <children>

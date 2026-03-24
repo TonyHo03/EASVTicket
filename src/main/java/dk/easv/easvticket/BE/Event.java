@@ -14,57 +14,77 @@ public class Event {
     private Location location;
     private List<User> coordinators;
     private int availableTickets;
+    private int totalTickets;
+    private String description;
 
-    public Event(int id, String name, Date date, Location location, List<User> coordinators, int availableTickets) {
+    public Event(int id, String name, Date date, Location location, List<User> coordinators, int totalTickets, int availableTickets, String description) {
         this.id = id;
         this.name = name;
         this.date = date;
         this.location = location;
         this.coordinators = (coordinators == null) ? new ArrayList<>() : coordinators;
         this.availableTickets = availableTickets;
+        this.totalTickets = totalTickets;
+        this.description = description;
     }
 
-    public Event(String name, Date date, Location location, List<User> coordinators, int availableTickets) {
+    public Event(String name, Date date, Location location, List<User> coordinators, int totalTickets, int availableTickets, String description) {
         this.name = name;
         this.date = date;
         this.location = location;
         this.coordinators = (coordinators == null) ? new ArrayList<>() : coordinators;
         this.availableTickets = availableTickets;
+        this.totalTickets = totalTickets;
+        this.description = description;
     }
 
     public int getId() {
         return this.id;
     }
-
     public String getName() {
         return this.name;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
     public Date getDate() {
         return this.date;
     }
-    public void setDate(Date date) {
-        this.date = date;
-    }
     public Location getLocation() {
         return this.location;
-    }
-    public void setLocation(Location location) {
-        this.location = location;
     }
     public List<User> getCoordinators() {
         return this.coordinators;
     }
-    public void setCoordinators(List<User> coordinators) {
-        this.coordinators = coordinators;
-    }
     public int getAvailableTickets() {
         return this.availableTickets;
     }
+    public int getTotalTickets() {
+        return totalTickets;
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+    public void setCoordinators(List<User> coordinators) {
+        this.coordinators = coordinators;
+    }
     public void setAvailableTickets(int availableTickets) {
         this.availableTickets = availableTickets;
+    }
+    public void setTotalTickets(int totalTickets) {
+        this.totalTickets = totalTickets;
+    }
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    public void setId(int anInt) {
     }
 
     @Override

@@ -6,6 +6,7 @@ module dk.easv.easvticket {
     requires javafx.base;
     requires com.microsoft.sqlserver.jdbc;
     requires java.naming;
+    requires java.desktop;
 
 
     opens dk.easv.easvticket to javafx.fxml;

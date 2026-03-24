@@ -4,6 +4,8 @@ import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Location;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.GUI.Models.EventModel;
+import dk.easv.easvticket.GUI.Models.UserModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
 import javafx.collections.FXCollections;
@@ -27,48 +29,42 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CoordinatorController implements Initializable {
+    @FXML private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, buyTicketBtn, printBtn, logoutBtn;
+    @FXML private TableView<Ticket> ticketManageView;
+    @FXML private TableView<Event> eventManageView;
+    @FXML private Tab tabEvent, tabTicket;
+    @FXML private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
+    @FXML private TableColumn<Event, Date> clmDate;
+    @FXML private TableColumn<Event, Integer> clmTickets;
+    @FXML private TableColumn<Ticket, String> clmTicketId, clmCustomer, clmEmail, clmStatus;
+    @FXML private TableColumn<Ticket, Event> clmEvent;
+    @FXML private TableColumn<Ticket, Integer> clmPrice;
+    @FXML private TabPane tabPane;
+
     private Stage currentStage;
-
-    @FXML
-    private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, buyTicketBtn, printBtn, logoutBtn;
-
-    @FXML
-    private TableView<Ticket> ticketManageView;
-
-    @FXML
-    private TableView<Event> eventManageView;
-
-    @FXML
-    private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
-
-    @FXML
-    private TableColumn<Event, Date> clmDate;
-
-    @FXML
-    private TableColumn<Event, Integer> clmTickets;
-
-    @FXML
-    private TableColumn<Ticket, String> clmTicketId, clmCustomer, clmEmail, clmStatus;
-
-    @FXML
-    private TableColumn<Ticket, Event> clmEvent;
-
-    @FXML
-    private TableColumn<Ticket, Integer> clmPrice;
-
     private ObservableList<Ticket> ticketObservableList = FXCollections.observableArrayList();
-
     private ObservableList<Event> eventObservableList = FXCollections.observableArrayList();
+
+    private UserModel userModel;
+    private EventModel eventModel;
+
+    public CoordinatorController() {
+
+        try {
+            userModel = new UserModel();
+            eventModel = new EventModel();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     @FXML
     private void onLogoutBtnClick() {
-
         Stage stage = new Stage();
-
         MainApplication.startMain(stage);
-
         currentStage.close();
-
     }
 
     @FXML
@@ -80,7 +76,7 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             CreateEventController createEventController = fxmlLoader.getController();
-            createEventController.initializeClass(stage, this);
+            createEventController.initializeClass(stage, eventModel);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -199,15 +195,31 @@ public class CoordinatorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        tabEvent.getStyleClass().add("hidden");
+        tabTicket.getStyleClass().add("hidden");
 
-        // Test Data
+        eventManageView.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                Event event = eventManageView.getSelectionModel().getSelectedItem();
+                if (event != null) {
+                    ObservableList<Ticket> filtered = ticketObservableList.filtered(
+                            t -> t.getEvent().equals(event)
+                    );
+                    ticketManageView.setItems(filtered);
+                    tabPane.getSelectionModel().select(tabTicket);
+                }
+            }
+        });
 
-        List<User> coordList = new ArrayList<>();
-        Event newEvent = new Event("Test Event", Date.valueOf(LocalDate.now()), new Location(0, "", "", "Esbjerg"), coordList, 100);
-        coordList.add(new User("johncoord", "johncoord@gmail.com", "Event Coordinator"));
-        ticketObservableList.add(new Ticket("TKT-1770376529733-5O2MEIB04", newEvent, "a", "a@a.a", 50, "Active"));
-
-        eventObservableList.add(newEvent);
+        tabEvent.setOnSelectionChanged(e -> {
+            if (tabEvent.isSelected()) {
+                tabEvent.getStyleClass().clear();
+                tabEvent.getStyleClass().add("hidden");
+            } else {
+                tabEvent.getStyleClass().clear();
+                tabEvent.getStyleClass().add("border-tab");
+            }
+        });
 
         // Ticket Table View
 
@@ -235,7 +247,7 @@ public class CoordinatorController implements Initializable {
         clmCoordinators.setCellValueFactory(new PropertyValueFactory<>("coordinators"));
         clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
 
-        eventManageView.setItems(eventObservableList);
+        eventManageView.setItems(eventModel.getEvents());
 
         TooltipMaker.addTooltipsToColumns(clmEventName);
         TooltipMaker.addTooltipsToColumns(clmDate);

@@ -107,7 +107,7 @@ public class LoginController implements Initializable {
 
                 stage.resizableProperty().setValue(false);
 
-                stage.setTitle("Admin Dashboard");
+                stage.setTitle("Coordinator Dashboard");
                 stage.setScene(scene);
                 stage.show();
 

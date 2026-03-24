@@ -18,6 +18,11 @@ public class EventModel {
         eventObservableList.setAll(facade.eventManager.getEvents());
     }
     // Event Management
+    public void createEvent(Event newEvent) throws Exception{
+        Event createdEvent  = facade.eventManager.createEvent(newEvent);
+        eventObservableList.add(createdEvent);
+    }
+
     public ObservableList<Event> getEvents() {
         return eventObservableList;
     }

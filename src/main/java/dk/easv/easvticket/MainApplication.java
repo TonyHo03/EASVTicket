@@ -1,7 +1,6 @@
 package dk.easv.easvticket;
 
 import dk.easv.easvticket.GUI.Controllers.LoginController;
-import dk.easv.easvticket.GUI.Controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -1,4 +1,45 @@
-#tabPane {
+.hidden {
+
+    visibility: hidden;
+
+}
+
+.border-tab {
+
+    -fx-background-color: "TRANSPARENT";
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-width: 5;
+    -fx-border-radius: 5px;
+
+    -fx-pref-height: 35;
+    -fx-pref-width: 35;
+
+    -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
+
+
+}
+
+#tabPane .tab-header-area .tab .tab-container .tab-label {
+
+    -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
+
+}
+
+#tabPane .tab-header-area .tab .tab-container {
+
+    -fx-alignment: CENTER;
+
+}
+
+#tabPane .tab-header-area .tab {
+
+    -fx-alignment: CENTER;
+
+}
+
+#tabPane .tab-header-area .tab-header-background {
 
     -fx-background-color: "TRANSPARENT";
 
@@ -54,43 +95,6 @@
 
     -fx-pref-height: 30;
     -fx-pref-width: 30;
-
-}
-
-#tabPane .tab-header-area .tab-header-background {
-
-    -fx-background-color: "TRANSPARENT";
-
-}
-
-#tabPane .tab-header-area .headers-region .tab {
-
-    -fx-background-color: "TRANSPARENT";
-
-
-}
-
-#tabPane .tab-header-area .headers-region .tab:hover {
-
-    -fx-background-color: rgba(220,220,220, 1);
-    -fx-background-radius: 10px;
-    -fx-background-insets: 1;
-
-}
-
-#tabPane .tab-header-area .headers-region .tab:selected {
-
-    -fx-background-color: "WHITE";
-    -fx-background-radius: 10px;
-    -fx-background-insets: 1;
-
-}
-
-#tabPane .tab-header-area .headers-region {
-
-    -fx-border-color: "LIGHTGREY";
-    -fx-border-radius: 10px;
-    -fx-border-width: 4;
 
 }
 
