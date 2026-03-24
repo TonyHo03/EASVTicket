@@ -1,5 +1,6 @@
 package dk.easv.easvticket;
 
+import dk.easv.easvticket.GUI.Controllers.LoginController;
 import dk.easv.easvticket.GUI.Controllers.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +19,11 @@ public class MainApplication extends Application {
 
         try {
 
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/MainView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 600, 477);
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/LoginView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
 
-            MainController mainController = fxmlLoader.getController();
-            mainController.setStage(stage);
+            LoginController loginController = fxmlLoader.getController();
+            loginController.setStage(stage);
 
             stage.resizableProperty().setValue(false);
 

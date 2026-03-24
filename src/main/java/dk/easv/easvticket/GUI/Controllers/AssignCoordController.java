@@ -8,6 +8,7 @@ import dk.easv.easvticket.GUI.Models.UserModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
@@ -24,13 +25,23 @@ public class AssignCoordController {
     private ChoiceBox<User> cbCoordinators;
 
     @FXML
-    private void onAssignBtnClick() {
+    private void onAssignBtnClick() { // TODO: Prevent same coordinators on the same event
+        User cbCoord = cbCoordinators.getValue();
 
-        try {
-            eventModel.assignCoordinatorToEvent(cbCoordinators.getValue(), selectedEvent);
+        if (cbCoord == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Missing field");
+            alert.setContentText("Please assign a Coordinator.");
+            alert.showAndWait();
+            return;
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        else {
+            try {
+                eventModel.assignCoordinatorToEvent(cbCoordinators.getValue(), selectedEvent);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         currentStage.close();

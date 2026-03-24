@@ -137,7 +137,7 @@ public class LoginController implements Initializable {
             txtFldPass.setManaged(false);
             txtFldPass.setVisible(false);
 
-        } else {git
+        } else {
 
             showImg.setImage(new Image(MainApplication.class.getResource("images/hide.png").toExternalForm()));
 
