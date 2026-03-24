@@ -12,9 +12,8 @@ public class Ticket {
     private double price;
     private String status;
 
-    public Ticket(int id, String ticketId, Event event, String customerName, String email, double price, String status) {
+    public Ticket(int id, Event event, String customerName, String email, double price, String status) {
         this.id = id;
-        this.ticketId = ticketId;
         this.event = event;
         this.customerName = customerName;
         this.email = email;

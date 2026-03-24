@@ -5,11 +5,13 @@ import dk.easv.easvticket.BE.Location;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.GUI.Models.EventModel;
-import dk.easv.easvticket.GUI.Models.UserModel;
+import dk.easv.easvticket.GUI.Models.TicketModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class CoordinatorController implements Initializable {
     @FXML private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, buyTicketBtn, printBtn, logoutBtn;
@@ -40,19 +43,23 @@ public class CoordinatorController implements Initializable {
     @FXML private TableColumn<Ticket, Event> clmEvent;
     @FXML private TableColumn<Ticket, Integer> clmPrice;
     @FXML private TabPane tabPane;
+    @FXML
+    private TextField eventSearch;
+
+    private FilteredList<Event> filteredEvents;
 
     private Stage currentStage;
-    private ObservableList<Ticket> ticketObservableList = FXCollections.observableArrayList();
-    private ObservableList<Event> eventObservableList = FXCollections.observableArrayList();
 
-    private UserModel userModel;
+
+
     private EventModel eventModel;
+    private TicketModel ticketModel;
 
     public CoordinatorController() {
 
         try {
-            userModel = new UserModel();
             eventModel = new EventModel();
+            ticketModel  = new TicketModel();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -62,9 +69,13 @@ public class CoordinatorController implements Initializable {
 
     @FXML
     private void onLogoutBtnClick() {
+
         Stage stage = new Stage();
+
         MainApplication.startMain(stage);
+
         currentStage.close();
+
     }
 
     @FXML
@@ -187,6 +198,19 @@ public class CoordinatorController implements Initializable {
 
     }
 
+    @FXML
+    private void filterEvents() throws IOException {
+        String search = eventSearch.getText().toLowerCase();
+
+        filteredEvents.setPredicate(event -> {if (search.isBlank()) return true;
+
+            return event.getName().toLowerCase().contains(search) ||
+                    event.getDate().toString().toLowerCase().contains(search) ||
+                    event.getLocation().toString().toLowerCase().contains(search) ||
+                    event.getCoordinators().stream().map(User::getUsername).collect(Collectors.joining(", ")).toLowerCase().contains(search);
+        });
+    }
+
     public void setStage(Stage stage) {
 
         this.currentStage = stage;
@@ -202,7 +226,7 @@ public class CoordinatorController implements Initializable {
             if (e.getClickCount() == 2) {
                 Event event = eventManageView.getSelectionModel().getSelectedItem();
                 if (event != null) {
-                    ObservableList<Ticket> filtered = ticketObservableList.filtered(
+                    ObservableList<Ticket> filtered = ticketModel.getTickets().filtered(
                             t -> t.getEvent().equals(event)
                     );
                     ticketManageView.setItems(filtered);
@@ -223,14 +247,14 @@ public class CoordinatorController implements Initializable {
 
         // Ticket Table View
 
-        clmTicketId.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
+        clmTicketId.setCellValueFactory(new PropertyValueFactory<>("id"));
         clmEvent.setCellValueFactory(new PropertyValueFactory<>("event"));
         clmCustomer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         clmStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        ticketManageView.setItems(ticketObservableList);
+        ticketManageView.setItems(ticketModel.getTickets());
 
         TooltipMaker.addTooltipsToColumns(clmTicketId);
         TooltipMaker.addTooltipsToColumns(clmEvent);
@@ -244,7 +268,7 @@ public class CoordinatorController implements Initializable {
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         clmLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
-        clmCoordinators.setCellValueFactory(new PropertyValueFactory<>("coordinators"));
+        clmCoordinators.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getCoordinators().stream().map(User::getUsername).collect(Collectors.joining(", "))));
         clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
 
         eventManageView.setItems(eventModel.getEvents());
@@ -255,5 +279,15 @@ public class CoordinatorController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmCoordinators);
         TooltipMaker.addTooltipsToColumns(clmTickets);
 
+        filteredEvents = new FilteredList<>(eventModel.getEvents(), p -> true);
+        eventManageView.setItems(filteredEvents);
+
+        eventSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                filterEvents();
+            } catch (IOException e) {
+               e.printStackTrace();
+            }
+        });
     }
 }

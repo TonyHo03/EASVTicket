@@ -7,6 +7,8 @@ import dk.easv.easvticket.GUI.Models.UserModel;
 import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,6 +23,7 @@ import java.net.URL;
 import java.sql.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class AdminController implements Initializable {
 
@@ -28,6 +31,9 @@ public class AdminController implements Initializable {
 
     @FXML
     private Button logoutBtn, addUserBtn, editUserBtn, deleteUserBtn, assignCoordBtn, deleteEventBtn;
+
+    @FXML
+    private TextField userSearch, eventSearch;
 
     @FXML
     private TableView<User> userManageView;
@@ -46,6 +52,10 @@ public class AdminController implements Initializable {
 
     @FXML
     private TableColumn<User, String> clmUsername, clmEmail, clmRole;
+
+    private FilteredList<User> filteredUsers;
+
+    private FilteredList<Event> filteredEvents;
 
     private UserModel userModel;
     private EventModel eventModel;
@@ -209,6 +219,31 @@ public class AdminController implements Initializable {
 
     }
 
+    @FXML
+    private void filterUsers() {
+        String search = userSearch.getText().toLowerCase();
+
+        filteredUsers.setPredicate(user -> {if (search.isBlank()) return true;
+
+            return user.getUsername().toLowerCase().contains(search) ||
+                    user.getEmail().toLowerCase().contains(search) ||
+                    user.getRole().toLowerCase().contains(search);
+        });
+    }
+
+    @FXML
+    private void filterEvents() {
+        String search = eventSearch.getText().toLowerCase();
+
+        filteredEvents.setPredicate(event -> {if (search.isBlank()) return true;
+
+            return event.getName().toLowerCase().contains(search) ||
+                    event.getDate().toString().toLowerCase().contains(search) ||
+                    event.getLocation().toString().toLowerCase().contains(search) ||
+                    event.getCoordinators().stream().map(User::getUsername).collect(Collectors.joining(", ")).toLowerCase().contains(search);
+        });
+    }
+
     public void setStage(Stage stage) {
 
         this.currentStage = stage;
@@ -229,13 +264,19 @@ public class AdminController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmEmail);
         TooltipMaker.addTooltipsToColumns(clmRole);
 
+        filteredUsers = new FilteredList<>(userModel.getUsers(), p -> true);
+        userManageView.setItems(filteredUsers);
+
+        userSearch.textProperty().addListener((observable, oldValue, newValue) -> filterUsers());
+
+
         // Event Table View
         eventManageView.setItems(eventModel.getEvents());
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         clmLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
-        clmCoordinators.setCellValueFactory(new PropertyValueFactory<>("coordinators"));
+        clmCoordinators.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getCoordinators().stream().map(User::getUsername).collect(Collectors.joining(", "))));
         clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
 
         TooltipMaker.addTooltipsToColumns(clmEventName);
@@ -243,6 +284,11 @@ public class AdminController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmLocation);
         TooltipMaker.addTooltipsToColumns(clmCoordinators);
         TooltipMaker.addTooltipsToColumns(clmTickets);
+
+        filteredEvents = new FilteredList<>(eventModel.getEvents(), p -> true);
+        eventManageView.setItems(filteredEvents);
+
+        eventSearch.textProperty().addListener((observable, oldValue, newValue) -> filterEvents());
 
     }
 }

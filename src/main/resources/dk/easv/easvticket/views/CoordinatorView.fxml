@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -17,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" stylesheets="@../css/coordinator.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.CoordinatorController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" stylesheets="@../css/coordinator.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.CoordinatorController">
    <children>
       <HBox fx:id="topCard" alignment="CENTER" prefHeight="76.0" prefWidth="600.0">
          <children>
@@ -72,7 +73,9 @@
                                           <Font name="Arial Bold" size="16.0" />
                                        </font>
                                     </Label>
-                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="523.0" />
+                                    <Region prefHeight="35.0" prefWidth="221.0" />
+                                    <TextField fx:id="eventSearch" alignment="CENTER" prefHeight="26.0" prefWidth="214.0" promptText="Filter Events" />
+                                    <Region layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="96.0" />
                                     <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
                                        <children>
                                           <Button fx:id="addEventBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAddEventBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">

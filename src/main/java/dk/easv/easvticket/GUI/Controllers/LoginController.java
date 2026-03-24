@@ -38,14 +38,6 @@ public class LoginController implements Initializable {
     public LoginController() throws IOException {
     }
 
-    @FXML
-    private void onBackBtnClick(ActionEvent actionEvent) {
-        Stage stage = new Stage();
-
-        MainApplication.startMain(stage);
-
-        currentStage.close();
-    }
 
     // Admin            Username: admin     Password: admin123
     // Coordinator      Username: coord     Password: coord123

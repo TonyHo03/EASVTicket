@@ -15,7 +15,10 @@ public class TicketSystemFacade {
     public TicketManager ticketManager = new TicketManager();
 
     public TicketSystemFacade() throws Exception {
+    }
 
+    public List<Ticket> getTickets() throws Exception {
+        return ticketManager.getTickets();
     }
 
 }
