@@ -147,7 +147,7 @@
 
 }
 
-#userManageCard, #eventManageCard {
+#ticketManageCard, #eventManageCard {
 
     -fx-background-color: "WHITE";
     -fx-background-radius: 10px;

@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -29,10 +30,9 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class CoordinatorController implements Initializable {
-    @FXML private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, createTicketBtn, printBtn, logoutBtn;
+    @FXML private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, createTicketBtn, printBtn, logoutBtn, backBtn;
     @FXML private TableView<Ticket> ticketManageView;
     @FXML private TableView<Event> eventManageView;
-    @FXML private Tab tabEvent, tabTicket;
     @FXML private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
     @FXML private TableColumn<Event, Date> clmDate;
     @FXML private TableColumn<Event, Integer> clmTickets;
@@ -40,8 +40,8 @@ public class CoordinatorController implements Initializable {
     @FXML private TableColumn<Ticket, TicketTypes> clmType;
     @FXML private TableColumn<Ticket, Event> clmEvent;
     @FXML private TableColumn<Ticket, Integer> clmPrice;
-    @FXML private TabPane tabPane;
     @FXML private TextField eventSearch;
+    @FXML private VBox eventManageCard, ticketManageCard;
 
     private FilteredList<Event> filteredEvents;
     private Stage currentStage;
@@ -195,6 +195,17 @@ public class CoordinatorController implements Initializable {
     }
 
     @FXML
+    private void onBackBtnClick() {
+
+        backBtn.setVisible(false);
+        eventManageCard.setManaged(true);
+        ticketManageCard.setManaged(false);
+        eventManageCard.setVisible(true);
+        ticketManageCard.setVisible(false);
+
+    }
+
+    @FXML
     private void filterEvents() throws IOException {
         String search = eventSearch.getText().toLowerCase();
 
@@ -215,8 +226,13 @@ public class CoordinatorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tabEvent.getStyleClass().add("hidden");
-        tabTicket.getStyleClass().add("hidden");
+
+        eventManageCard.setManaged(true);
+        ticketManageCard.setManaged(false);
+        eventManageCard.setVisible(true);
+        ticketManageCard.setVisible(false);
+        eventManageCard.setPrefHeight(360);
+        ticketManageCard.setPrefHeight(360);
 
         eventManageView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
@@ -229,18 +245,14 @@ public class CoordinatorController implements Initializable {
 
                     });
                     ticketManageView.setItems(filteredList);
-                    tabPane.getSelectionModel().select(tabTicket);
-                }
-            }
-        });
+                    eventManageCard.setManaged(false);
+                    ticketManageCard.setManaged(true);
 
-        tabEvent.setOnSelectionChanged(e -> {
-            if (tabEvent.isSelected()) {
-                tabEvent.getStyleClass().clear();
-                tabEvent.getStyleClass().add("hidden");
-            } else {
-                tabEvent.getStyleClass().clear();
-                tabEvent.getStyleClass().add("border-tab");
+                    eventManageCard.setVisible(false);
+                    ticketManageCard.setVisible(true);
+
+                    backBtn.setVisible(true);
+                }
             }
         });
 
