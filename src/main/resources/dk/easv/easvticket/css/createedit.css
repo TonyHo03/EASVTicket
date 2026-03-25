@@ -32,6 +32,33 @@
 
 }
 
+.spinner {
+
+    -fx-background-color: TRANSPARENT;
+    -fx-border-color: TRANSPARENT;
+
+}
+
+.spinner .increment-arrow-button {
+
+    -fx-background-color: WHITE;
+
+    -fx-border-color: LIGHTGREY;
+    -fx-border-width: 2 2 0 2;
+    -fx-border-radius: 10 10 0 0;
+
+}
+
+.spinner .decrement-arrow-button {
+
+    -fx-background-color: WHITE;
+
+    -fx-border-color: LIGHTGREY;
+    -fx-border-width: 0 2 2 2;
+    -fx-border-radius: 0 0 10 10;
+
+}
+
 #createBtn {
 
     -fx-background-color: rgba(70, 70 ,70, 1);

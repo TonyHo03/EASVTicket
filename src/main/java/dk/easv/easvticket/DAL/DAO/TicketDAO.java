@@ -1,15 +1,10 @@
 package dk.easv.easvticket.DAL.DAO;
 
-import dk.easv.easvticket.BE.Event;
-import dk.easv.easvticket.BE.Location;
-import dk.easv.easvticket.BE.Ticket;
-import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.BE.*;
 import dk.easv.easvticket.DAL.Interfaces.ITicketDataAccess;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +16,43 @@ public class TicketDAO implements ITicketDataAccess {
 
     @Override
     public Ticket createTicket(Ticket newTicket) throws Exception {
-        return null;
+
+        try (Connection conn = dbConnector.getConnection()) {
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Ticket (event, customer_name, email, price, ticket_type) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, newTicket.getEvent().getId());
+            ps.setString(2, newTicket.getCustomerName());
+            ps.setString(3, newTicket.getEmail());
+            ps.setDouble(4, newTicket.getPrice());
+            ps.setInt(5, newTicket.getTicketType().getId());
+            ps.executeUpdate();
+
+            ResultSet generatedIds = ps.getGeneratedKeys();
+            int generatedId;
+            Ticket createdTicket = new Ticket(0, null, "", "", 0, new TicketTypes(0, ""));
+
+            if (generatedIds.next()) {
+
+                generatedId = generatedIds.getInt(1);
+                createdTicket = new Ticket(generatedId, newTicket.getEvent(), newTicket.getCustomerName(), newTicket.getEmail(), newTicket.getPrice(), newTicket.getTicketType());
+
+            }
+
+            return createdTicket;
+
+        }
+        catch (SQLException e) {
+
+            throw new SQLException("Could not create ticket", e);
+
+        }
+
     }
 
     @Override
     public List<Ticket> getTickets() throws Exception {
         List<Ticket> tickets = new ArrayList<>();
-        String sql = "SELECT t.id, t.event, t.customer_name, t.email, t.price, t.status, e.event_id, e.name, e.event_date, e.location_id, e.total_tickets, e.available_tickets, e.description, l.location_id, l.location_name, l.address, l.city FROM Ticket t JOIN Events e ON t.event = e.event_id JOIN Location l ON e.location_id = l.location_id";
+        String sql = "SELECT t.id, t.event, t.customer_name, t.email, t.price, t.ticket_type, e.event_id, e.name, e.event_date, e.location_id, e.total_tickets, e.available_tickets, e.description, l.location_id, l.location_name, l.address, l.city, tt.tickettype_id, tt.tickettype FROM Ticket t JOIN Events e ON t.event = e.event_id JOIN Location l ON e.location_id = l.location_id JOIN TicketTypes tt ON t.ticket_type = tt.tickettype_id";
 
         try (Connection con = dbConnector.getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -58,12 +83,48 @@ public class TicketDAO implements ITicketDataAccess {
                         rs.getString("customer_name"),
                         rs.getString("email"),
                         rs.getDouble("price"),
-                        String.valueOf(rs.getInt("status"))
+                        new TicketTypes(rs.getInt("tickettype_id"), rs.getString("tickettype"))
                 );
                 tickets.add(ticket);
             }
         }
+        catch (SQLException e) {
+
+            throw new SQLException("Could not get tickets", e);
+
+        }
         return tickets;
+    }
+
+    @Override
+    public List<TicketTypes> getTicketTypes() throws Exception {
+
+        List<TicketTypes> ticketTypes = new ArrayList<>();
+
+        try (Connection connection = dbConnector.getConnection()) {
+
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM TicketTypes");
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+
+                int id = rs.getInt("tickettype_id");
+                String ticketType = rs.getString("tickettype");
+
+                ticketTypes.add(new TicketTypes(id, ticketType));
+
+            }
+
+            return ticketTypes;
+
+        }
+        catch (SQLException e) {
+
+            throw new SQLException("Could not get ticket types", e);
+
+        }
+
     }
 
     @Override

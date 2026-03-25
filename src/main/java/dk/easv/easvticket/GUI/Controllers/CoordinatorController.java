@@ -1,9 +1,6 @@
 package dk.easv.easvticket.GUI.Controllers;
 
-import dk.easv.easvticket.BE.Event;
-import dk.easv.easvticket.BE.Location;
-import dk.easv.easvticket.BE.Ticket;
-import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.BE.*;
 import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.Models.TicketModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
@@ -32,25 +29,23 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class CoordinatorController implements Initializable {
-    @FXML private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, buyTicketBtn, printBtn, logoutBtn;
+    @FXML private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, createTicketBtn, printBtn, logoutBtn;
     @FXML private TableView<Ticket> ticketManageView;
     @FXML private TableView<Event> eventManageView;
     @FXML private Tab tabEvent, tabTicket;
     @FXML private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
     @FXML private TableColumn<Event, Date> clmDate;
     @FXML private TableColumn<Event, Integer> clmTickets;
-    @FXML private TableColumn<Ticket, String> clmTicketId, clmCustomer, clmEmail, clmStatus;
+    @FXML private TableColumn<Ticket, String> clmTicketId, clmCustomer, clmEmail;
+    @FXML private TableColumn<Ticket, TicketTypes> clmType;
     @FXML private TableColumn<Ticket, Event> clmEvent;
     @FXML private TableColumn<Ticket, Integer> clmPrice;
     @FXML private TabPane tabPane;
-    @FXML
-    private TextField eventSearch;
+    @FXML private TextField eventSearch;
 
     private FilteredList<Event> filteredEvents;
-
     private Stage currentStage;
-
-
+    private Event selectedEvent;
 
     private EventModel eventModel;
     private TicketModel ticketModel;
@@ -169,14 +164,15 @@ public class CoordinatorController implements Initializable {
     }
 
     @FXML
-    private void onBuyTicketBtnClick() {
+    private void onCreateTicketBtnClick() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/BuyTicketView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 356, 526);
+
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CreateTicketView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
 
-            BuyTicketController buyTicketController = fxmlLoader.getController();
-            buyTicketController.initializeClass(stage, this);
+            CreateTicketController createTicketController = fxmlLoader.getController();
+            createTicketController.initializeClass(stage, ticketModel, selectedEvent);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -224,12 +220,15 @@ public class CoordinatorController implements Initializable {
 
         eventManageView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
-                Event event = eventManageView.getSelectionModel().getSelectedItem();
-                if (event != null) {
-                    ObservableList<Ticket> filtered = ticketModel.getTickets().filtered(
-                            t -> t.getEvent().equals(event)
-                    );
-                    ticketManageView.setItems(filtered);
+                selectedEvent = eventManageView.getSelectionModel().getSelectedItem();
+                if (selectedEvent != null) {
+                    FilteredList<Ticket> filteredList = new FilteredList<>(ticketModel.getTickets());
+                    filteredList.setPredicate(ticket -> {
+
+                        return ticket.getEvent().getName().equals(selectedEvent.getName());
+
+                    });
+                    ticketManageView.setItems(filteredList);
                     tabPane.getSelectionModel().select(tabTicket);
                 }
             }
@@ -252,16 +251,16 @@ public class CoordinatorController implements Initializable {
         clmCustomer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-        clmStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        clmType.setCellValueFactory(new PropertyValueFactory<>("ticketType"));
 
-        ticketManageView.setItems(ticketModel.getTickets());
+        //ticketManageView.setItems(ticketModel.getTickets());
 
         TooltipMaker.addTooltipsToColumns(clmTicketId);
         TooltipMaker.addTooltipsToColumns(clmEvent);
         TooltipMaker.addTooltipsToColumns(clmCustomer);
         TooltipMaker.addTooltipsToColumns(clmEmail);
         TooltipMaker.addTooltipsToColumns(clmPrice);
-        TooltipMaker.addTooltipsToColumns(clmStatus);
+        TooltipMaker.addTooltipsToColumns(clmType);
 
         // Event Table View
 

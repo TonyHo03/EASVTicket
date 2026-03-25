@@ -1,6 +1,7 @@
 package dk.easv.easvticket.BLL;
 
 import dk.easv.easvticket.BE.Ticket;
+import dk.easv.easvticket.BE.TicketTypes;
 import dk.easv.easvticket.DAL.DAO.TicketDAO;
 import dk.easv.easvticket.DAL.Interfaces.ITicketDataAccess;
 
@@ -19,6 +20,12 @@ public class TicketManager {
 
     public List<Ticket> getTickets() throws Exception {
         return ticketDataAccess.getTickets();
+    }
+
+    public List<TicketTypes> getTicketTypes() throws Exception {
+
+        return ticketDataAccess.getTicketTypes();
+
     }
 
     public void updateTicket(Ticket updatedTicket) throws Exception {

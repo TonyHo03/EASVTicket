@@ -10,24 +10,32 @@ public class Ticket {
     private String customerName;
     private String email;
     private double price;
-    private String status;
+    private TicketTypes ticketType;
 
-    public Ticket(int id, Event event, String customerName, String email, double price, String status) {
+    public Ticket(int id, Event event, String customerName, String email, double price, TicketTypes ticketType) {
         this.id = id;
         this.event = event;
         this.customerName = customerName;
         this.email = email;
         this.price = price;
-        this.status = status;
+        this.ticketType = ticketType;
     }
 
-    public Ticket(String ticketId, Event event, String customerName, String email, double price, String status) {
+    public Ticket(String ticketId, Event event, String customerName, String email, double price, TicketTypes ticketType) {
         this.ticketId = ticketId;
         this.event = event;
         this.customerName = customerName;
         this.email = email;
         this.price = price;
-        this.status = status;
+        this.ticketType = ticketType;
+    }
+
+    public Ticket(Event event, String customerName, String email, double price, TicketTypes ticketType) {
+        this.event = event;
+        this.customerName = customerName;
+        this.email = email;
+        this.price = price;
+        this.ticketType = ticketType;
     }
 
     public int getId() {
@@ -48,8 +56,8 @@ public class Ticket {
     public double getPrice() {
         return this.price;
     }
-    public String getStatus() {
-        return this.status;
+    public TicketTypes getTicketType() {
+        return this.ticketType;
     }
 
     public void setTicketId(String ticketId) {
@@ -67,13 +75,13 @@ public class Ticket {
     public void setPrice(double price) {
         this.price = price;
     }
-    public void setStatus(String status) {
-        this.status = status;
+    public void setTicketType(TicketTypes ticketType) {
+        this.ticketType = ticketType;
     }
 
     @Override
     public String toString() {
-        return this.customerName + " " + this.email + " " + this.price + " " + this.status;
+        return this.customerName + " " + this.email + " " + this.price + " " + this.ticketType;
     }
 
 }

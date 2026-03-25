@@ -1,9 +1,12 @@
 package dk.easv.easvticket.GUI.Models;
 
 import dk.easv.easvticket.BE.Ticket;
+import dk.easv.easvticket.BE.TicketTypes;
 import dk.easv.easvticket.Facade.TicketSystemFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.util.List;
 
 public class TicketModel {
     private TicketSystemFacade facade = new TicketSystemFacade();
@@ -19,6 +22,9 @@ public class TicketModel {
     public void deleteTicket(Ticket ticket) throws Exception {
         facade.ticketManager.deleteTicket(ticket);
         ticketObservableList.remove(ticket);
+    }
+    public List<TicketTypes> getTicketTypes() throws Exception {
+        return facade.ticketManager.getTicketTypes();
     }
     public void createTicket(Ticket newTicket) throws Exception {
         Ticket createdTicket = facade.ticketManager.createTicket(newTicket);
