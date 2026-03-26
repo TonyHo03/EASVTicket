@@ -9,6 +9,7 @@ module dk.easv.easvticket {
     requires java.desktop;
     requires com.google.zxing;
     requires com.google.zxing.javase;
+    requires jbcrypt;
 
 
     opens dk.easv.easvticket to javafx.fxml;

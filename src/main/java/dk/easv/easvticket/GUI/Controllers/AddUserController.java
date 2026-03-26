@@ -2,6 +2,7 @@ package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.BLL.PasswordEncrypter;
 import dk.easv.easvticket.GUI.Models.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,7 +50,7 @@ public class AddUserController implements Initializable {
     @FXML
     private void onClickSave(ActionEvent actionEvent) {
         String username = usernameField.getText().trim();
-        String password = passwordField.getText().trim();
+        String password = PasswordEncrypter.hashedPassword(passwordField.getText().trim());
         String email = emailField.getText().trim();
         Roles role = choiceBox.getValue();
 
@@ -57,6 +58,14 @@ public class AddUserController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Missing fields");
             alert.setContentText("Please fill in all fields and select a role.");
+            alert.showAndWait();
+            return;
+        }
+
+        if (password.contains(" ")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setHeaderText("Invalid password");
+            alert.setContentText("Your password can not contain a whitespace.");
             alert.showAndWait();
             return;
         }
