@@ -3,6 +3,7 @@ package dk.easv.easvticket.BE;
 import javafx.fxml.FXML;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +11,14 @@ public class Event {
 
     private int id;
     private String name;
-    private Date date;
+    private LocalDateTime date;
     private Location location;
     private List<User> coordinators;
     private int availableTickets;
     private int totalTickets;
     private String description;
 
-    public Event(int id, String name, Date date, Location location, List<User> coordinators, int totalTickets, int availableTickets, String description) {
+    public Event(int id, String name, LocalDateTime date, Location location, List<User> coordinators, int totalTickets, int availableTickets, String description) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -28,7 +29,7 @@ public class Event {
         this.description = description;
     }
 
-    public Event(String name, Date date, Location location, List<User> coordinators, int totalTickets, int availableTickets, String description) {
+    public Event(String name, LocalDateTime date, Location location, List<User> coordinators, int totalTickets, int availableTickets, String description) {
         this.name = name;
         this.date = date;
         this.location = location;
@@ -44,7 +45,7 @@ public class Event {
     public String getName() {
         return this.name;
     }
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return this.date;
     }
     public Location getLocation() {
@@ -66,7 +67,7 @@ public class Event {
     public void setName(String name) {
         this.name = name;
     }
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
     public void setLocation(Location location) {

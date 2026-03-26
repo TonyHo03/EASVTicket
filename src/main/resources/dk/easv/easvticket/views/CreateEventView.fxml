@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="356.0" stylesheets="@../css/createedit.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.CreateEventController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="687.0" prefWidth="356.0" stylesheets="@../css/createedit.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.CreateEventController">
    <children>
       <Region prefHeight="14.0" prefWidth="600.0" />
       <Region layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="600.0" />
-      <VBox fx:id="bottomCard" alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="485.0" prefWidth="300.0">
+      <VBox fx:id="bottomCard" alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="300.0">
          <children>
             <Region prefHeight="9.0" prefWidth="300.0" />
             <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="300.0">
@@ -52,7 +52,7 @@
                   <Region prefHeight="26.0" prefWidth="23.0" />
                   <Label text="Date" />
                   <Region layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="123.0" />
-                  <Label layoutX="33.0" layoutY="14.0" text="Total Tickets" />
+                  <Label layoutX="33.0" layoutY="14.0" text="Hour" />
                </children>
             </HBox>
             <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="223.0" prefHeight="26.0" prefWidth="300.0">
@@ -60,7 +60,24 @@
                   <Region prefHeight="26.0" prefWidth="23.0" />
                   <DatePicker fx:id="dtPicker" prefHeight="26.0" prefWidth="110.0" />
                   <Region layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="40.0" />
-                  <Spinner fx:id="spnTotalTickets" editable="true" prefHeight="26.0" prefWidth="104.0" />
+                  <Spinner fx:id="spnHour" editable="true" prefHeight="26.0" prefWidth="104.0" />
+               </children>
+            </HBox>
+            <Region layoutX="10.0" layoutY="366.0" prefHeight="17.0" prefWidth="300.0" />
+            <HBox prefHeight="21.0" prefWidth="300.0">
+               <children>
+                  <Region prefHeight="21.0" prefWidth="24.0" />
+                  <Label text="Total Tickets" />
+                  <Region layoutX="10.0" layoutY="10.0" prefHeight="21.0" prefWidth="74.0" />
+                  <Label layoutX="34.0" layoutY="10.0" text="Minute" />
+               </children>
+            </HBox>
+            <HBox>
+               <children>
+                  <Region prefHeight="32.0" prefWidth="20.0" />
+                  <Spinner fx:id="spnTotalTickets" editable="true" prefHeight="32.0" prefWidth="117.0" />
+                  <Region layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="35.0" />
+                  <Spinner fx:id="spnMinute" editable="true" layoutX="183.0" layoutY="10.0" prefHeight="26.0" prefWidth="104.0" />
                </children>
             </HBox>
             <Region layoutX="10.0" layoutY="204.0" prefHeight="19.0" prefWidth="300.0" />

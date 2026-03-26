@@ -12,8 +12,9 @@ public class Ticket {
     private double price;
     private TicketTypes ticketType;
 
-    public Ticket(int id, Event event, String customerName, String email, double price, TicketTypes ticketType) {
+    public Ticket(int id, String ticketId, Event event, String customerName, String email, double price, TicketTypes ticketType) {
         this.id = id;
+        this.ticketId = ticketId;
         this.event = event;
         this.customerName = customerName;
         this.email = email;
@@ -23,14 +24,6 @@ public class Ticket {
 
     public Ticket(String ticketId, Event event, String customerName, String email, double price, TicketTypes ticketType) {
         this.ticketId = ticketId;
-        this.event = event;
-        this.customerName = customerName;
-        this.email = email;
-        this.price = price;
-        this.ticketType = ticketType;
-    }
-
-    public Ticket(Event event, String customerName, String email, double price, TicketTypes ticketType) {
         this.event = event;
         this.customerName = customerName;
         this.email = email;

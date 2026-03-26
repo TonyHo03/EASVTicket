@@ -20,6 +20,25 @@
 
 }
 
+.text-field, .choice-box {
+
+    -fx-background-color: "WHITE";
+    -fx-background-radius: 10px;
+
+    -fx-border-color: "LIGHTGREY";
+    -fx-border-radius: 10px;
+    -fx-border-width: 2;
+
+    transition: -fx-border-color 300ms ease-out;
+
+}
+
+.text-field:focused, .choice-box:focused {
+
+    -fx-border-color: rgb(60,180,255);
+
+}
+
 #tabPane .tab-header-area .tab .tab-container .tab-label {
 
     -fx-alignment: CENTER;

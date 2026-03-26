@@ -32,6 +32,12 @@
 
 }
 
+.text-field:focused, .choice-box:focused {
+
+    -fx-border-color: rgb(60,180,255);
+
+}
+
 .spinner {
 
     -fx-background-color: TRANSPARENT;

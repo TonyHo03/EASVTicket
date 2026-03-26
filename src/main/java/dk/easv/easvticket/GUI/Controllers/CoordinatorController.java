@@ -3,6 +3,7 @@ package dk.easv.easvticket.GUI.Controllers;
 import dk.easv.easvticket.BE.*;
 import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.Models.TicketModel;
+import dk.easv.easvticket.GUI.util.DateTimeFormatting;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +37,7 @@ public class CoordinatorController implements Initializable {
     @FXML private TableView<Ticket> ticketManageView;
     @FXML private TableView<Event> eventManageView;
     @FXML private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
-    @FXML private TableColumn<Event, Date> clmDate;
+    @FXML private TableColumn<Event, LocalDateTime> clmDate;
     @FXML private TableColumn<Event, Integer> clmTickets;
     @FXML private TableColumn<Ticket, String> clmTicketId, clmCustomer, clmEmail;
     @FXML private TableColumn<Ticket, TicketTypes> clmType;
@@ -258,7 +261,7 @@ public class CoordinatorController implements Initializable {
 
         // Ticket Table View
 
-        clmTicketId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        clmTicketId.setCellValueFactory(new PropertyValueFactory<>("ticketId"));
         clmEvent.setCellValueFactory(new PropertyValueFactory<>("event"));
         clmCustomer.setCellValueFactory(new PropertyValueFactory<>("customerName"));
         clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -289,6 +292,8 @@ public class CoordinatorController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmLocation);
         TooltipMaker.addTooltipsToColumns(clmCoordinators);
         TooltipMaker.addTooltipsToColumns(clmTickets);
+
+        DateTimeFormatting.changeFormat(clmDate);
 
         filteredEvents = new FilteredList<>(eventModel.getEvents(), p -> true);
         eventManageView.setItems(filteredEvents);

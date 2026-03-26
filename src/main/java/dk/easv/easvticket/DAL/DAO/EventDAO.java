@@ -7,17 +7,16 @@ import dk.easv.easvticket.BLL.EventManager;
 import dk.easv.easvticket.DAL.Interfaces.IEventDataAccess;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
 
 public class EventDAO implements IEventDataAccess {
 
     private DBConnector dbConnector = new DBConnector();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     public EventDAO() throws IOException {
     }
@@ -37,7 +36,7 @@ public class EventDAO implements IEventDataAccess {
                 try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
 
                     ps.setString(1, newEvent.getName());
-                    ps.setDate(2, newEvent.getDate());
+                    ps.setTimestamp(2, Timestamp.valueOf(newEvent.getDate()));
                     ps.setInt(3, locationId);
                     ps.setInt(4, newEvent.getTotalTickets());
                     ps.setInt(5, newEvent.getAvailableTickets());
@@ -130,7 +129,7 @@ public class EventDAO implements IEventDataAccess {
 
                      int eventId = rs.getInt("event_id");
                      String eventName = rs.getString("name");
-                     Date eventDate = rs.getDate("event_date");
+                     LocalDateTime eventDate = rs.getTimestamp("event_date").toLocalDateTime();
                      Location eventLocation = new Location(rs.getInt("location_id"), rs.getString("location_name"), rs.getString("address"), rs.getString("city"));
                      int totalTickets = rs.getInt("total_tickets");
                      int availableTickets = rs.getInt("available_tickets");

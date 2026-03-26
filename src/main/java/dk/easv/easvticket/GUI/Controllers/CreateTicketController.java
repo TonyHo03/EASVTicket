@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 public class CreateTicketController {
 
@@ -28,6 +29,8 @@ public class CreateTicketController {
     @FXML
     private void onCreateBtnClick() {
 
+        String ticketId = "TK-" + UUID.randomUUID();
+
         if (txtFldCName.getText().isBlank() || txtFldEmail.getText().isBlank() || cbType.getValue() == null) {
 
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -38,7 +41,7 @@ public class CreateTicketController {
         }
         else {
             try {
-                ticketModel.createTicket(new Ticket(cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue()));
+                ticketModel.createTicket(new Ticket(ticketId, cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue()));
                 currentStage.close();
             }
             catch (Exception e) {

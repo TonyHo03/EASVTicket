@@ -16,6 +16,9 @@ import java.awt.*;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -27,7 +30,7 @@ public class CreateEventController implements Initializable {
     @FXML private TextField txtFldName, txtFldVenueName, txtFldAddress, txtFldCity;
     @FXML private TextArea txtAreaDesc;
     @FXML private DatePicker dtPicker;
-    @FXML private Spinner<Integer> spnTotalTickets;
+    @FXML private Spinner<Integer> spnTotalTickets, spnHour, spnMinute;
 
     public void initializeClass(Stage stage, EventModel eventModel) {
         this.currentStage = stage;
@@ -37,13 +40,12 @@ public class CreateEventController implements Initializable {
     public void onCreateBtnClick(ActionEvent actionEvent) {
         String eventName = txtFldName.getText().strip();
         String descr = txtAreaDesc.getText().strip();
-        LocalDate date = dtPicker.getValue();
         Integer tickets = spnTotalTickets.getValue();
         String venueName = txtFldVenueName.getText().strip();
         String address = txtFldAddress.getText().strip();
         String city = txtFldCity.getText().strip();
 
-        if (eventName.isEmpty() || descr.isEmpty() || date == null || tickets == null || venueName.isEmpty() || address.isEmpty() || city.isEmpty()) {
+        if (eventName.isEmpty() || descr.isEmpty() || dtPicker.getValue() == null || tickets == null || venueName.isEmpty() || address.isEmpty() || city.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Missing fields");
             alert.setContentText("Please fill out all fields.");
@@ -51,10 +53,14 @@ public class CreateEventController implements Initializable {
             return;
         }
 
+        LocalDateTime date = LocalDateTime.of(dtPicker.getValue(), LocalTime.of(spnHour.getValue(), spnMinute.getValue()));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        date.format(formatter);
+
         try {
             Location location = new Location(venueName, address, city);
 
-            Event newEvent = new Event(eventName, Date.valueOf(date), location, new ArrayList<User>(), tickets, tickets, descr);
+            Event newEvent = new Event(eventName, date, location, new ArrayList<>(), tickets, tickets, descr);
             eventModel.createEvent(newEvent);
 
             currentStage.close();
@@ -75,6 +81,11 @@ public class CreateEventController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         SpinnerValueFactory<Integer> integerSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 999, 1, 1);
+        SpinnerValueFactory<Integer> hourSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23, 0, 1);
+        SpinnerValueFactory<Integer> minuteSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59, 0, 1);
+
         spnTotalTickets.setValueFactory(integerSpinnerValueFactory);
+        spnHour.setValueFactory(hourSpinnerValueFactory);
+        spnMinute.setValueFactory(minuteSpinnerValueFactory);
     }
 }

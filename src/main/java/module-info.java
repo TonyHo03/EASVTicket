@@ -7,7 +7,8 @@ module dk.easv.easvticket {
     requires com.microsoft.sqlserver.jdbc;
     requires java.naming;
     requires java.desktop;
-
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
 
 
     opens dk.easv.easvticket to javafx.fxml;

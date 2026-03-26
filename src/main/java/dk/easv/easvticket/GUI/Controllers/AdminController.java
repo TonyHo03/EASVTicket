@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -45,7 +46,7 @@ public class AdminController implements Initializable {
     private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
 
     @FXML
-    private TableColumn<Event, Date> clmDate;
+    private TableColumn<Event, LocalDateTime> clmDate;
 
     @FXML
     private TableColumn<Event, Integer> clmTickets;
