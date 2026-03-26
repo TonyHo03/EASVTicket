@@ -1,5 +1,6 @@
 package dk.easv.easvticket.GUI.Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 public class EditEventController {
@@ -14,4 +15,7 @@ public class EditEventController {
 
     }
 
+    public void onClickCancel(ActionEvent actionEvent) {
+        currentStage.close();
+    }
 }

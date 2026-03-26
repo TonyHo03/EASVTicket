@@ -10,6 +10,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
@@ -21,11 +23,22 @@ public class AssignCoordController {
     private Event selectedEvent;
     private List<User> coordinators;
 
-    @FXML
-    private ChoiceBox<User> cbCoordinators;
+    @FXML private VBox vbAssignedCoord;
+    @FXML private ChoiceBox<User> cbCoordinators;
+
+    public void initializeClass(Stage stage, EventModel eventModel, List<User> coordinators, Event selectedEvent) {
+
+        this.currentStage = stage;
+        this.eventModel = eventModel;
+        this.coordinators = coordinators;
+        this.selectedEvent = selectedEvent;
+
+        choiceboxSetup();
+        updateAssignedList();
+    }
 
     @FXML
-    private void onAssignBtnClick() { // TODO: Prevent same coordinators on the same event
+    private void onAssignBtnClick() { //
         User cbCoord = cbCoordinators.getValue();
 
         if (cbCoord == null) {
@@ -35,6 +48,20 @@ public class AssignCoordController {
             alert.showAndWait();
             return;
         }
+
+        List<User> assignedCoordinators = selectedEvent.getCoordinators();
+        if (assignedCoordinators != null) {
+            boolean alreadyAssigned = assignedCoordinators.stream().anyMatch(coord -> coord.getId() == cbCoord.getId());
+
+            if (alreadyAssigned) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setHeaderText("Already Assigned");
+                alert.setContentText(cbCoord.getUsername() + " is already assigned to this event.");
+                alert.showAndWait();
+                return;
+            }
+        }
+
         else {
             try {
                 eventModel.assignCoordinatorToEvent(cbCoordinators.getValue(), selectedEvent);
@@ -50,18 +77,7 @@ public class AssignCoordController {
 
     @FXML
     private void onCancelBtnClick() {
-
-    }
-
-    public void initializeClass(Stage stage, EventModel eventModel, List<User> coordinators, Event selectedEvent) {
-
-        this.currentStage = stage;
-        this.eventModel = eventModel;
-        this.coordinators = coordinators;
-        this.selectedEvent = selectedEvent;
-
-        choiceboxSetup();
-
+        currentStage.close();
     }
 
     public void choiceboxSetup() {
@@ -71,6 +87,19 @@ public class AssignCoordController {
         }
         catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void updateAssignedList() {
+        vbAssignedCoord.getChildren().clear();
+
+        List<User> assigned = selectedEvent.getCoordinators();
+
+        if (assigned != null) {
+            for (User user : assigned) {
+                Label label = new Label("   " + user.getUsername());
+                vbAssignedCoord.getChildren().add(label);
+            }
         }
     }
 }
