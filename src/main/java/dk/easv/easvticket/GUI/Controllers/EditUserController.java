@@ -1,6 +1,7 @@
 package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.BLL.PasswordEncrypter;
 import dk.easv.easvticket.GUI.Models.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -71,7 +72,7 @@ public class EditUserController implements Initializable {
         selectedUser.setRole(newRole);
 
         if (!newPassword.isEmpty()) {
-            selectedUser.setPassword(newPassword);
+            selectedUser.setPassword(PasswordEncrypter.hashedPassword(newPassword));
         }
 
         try {

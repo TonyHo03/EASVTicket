@@ -113,15 +113,16 @@ public class UserDAO implements IUserDataAccess {
 
     @Override
     public void updateUser(User user) throws Exception {
-        String sql = "UPDATE [User] SET Username = ?, Email = ?, Role = ? WHERE UserId = ?";
+        String sql = "UPDATE [User] SET Username = ?, Password = ?, Email = ?, Role = ? WHERE UserId = ?";
 
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, user.getUsername());
-            ps.setString(2, user.getEmail());
-            ps.setString(3, user.getRole());
-            ps.setInt(4, user.getId());
+            ps.setString(2, user.getPassword());
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getRole());
+            ps.setInt(5, user.getId());
             ps.executeUpdate();
 
         } catch (SQLException e) {

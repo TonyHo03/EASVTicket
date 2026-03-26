@@ -65,6 +65,7 @@ public class AssignCoordController {
         else {
             try {
                 eventModel.assignCoordinatorToEvent(cbCoordinators.getValue(), selectedEvent);
+                updateAssignedList();
             }
             catch (Exception e) {
                 e.printStackTrace();
