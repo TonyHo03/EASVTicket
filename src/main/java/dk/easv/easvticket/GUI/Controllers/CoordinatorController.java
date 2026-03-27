@@ -81,7 +81,7 @@ public class CoordinatorController implements Initializable {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CreateEventView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 356, 526);
+            Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
 
             CreateEventController createEventController = fxmlLoader.getController();
@@ -107,7 +107,7 @@ public class CoordinatorController implements Initializable {
     private void onAssignCoordBtnClick() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AssignCoordView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 356, 408);
+            Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
 
             AssignCoordController assignCoordController = fxmlLoader.getController();
@@ -134,7 +134,7 @@ public class CoordinatorController implements Initializable {
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/EditEventView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 356, 526);
+            Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
 
             EditEventController editEventController = fxmlLoader.getController();
@@ -195,6 +195,15 @@ public class CoordinatorController implements Initializable {
     @FXML
     private void onPrintBtnClick() {
 
+        try {
+
+            Ticket selectedTicket = ticketManageView.getSelectionModel().getSelectedItem();
+            ticketModel.printTicket(selectedTicket);
+
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

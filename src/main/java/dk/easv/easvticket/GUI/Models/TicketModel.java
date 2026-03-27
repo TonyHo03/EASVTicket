@@ -36,4 +36,10 @@ public class TicketModel {
         int index = ticketObservableList.indexOf(updatedTicket);
         if (index >= 0) {ticketObservableList.set(index, updatedTicket);}
     }
+
+    public void printTicket(Ticket selectedTicket) throws Exception {
+
+        facade.ticketManager.printPDF(selectedTicket);
+
+    }
 }
