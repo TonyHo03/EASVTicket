@@ -9,6 +9,9 @@ module dk.easv.easvticket {
     requires java.desktop;
     requires com.google.zxing;
     requires com.google.zxing.javase;
+    requires de.mkammerer.argon2;
+    requires de.mkammerer.argon2.nolibs;
+    requires com.sun.jna;
     requires jbcrypt;
     requires itextpdf;
 
