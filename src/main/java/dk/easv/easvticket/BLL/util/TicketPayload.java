@@ -36,7 +36,7 @@ public class TicketPayload {
 
     public static String sign(String data) throws Exception {
 
-        Mac mac = Mac.getInstance("HmacSHA265");
+        Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(new SecretKeySpec(SECRET.getBytes(), "HmacSHA256"));
         return Base64.getEncoder().encodeToString(mac.doFinal(data.getBytes()));
 

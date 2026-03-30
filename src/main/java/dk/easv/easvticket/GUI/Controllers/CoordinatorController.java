@@ -195,10 +195,24 @@ public class CoordinatorController implements Initializable {
     @FXML
     private void onPrintBtnClick() {
 
+        Ticket selectedTicket = ticketManageView.getSelectionModel().getSelectedItem();
+
         try {
 
-            Ticket selectedTicket = ticketManageView.getSelectionModel().getSelectedItem();
-            ticketModel.printTicket(selectedTicket);
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/TicketPDFView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+
+            TicketPDFController ticketPDFController = fxmlLoader.getController();
+            ticketPDFController.initializeClass(stage, ticketModel, selectedTicket);
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+
+            stage.resizableProperty().setValue(false);
+
+            stage.setTitle("Ticket PDF Viewer");
+            stage.setScene(scene);
+            stage.show();
 
         }
         catch (Exception e) {

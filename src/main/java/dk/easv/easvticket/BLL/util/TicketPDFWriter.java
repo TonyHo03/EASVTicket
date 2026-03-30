@@ -22,7 +22,7 @@ public class TicketPDFWriter {
     private static final BaseColor WHITE      = BaseColor.WHITE;
 
     private static final Font FONT_TITLE    = new Font(Font.FontFamily.HELVETICA, 22, Font.BOLD,   WHITE);
-    private static final Font FONT_SUBTITLE = new Font(Font.FontFamily.HELVETICA, 11, Font.NORMAL, new BaseColor(150, 150, 170));
+    private static final Font FONT_SUBTITLE = new Font(Font.FontFamily.HELVETICA, 11, Font.BOLD, new BaseColor(150, 150, 170));
     private static final Font FONT_LABEL    = new Font(Font.FontFamily.HELVETICA, 8,  Font.BOLD,   MID_GRAY);
     private static final Font FONT_VALUE    = new Font(Font.FontFamily.HELVETICA, 11, Font.NORMAL, DARK);
     private static final Font FONT_PRICE    = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD,   ACCENT);
@@ -31,8 +31,11 @@ public class TicketPDFWriter {
 
     public static File generatePDF(Ticket ticket) throws Exception {
 
-        final String PATH_TO_PDF = "src/main/resources/dk/easv/easvticket/tickets/" + ticket.getTicketId() + ".pdf";
+        final String DIR = "src/main/resources/dk/easv/easvticket/tickets/";
+        final String PATH_TO_PDF = DIR + ticket.getTicketId() + ".pdf";
         System.out.println("Variable to path declared and assigned");
+
+        new File(DIR).mkdirs();
 
         Document document = new Document(PageSize.A5, 40, 40, 40, 40);
         PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(PATH_TO_PDF));
@@ -114,7 +117,7 @@ public class TicketPDFWriter {
         qrCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
 
         try {
-            java.awt.image.BufferedImage qrImage = QRGenerator.generate(ticket.getTicketId());
+            java.awt.image.BufferedImage qrImage = QRGenerator.generate(TicketPayload.generate(ticket));
             java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
             javax.imageio.ImageIO.write(qrImage, "png", baos);
             Image qr = Image.getInstance(baos.toByteArray());

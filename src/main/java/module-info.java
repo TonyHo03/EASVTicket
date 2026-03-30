@@ -12,7 +12,6 @@ module dk.easv.easvticket {
     requires de.mkammerer.argon2;
     requires de.mkammerer.argon2.nolibs;
     requires com.sun.jna;
-    requires jbcrypt;
     requires itextpdf;
 
 

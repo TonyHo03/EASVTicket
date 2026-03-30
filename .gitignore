@@ -39,3 +39,5 @@ build/
 .DS_Store
 conf
 config/config.settings
+
+tickets/

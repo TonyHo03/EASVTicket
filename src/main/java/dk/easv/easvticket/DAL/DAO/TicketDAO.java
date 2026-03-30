@@ -20,13 +20,13 @@ public class TicketDAO implements ITicketDataAccess {
 
         try (Connection conn = dbConnector.getConnection()) {
 
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO Ticket (event, customer_name, email, price, ticket_type, ticket_id) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, newTicket.getEvent().getId());
-            ps.setString(2, newTicket.getCustomerName());
-            ps.setString(3, newTicket.getEmail());
-            ps.setDouble(4, newTicket.getPrice());
-            ps.setInt(5, newTicket.getTicketType().getId());
-            ps.setString(6, newTicket.getTicketId());
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO Ticket (ticket_id, event, customer_name, email, price, ticket_type) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, newTicket.getTicketId());
+            ps.setInt(2, newTicket.getEvent().getId());
+            ps.setString(3, newTicket.getCustomerName());
+            ps.setString(4, newTicket.getEmail());
+            ps.setDouble(5, newTicket.getPrice());
+            ps.setInt(6, newTicket.getTicketType().getId());
             ps.executeUpdate();
 
             ResultSet generatedIds = ps.getGeneratedKeys();
