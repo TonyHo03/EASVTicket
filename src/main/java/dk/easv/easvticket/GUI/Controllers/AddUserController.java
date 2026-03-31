@@ -3,6 +3,7 @@ package dk.easv.easvticket.GUI.Controllers;
 import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.BLL.PasswordEncrypter;
+import dk.easv.easvticket.DAL.Interfaces.IPasswordEncrypter;
 import dk.easv.easvticket.GUI.Models.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,6 +29,7 @@ public class AddUserController implements Initializable {
 
     private Stage currentStage;
     private UserModel userModel;
+    private IPasswordEncrypter encrypter = new PasswordEncrypter();
 
     public void setStage(Stage stage) {
         this.currentStage = stage;
@@ -50,7 +52,7 @@ public class AddUserController implements Initializable {
     @FXML
     private void onClickSave(ActionEvent actionEvent) {
         String username = usernameField.getText().trim();
-        String password = PasswordEncrypter.hashedPassword(passwordField.getText().trim());
+        String password = encrypter.hashedPassword(passwordField.getText().trim());
         String email = emailField.getText().trim();
         Roles role = choiceBox.getValue();
 

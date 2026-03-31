@@ -1,15 +1,18 @@
 package dk.easv.easvticket.BLL;
 
+import dk.easv.easvticket.DAL.Interfaces.IPasswordEncrypter;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PasswordEncrypterTest {
 
+    private IPasswordEncrypter encrypter = new PasswordEncrypter();
+
     // 1. Hash is not null and follows the Argon2 encoded format
     @Test
     void hashedPassword_returnsCorrectFormat() {
-        String hash = PasswordEncrypter.hashedPassword("coord123");
+        String hash = encrypter.hashedPassword("coord123");
         System.out.println("[Test 1] Generated hash: " + hash);
 
         assertNotNull(hash);
@@ -23,8 +26,8 @@ class PasswordEncrypterTest {
     // 2. Two hashes of the same password are different (random salt)
     @Test
     void hashedPassword_samePasswordProducesDifferentHashes() {
-        String hash1 = PasswordEncrypter.hashedPassword("myPassword123");
-        String hash2 = PasswordEncrypter.hashedPassword("myPassword123");
+        String hash1 = encrypter.hashedPassword("myPassword123");
+        String hash2 = encrypter.hashedPassword("myPassword123");
         System.out.println("[Test 2] Hash 1: " + hash1);
         System.out.println("[Test 2] Hash 2: " + hash2);
         System.out.println("[Test 2] Are they equal: " + hash1.equals(hash2));
@@ -37,8 +40,8 @@ class PasswordEncrypterTest {
     @Test
     void verifyPassword_correctPasswordReturnsTrue() {
         String password = "securePassword!";
-        String hash = PasswordEncrypter.hashedPassword(password);
-        boolean result = PasswordEncrypter.verifyPassword(password, hash);
+        String hash = encrypter.hashedPassword(password);
+        boolean result = encrypter.verifyPassword(password, hash);
         System.out.println("[Test 3] Password: " + password);
         System.out.println("[Test 3] Hash: " + hash);
         System.out.println("[Test 3] Verify result: " + result);
@@ -52,8 +55,8 @@ class PasswordEncrypterTest {
     void verifyPassword_wrongPasswordReturnsFalse() {
         String correct = "correctPassword";
         String wrong = "wrongPassword";
-        String hash = PasswordEncrypter.hashedPassword(correct);
-        boolean result = PasswordEncrypter.verifyPassword(wrong, hash);
+        String hash = encrypter.hashedPassword(correct);
+        boolean result = encrypter.verifyPassword(wrong, hash);
         System.out.println("[Test 4] Correct password: " + correct);
         System.out.println("[Test 4] Wrong password tried: " + wrong);
         System.out.println("[Test 4] Hash: " + hash);
@@ -67,7 +70,7 @@ class PasswordEncrypterTest {
     @Test
     void verifyPassword_malformedHashReturnsFalse() {
         String malformed = "notAValidHash";
-        boolean result = PasswordEncrypter.verifyPassword("anyPassword", malformed);
+        boolean result = encrypter.verifyPassword("anyPassword", malformed);
         System.out.println("[Test 5] Malformed hash input: " + malformed);
         System.out.println("[Test 5] Verify result (should be false): " + result);
 

@@ -2,6 +2,7 @@ package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BLL.PasswordEncrypter;
 import dk.easv.easvticket.DAL.DAO.DBConnector;
+import dk.easv.easvticket.DAL.Interfaces.IPasswordEncrypter;
 import dk.easv.easvticket.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,14 +28,15 @@ import java.util.ResourceBundle;
 
 public class LoginController implements Initializable {
 
-    private Stage currentStage;
-    private boolean isHidden = true;
-    private DBConnector dbConnector = new DBConnector();
-
     @FXML private TextField txtFldUser, txtFldPass;
     @FXML private PasswordField passFldPass;
     @FXML private Label lblSignIn;
     @FXML private ImageView showImg;
+
+    private Stage currentStage;
+    private boolean isHidden = true;
+    private DBConnector dbConnector = new DBConnector();
+    private IPasswordEncrypter encrypter = new PasswordEncrypter();
 
     public LoginController() throws IOException {
     }
@@ -44,23 +46,6 @@ public class LoginController implements Initializable {
     // Coordinator      Username: coord     Password: coord123
     @FXML
     private void onSignInBtnClick() throws Exception {
-
-        if (txtFldUser.getText().isEmpty() && txtFldPass.getText().isEmpty()) {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-
-            AdminController adminController = fxmlLoader.getController();
-            adminController.setStage(stage);
-
-            stage.resizableProperty().setValue(false);
-
-            stage.setTitle("Admin Dashboard");
-            stage.setScene(scene);
-            stage.show();
-
-            currentStage.close();
-        }
 
         String sql = "SELECT * FROM [User] WHERE Username = ?";
 
@@ -77,7 +62,7 @@ public class LoginController implements Initializable {
                 return;
             }
 
-            if (!rs.next() || !PasswordEncrypter.verifyPassword(txtFldPass.getText(), rs.getString("Password"))) {
+            if (!rs.next() || !encrypter.verifyPassword(txtFldPass.getText(), rs.getString("Password"))) {
                 lblSignIn.setText("Incorrect username or password. Please try again.");
                 lblSignIn.getStyleClass().remove("error-label"); // prevents stacking
                 lblSignIn.getStyleClass().add("error-label");

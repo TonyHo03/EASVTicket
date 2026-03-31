@@ -2,6 +2,7 @@ package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.BLL.PasswordEncrypter;
+import dk.easv.easvticket.DAL.Interfaces.IPasswordEncrypter;
 import dk.easv.easvticket.GUI.Models.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,6 +26,8 @@ public class EditUserController implements Initializable {
     private Stage currentStage;
     private User selectedUser;
     private UserModel userModel;
+    private IPasswordEncrypter encrypter = new PasswordEncrypter();
+
 
     public void setStage(Stage stage) {
         this.currentStage = stage;
@@ -72,7 +75,7 @@ public class EditUserController implements Initializable {
         selectedUser.setRole(newRole);
 
         if (!newPassword.isEmpty()) {
-            selectedUser.setPassword(PasswordEncrypter.hashedPassword(newPassword));
+            selectedUser.setPassword(encrypter.hashedPassword(newPassword));
         }
 
         try {
