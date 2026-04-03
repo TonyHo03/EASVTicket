@@ -233,7 +233,7 @@
             <Region layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="20.0" />
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
                <children>
-                  <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
+                  <Button fx:id="btnSend" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onSendBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
                      <graphic>
                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -244,6 +244,9 @@
                      <cursor>
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
+                     <tooltip>
+                        <Tooltip text="Send PDF to Customer" />
+                     </tooltip>
                   </Button>
                </children>
             </HBox>

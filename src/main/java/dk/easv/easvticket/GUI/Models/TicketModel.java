@@ -42,4 +42,10 @@ public class TicketModel {
         facade.ticketManager.printPDF(selectedTicket);
 
     }
+
+    public void sendTicket(Ticket selectedTicket) {
+
+        facade.ticketManager.sendPDF(selectedTicket);
+
+    }
 }

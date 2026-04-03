@@ -13,6 +13,7 @@ module dk.easv.easvticket {
     requires de.mkammerer.argon2.nolibs;
     requires com.sun.jna;
     requires itextpdf;
+    requires jakarta.mail;
 
 
     opens dk.easv.easvticket to javafx.fxml;

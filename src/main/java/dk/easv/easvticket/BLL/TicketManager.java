@@ -5,6 +5,7 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.encoder.QRCode;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.TicketTypes;
+import dk.easv.easvticket.BLL.util.EmailSender;
 import dk.easv.easvticket.BLL.util.TicketPDFWriter;
 import dk.easv.easvticket.DAL.DAO.TicketDAO;
 import dk.easv.easvticket.DAL.Interfaces.ITicketDataAccess;
@@ -75,6 +76,30 @@ public class TicketManager {
 
         new Thread(task).start();
 
+    }
+
+    public void sendPDF(Ticket selectedTicket) {
+
+        Task<Void> task = new Task<>() {
+
+            @Override
+            protected Void call() {
+
+                try {
+                    EmailSender.sendTicket(selectedTicket);
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+        };
+
+        task.setOnFailed(e -> task.getException().getStackTrace());
+        task.setOnSucceeded(e -> System.out.println("FIN"));
+
+        new Thread(task).start();
     }
 
 }

@@ -37,6 +37,14 @@ public class TicketPDFController {
         }
     }
 
+    @FXML
+    private void onSendBtnClick() {
+
+        ticketModel.sendTicket(selectedTicket);
+        currentStage.close();
+
+    }
+
     public void initializeClass(Stage currentStage, TicketModel ticketModel, Ticket selectedTicket) {
 
         this.currentStage = currentStage;
