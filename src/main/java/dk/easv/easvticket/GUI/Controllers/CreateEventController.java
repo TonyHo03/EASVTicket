@@ -35,6 +35,7 @@ public class CreateEventController implements Initializable {
     public void initializeClass(Stage stage, EventModel eventModel) {
         this.currentStage = stage;
         this.eventModel = eventModel;
+
     }
 
     public void onCreateBtnClick(ActionEvent actionEvent) {

@@ -101,46 +101,52 @@ public class EventDAO implements IEventDataAccess {
     @Override
     public List<Event> getEvents() throws Exception {
         List<Event> events = new ArrayList<>();
-        String sql = "SELECT e.event_id, e.name, e.event_date, e.total_tickets, e.available_tickets, e.description, l.location_id, l.location_name, l.address, l.city FROM Events e JOIN Location l ON e.location_id = l.location_id";
+        String sql = "SELECT e.event_id, e.name, e.event_date, e.total_tickets, e.available_tickets, e.description, e.isDeleted, l.location_id, l.location_name, l.address, l.city FROM Events e JOIN Location l ON e.location_id = l.location_id";
 
         try (Connection con = dbConnector.getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(sql);
-             ResultSet rs = preparedStatement.executeQuery())
-             {
+             ResultSet rs = preparedStatement.executeQuery()) {
 
-                 while (rs.next()) {
+            while (rs.next()) {
+                // Get coordinators for this specific event
+                PreparedStatement ps2 = con.prepareStatement("SELECT u.UserId, u.Username, u.Role, u.Email FROM [User] u JOIN EventCoordinators ec ON u.UserId = ec.user_id WHERE ec.event_id = ?");
+                ps2.setInt(1, rs.getInt("event_id"));
+                List<User> coordinators = new ArrayList<>();
 
-                     PreparedStatement ps2 = con.prepareStatement("SELECT u.UserId, u.Username, u.Role, u.Email FROM [User] u JOIN EventCoordinators ec ON u.UserId = ec.user_id WHERE ec.event_id = ?");
-                     ps2.setInt(1, rs.getInt("event_id"));
-                     List<User> coordinators = new ArrayList<>();
-
-                     ResultSet rs2 = ps2.executeQuery();
-
-                     while (rs2.next()) {
-
-                         int id = rs2.getInt("UserId");
-                         String user = rs2.getString("Username");
-                         String role = rs2.getString("Role");
-                         String email = rs2.getString("Email");
-
-                         coordinators.add(new User(id, user, role, email));
-
-                     }
-
-                     int eventId = rs.getInt("event_id");
-                     String eventName = rs.getString("name");
-                     LocalDateTime eventDate = rs.getTimestamp("event_date").toLocalDateTime();
-                     Location eventLocation = new Location(rs.getInt("location_id"), rs.getString("location_name"), rs.getString("address"), rs.getString("city"));
-                     int totalTickets = rs.getInt("total_tickets");
-                     int availableTickets = rs.getInt("available_tickets");
-                     String description = rs.getString("description");
-
-                     Event e = new Event(eventId, eventName, eventDate, eventLocation, coordinators, availableTickets, totalTickets, description);
-                     events.add(e);
-
+                ResultSet rs2 = ps2.executeQuery();
+                while (rs2.next()) {
+                    coordinators.add(new User(
+                            rs2.getInt("UserId"),
+                            rs2.getString("Username"),
+                            rs2.getString("Role"),
+                            rs2.getString("Email")
+                    ));
                 }
+
+                // Map standard fields
+                int eventId = rs.getInt("event_id");
+                String eventName = rs.getString("name");
+                LocalDateTime eventDate = rs.getTimestamp("event_date").toLocalDateTime();
+                Location eventLocation = new Location(rs.getInt("location_id"), rs.getString("location_name"), rs.getString("address"), rs.getString("city"));
+                int totalTickets = rs.getInt("total_tickets");
+                int availableTickets = rs.getInt("available_tickets");
+                String description = rs.getString("description");
+
+                // --- THE FIX IS HERE ---
+                // 1. Get the actual value from the 'isDeleted' column in the DB
+                boolean deletedInDB = rs.getBoolean("isDeleted");
+
+                // 2. Create the event object
+                Event e = new Event(eventId, eventName, eventDate, eventLocation, coordinators, availableTickets, totalTickets, description);
+
+                // 3. Set the object's status using the DB value (NOT e.isDeleted())
+                e.setDeleted(deletedInDB);
+                // -----------------------
+
+                events.add(e);
             }
-             return events;
+        }
+        return events;
     }
 
     @Override
@@ -176,6 +182,26 @@ public class EventDAO implements IEventDataAccess {
 
             int affectedRows = ps.executeUpdate();
 
+        }
+    }
+
+    @Override
+    public void archiveEvent(Event event) throws Exception {
+        String sql = "UPDATE Events SET isDeleted = 1 WHERE event_id = ?";
+
+        try (Connection con = dbConnector.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, event.getId());
+            int rowsAffected = ps.executeUpdate();
+
+            System.out.println("Archived event: " + event.getName() + " | Rows updated: " + rowsAffected);
+
+            if (rowsAffected == 0) {
+                throw new Exception("Event not found with ID: " + event.getId());
+            }
+        } catch (SQLException e) {
+            throw new Exception("Could not archive event", e);
         }
     }
 }

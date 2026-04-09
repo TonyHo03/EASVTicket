@@ -105,6 +105,13 @@ public class CoordinatorController implements Initializable {
 
     @FXML
     private void onAssignCoordBtnClick() {
+        Event selected = eventManageView.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select an event to assign coordinators to.").showAndWait();
+            return;
+        }
+
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AssignCoordView.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
@@ -112,12 +119,10 @@ public class CoordinatorController implements Initializable {
 
             AssignCoordController assignCoordController = fxmlLoader.getController();
 
-            //assignCoordController.initializeClass(stage, this);
+            assignCoordController.initializeClass(stage, eventModel, selected.getCoordinators(), selected);
 
             stage.initModality(Modality.APPLICATION_MODAL);
-
             stage.resizableProperty().setValue(false);
-
             stage.setTitle("Assign Coordinators");
             stage.setScene(scene);
             stage.show();
@@ -128,9 +133,13 @@ public class CoordinatorController implements Initializable {
             e.printStackTrace();
         }
     }
-
     @FXML
     private void onEditEventBtnClick() {
+        Event selected = eventManageView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select an event to be edited.").showAndWait();
+            return;
+        }
 
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/EditEventView.fxml"));
@@ -138,12 +147,11 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             EditEventController editEventController = fxmlLoader.getController();
-            editEventController.initializeClass(stage, this);
+            editEventController.initializeClass(stage, selected, eventModel, () -> eventManageView.refresh());
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
             stage.resizableProperty().setValue(false);
-
             stage.setTitle("Edit Event");
             stage.setScene(scene);
             stage.show();
@@ -157,13 +165,35 @@ public class CoordinatorController implements Initializable {
     }
     @FXML
     private void onDeleteEventBtnClick() {
+        Event selected = eventManageView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select an event to be deleted.").showAndWait();
+            return;
+        }
 
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setHeaderText("Delete Event");
-        confirmation.setContentText("Are you sure you want to delete this event? This action cannot be undone.");
+        confirmation.setContentText("Are you sure you want to archive \"" + selected.getName() + "\"?");
 
         Optional<ButtonType> result = confirmation.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            try {
+                System.out.println("About to archive: " + selected.getName() + " with ID: " + selected.getId());
 
+                // 1. CALL THE ARCHIVE METHOD (This runs the specific SQL for isDeleted = 1)
+                eventModel.archiveEvent(selected);
+
+                // 2. REFRESH THE FILTER (This makes it vanish from the TableView)
+                filteredEvents.setPredicate(event -> !event.isDeleted());
+
+                System.out.println("Archive completed successfully");
+                new Alert(Alert.AlertType.INFORMATION, "Event archived successfully.").showAndWait();
+            } catch (Exception e) {
+                System.out.println("Archive FAILED: " + e.getMessage());
+                e.printStackTrace();
+                new Alert(Alert.AlertType.ERROR, "Failed to archive event: " + e.getMessage()).showAndWait();
+            }
+        }
     }
 
     @FXML
@@ -178,7 +208,6 @@ public class CoordinatorController implements Initializable {
             createTicketController.initializeClass(stage, ticketModel, selectedEvent);
 
             stage.initModality(Modality.APPLICATION_MODAL);
-
             stage.resizableProperty().setValue(false);
 
             stage.setTitle("Create Tickets");
@@ -235,8 +264,9 @@ public class CoordinatorController implements Initializable {
     private void filterEvents() throws IOException {
         String search = eventSearch.getText().toLowerCase();
 
-        filteredEvents.setPredicate(event -> {if (search.isBlank()) return true;
-
+        filteredEvents.setPredicate(event -> {
+            if (event.isDeleted()) return false;
+            if (search.isBlank()) return true;
             return event.getName().toLowerCase().contains(search) ||
                     event.getDate().toString().toLowerCase().contains(search) ||
                     event.getLocation().toString().toLowerCase().contains(search) ||
@@ -304,7 +334,7 @@ public class CoordinatorController implements Initializable {
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
-        clmLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+        clmLocation.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getLocation().getVenueName()));
         clmCoordinators.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getCoordinators().stream().map(User::getUsername).collect(Collectors.joining(", "))));
         clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
 
@@ -318,7 +348,7 @@ public class CoordinatorController implements Initializable {
 
         DateTimeFormatting.changeFormat(clmDate);
 
-        filteredEvents = new FilteredList<>(eventModel.getEvents(), p -> true);
+        filteredEvents = new FilteredList<>(eventModel.getEvents(), event -> !event.isDeleted());
         eventManageView.setItems(filteredEvents);
 
         eventSearch.textProperty().addListener((observable, oldValue, newValue) -> {

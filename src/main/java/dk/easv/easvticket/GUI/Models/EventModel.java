@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventModel {
     private TicketSystemFacade facade = new TicketSystemFacade();
@@ -15,7 +16,20 @@ public class EventModel {
 
     public EventModel() throws Exception {
         eventObservableList = FXCollections.observableArrayList();
-        eventObservableList.setAll(facade.eventManager.getEvents());
+
+        List<Event> allEvents = facade.eventManager.getEvents();
+        System.out.println("=== Loading Events ===");
+        for (Event event : allEvents) {
+            System.out.println("Event: " + event.getName() + " | Deleted: " + event.isDeleted());
+        }
+
+
+        List<Event> activeEvents = allEvents.stream().filter(event -> !event.isDeleted()).collect(Collectors.toList());
+        System.out.println("Total events: " + allEvents.size() + " | Active events: " + activeEvents.size());
+
+
+        eventObservableList.setAll(activeEvents);
+
     }
     // Event Management
     public void createEvent(Event newEvent) throws Exception{
@@ -27,10 +41,13 @@ public class EventModel {
         return eventObservableList;
     }
 
-    public void deleteEvent (Event event) throws Exception {
-
-        facade.eventManager.deleteEvent(event);
-        eventObservableList.remove(event);
+    public void archiveEvent(Event event) throws Exception {
+        facade.eventManager.archiveEvent(event); // This updates the Database
+        event.setDeleted(true);
+        eventObservableList.remove(event);       // This hides it from the UI instantly
+    }
+    public void updateEvent(Event event) throws Exception {
+        facade.eventManager.updateEvent(event);
     }
 
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {

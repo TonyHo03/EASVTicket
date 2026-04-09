@@ -27,8 +27,8 @@ public class EventManager {
         eventDataAccess.updateEvent(updatedEvent);
     }
 
-    public void deleteEvent(Event selectedEvent) throws Exception {
-        eventDataAccess.deleteEvent(selectedEvent.getId()); // deletes by id
+    public void archiveEvent(Event event) throws Exception {
+        eventDataAccess.archiveEvent(event);
     }
 
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {
