@@ -3,6 +3,7 @@ package dk.easv.easvticket.GUI.Controllers;
 import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.TicketTypes;
+import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.Models.TicketModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,6 +20,7 @@ public class CreateTicketController {
 
     private Stage currentStage;
     private TicketModel ticketModel;
+    private EventModel eventModel;
     private Event selectedEvent;
 
     @FXML private TextField txtFldCName, txtFldEmail;
@@ -42,6 +44,17 @@ public class CreateTicketController {
         else {
             try {
                 ticketModel.createTicket(new Ticket(ticketId, cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue()));
+                eventModel.refreshEvents();
+
+                for (Event event: eventModel.getEvents()) {
+                    if (event.getId() == selectedEvent.getId()) {
+                        selectedEvent = event;
+                        ticketModel.refreshTickets(selectedEvent);
+                        System.out.println("Found updated event, replacing old variable.");
+                        break;
+                    }
+                }
+
                 currentStage.close();
             }
             catch (Exception e) {
@@ -57,9 +70,10 @@ public class CreateTicketController {
 
     }
 
-    public void initializeClass(Stage stage, TicketModel ticketModel, Event selectedEvent) {
+    public void initializeClass(Stage stage, EventModel eventModel, TicketModel ticketModel, Event selectedEvent) {
 
         this.currentStage = stage;
+        this.eventModel = eventModel;
         this.ticketModel = ticketModel;
         this.selectedEvent = selectedEvent;
 

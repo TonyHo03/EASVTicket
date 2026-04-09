@@ -20,6 +20,8 @@ public class TicketDAO implements ITicketDataAccess {
 
         try (Connection conn = dbConnector.getConnection()) {
 
+            updateAvailableTickets(newTicket, -1, conn);
+
             PreparedStatement ps = conn.prepareStatement("INSERT INTO Ticket (ticket_id, event, customer_name, email, price, ticket_type) VALUES (?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, newTicket.getTicketId());
             ps.setInt(2, newTicket.getEvent().getId());
@@ -136,6 +138,15 @@ public class TicketDAO implements ITicketDataAccess {
 
     @Override
     public void deleteTicket(int TicketID) throws Exception {
+
+    }
+
+    public void updateAvailableTickets(Ticket ticket, int amount, Connection connection) throws Exception {
+
+        PreparedStatement ps = connection.prepareStatement("UPDATE Events SET available_tickets = ? WHERE event_id = ?");
+        ps.setInt(1, ticket.getEvent().getAvailableTickets() + amount);
+        ps.setInt(2, ticket.getEvent().getId());
+        ps.executeUpdate();
 
     }
 }

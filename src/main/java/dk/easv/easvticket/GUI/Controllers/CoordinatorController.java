@@ -175,7 +175,7 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             CreateTicketController createTicketController = fxmlLoader.getController();
-            createTicketController.initializeClass(stage, ticketModel, selectedEvent);
+            createTicketController.initializeClass(stage, eventModel, ticketModel, selectedEvent);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 

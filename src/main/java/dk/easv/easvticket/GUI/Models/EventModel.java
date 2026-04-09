@@ -16,6 +16,12 @@ public class EventModel {
     public EventModel() throws Exception {
         eventObservableList = FXCollections.observableArrayList();
         eventObservableList.setAll(facade.eventManager.getEvents());
+
+        for (Event event: eventObservableList) {
+
+            System.out.println(event.getAvailableTickets());
+
+        }
     }
     // Event Management
     public void createEvent(Event newEvent) throws Exception{
@@ -27,10 +33,17 @@ public class EventModel {
         return eventObservableList;
     }
 
-    public void deleteEvent (Event event) throws Exception {
+    public void deleteEvent(Event event) throws Exception {
 
         facade.eventManager.deleteEvent(event);
         eventObservableList.remove(event);
+
+    }
+
+    public void refreshEvents() throws Exception {
+
+        eventObservableList.setAll(facade.eventManager.getEvents());
+
     }
 
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {

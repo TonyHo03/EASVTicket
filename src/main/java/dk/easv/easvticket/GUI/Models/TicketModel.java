@@ -1,5 +1,6 @@
 package dk.easv.easvticket.GUI.Models;
 
+import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.TicketTypes;
 import dk.easv.easvticket.Facade.TicketSystemFacade;
@@ -35,6 +36,14 @@ public class TicketModel {
         facade.ticketManager.updateTicket(updatedTicket);
         int index = ticketObservableList.indexOf(updatedTicket);
         if (index >= 0) {ticketObservableList.set(index, updatedTicket);}
+    }
+
+    public void refreshTickets(Event event) {
+        for (Ticket ticket: ticketObservableList) {
+            if (event.getId() == ticket.getEvent().getId()) {
+                ticket.setEvent(event);
+            }
+        }
     }
 
     public void printTicket(Ticket selectedTicket) throws Exception {

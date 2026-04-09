@@ -135,7 +135,7 @@ public class EventDAO implements IEventDataAccess {
                      int availableTickets = rs.getInt("available_tickets");
                      String description = rs.getString("description");
 
-                     Event e = new Event(eventId, eventName, eventDate, eventLocation, coordinators, availableTickets, totalTickets, description);
+                     Event e = new Event(eventId, eventName, eventDate, eventLocation, coordinators, totalTickets, availableTickets, description);
                      events.add(e);
 
                 }
