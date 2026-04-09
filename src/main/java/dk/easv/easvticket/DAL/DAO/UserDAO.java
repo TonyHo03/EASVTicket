@@ -21,7 +21,7 @@ public class UserDAO implements IUserDataAccess {
 
     @Override
     public User createUser(User newUser) throws Exception {
-        String sql = "INSERT INTO [User] (Username, Password, Email, Role) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO [User] (Username, Password, Email, Role, is_deleted) VALUES (?, ?, ?, ?, 0)";
 
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -51,7 +51,7 @@ public class UserDAO implements IUserDataAccess {
 
         try (Connection connection = dbConnector.getConnection()) {
 
-            PreparedStatement ps = connection.prepareStatement("SELECT UserId, Username, Email, Role FROM [User]");
+            PreparedStatement ps = connection.prepareStatement("SELECT UserId, Username, Email, Role FROM [User] WHERE is_deleted = 0");
 
             ResultSet rs = ps.executeQuery();
 
@@ -132,13 +132,14 @@ public class UserDAO implements IUserDataAccess {
 
     @Override
     public void deleteUser(int userID) throws Exception {
-        String sql = "DELETE FROM [User] WHERE UserId = ?";
+        String sql = "UPDATE [User] SET is_deleted = 1 WHERE UserId = ?";
 
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, userID);
-            ps.executeUpdate();
+            int rowsAffected = ps.executeUpdate();
+            System.out.println("UserID: " + userID + " | Rows affected: " + rowsAffected);
 
         } catch (SQLException e) {
             throw new Exception("Could not delete user", e);
