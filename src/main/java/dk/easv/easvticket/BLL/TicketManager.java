@@ -49,7 +49,7 @@ public class TicketManager {
     }
 
     public void deleteTicket(Ticket selectedTicket) throws Exception {
-        ticketDataAccess.deleteTicket(selectedTicket.getId()); // deletes by id
+        ticketDataAccess.deleteTicket(selectedTicket); // deletes by id
     }
 
     public void printPDF(Ticket selectedTicket) throws Exception {

@@ -3,25 +3,40 @@ package dk.easv.easvticket.GUI.Models;
 import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.TicketTypes;
-import dk.easv.easvticket.Facade.TicketSystemFacade;
+import dk.easv.easvticket.Facade.ModelManagerFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import java.util.List;
 
 public class TicketModel {
-    private TicketSystemFacade facade = new TicketSystemFacade();
+    private ModelManagerFacade facade = new ModelManagerFacade();
     private ObservableList<Ticket> ticketObservableList;
 
     public TicketModel() throws Exception {
         ticketObservableList = FXCollections.observableArrayList();
-        ticketObservableList.setAll(facade.ticketManager.getTickets());
+
+        FilteredList<Ticket> filteredList = new FilteredList<>(FXCollections.observableArrayList(facade.ticketManager.getTickets()));
+        filteredList.setPredicate(ticket -> {
+
+            if (!ticket.isDeleted()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+
+        });
+
+        ticketObservableList.setAll(filteredList);
     }
     public ObservableList<Ticket> getTickets() {
         return ticketObservableList;
     }
     public void deleteTicket(Ticket ticket) throws Exception {
         facade.ticketManager.deleteTicket(ticket);
+        ticket.setDeleted(true);
         ticketObservableList.remove(ticket);
     }
     public List<TicketTypes> getTicketTypes() throws Exception {
@@ -32,9 +47,9 @@ public class TicketModel {
         ticketObservableList.add(createdTicket);
     }
 
-    public void updateTicket(Ticket updatedTicket) throws Exception {
+    public void updateTicket(Ticket oldTicket, Ticket updatedTicket) throws Exception {
         facade.ticketManager.updateTicket(updatedTicket);
-        int index = ticketObservableList.indexOf(updatedTicket);
+        int index = ticketObservableList.indexOf(oldTicket);
         if (index >= 0) {ticketObservableList.set(index, updatedTicket);}
     }
 

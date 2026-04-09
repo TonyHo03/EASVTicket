@@ -10,11 +10,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="356.0" stylesheets="@../css/createedit.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.EditUserController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="520.0" prefWidth="356.0" stylesheets="@../css/createedit.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.EditUserController">
    <children>
       <Region prefHeight="14.0" prefWidth="600.0" />
       <Region layoutX="10.0" layoutY="10.0" prefHeight="26.0" prefWidth="600.0" />
-      <VBox fx:id="bottomCard" alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="408.0" prefWidth="300.0">
+      <VBox fx:id="bottomCard" alignment="TOP_CENTER" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="427.0" prefWidth="300.0">
          <children>
             <Region prefHeight="9.0" prefWidth="300.0" />
             <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="300.0">
@@ -72,7 +72,7 @@
       <Region prefHeight="17.0" prefWidth="356.0" />
       <HBox alignment="CENTER_LEFT" prefHeight="46.0" prefWidth="356.0">
          <children>
-            <Region prefHeight="46.0" prefWidth="164.0" />
+            <Region prefHeight="44.0" prefWidth="145.0" />
             <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#onClickCancel" text="Cancel" />
             <Region layoutX="10.0" layoutY="10.0" prefHeight="46.0" prefWidth="14.0" />
             <Button fx:id="createBtn" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#onClickSave" text="Save Changes" />

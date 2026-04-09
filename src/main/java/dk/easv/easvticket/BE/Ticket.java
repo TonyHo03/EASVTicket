@@ -1,7 +1,5 @@
 package dk.easv.easvticket.BE;
 
-import java.math.BigDecimal;
-
 public class Ticket {
 
     private int id;
@@ -11,8 +9,9 @@ public class Ticket {
     private String email;
     private double price;
     private TicketTypes ticketType;
+    private boolean isDeleted;
 
-    public Ticket(int id, String ticketId, Event event, String customerName, String email, double price, TicketTypes ticketType) {
+    public Ticket(int id, String ticketId, Event event, String customerName, String email, double price, TicketTypes ticketType, boolean isDeleted) {
         this.id = id;
         this.ticketId = ticketId;
         this.event = event;
@@ -20,6 +19,7 @@ public class Ticket {
         this.email = email;
         this.price = price;
         this.ticketType = ticketType;
+        this.isDeleted = isDeleted;
     }
 
     public Ticket(String ticketId, Event event, String customerName, String email, double price, TicketTypes ticketType) {
@@ -52,6 +52,9 @@ public class Ticket {
     public TicketTypes getTicketType() {
         return this.ticketType;
     }
+    public boolean isDeleted() {
+        return isDeleted;
+    }
 
     public void setTicketId(String ticketId) {
         this.ticketId = ticketId;
@@ -70,6 +73,9 @@ public class Ticket {
     }
     public void setTicketType(TicketTypes ticketType) {
         this.ticketType = ticketType;
+    }
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

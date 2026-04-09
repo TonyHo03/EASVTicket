@@ -3,6 +3,7 @@ package dk.easv.easvticket.GUI.Controllers;
 import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
+import dk.easv.easvticket.Facade.ControllerModelFacade;
 import dk.easv.easvticket.GUI.Models.UserModel;
 import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
@@ -26,53 +27,25 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class AdminController implements Initializable {
+public class AdminController {
 
     private Stage currentStage;
 
-    @FXML
-    private Button logoutBtn, addUserBtn, editUserBtn, deleteUserBtn, assignCoordBtn, deleteEventBtn;
-
-    @FXML
-    private TextField userSearch, eventSearch;
-
-    @FXML
-    private TableView<User> userManageView;
-
-    @FXML
-    private TableView<Event> eventManageView;
-
-    @FXML
-    private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
-
-    @FXML
-    private TableColumn<Event, LocalDateTime> clmDate;
-
-    @FXML
-    private TableColumn<Event, Integer> clmTickets;
-
-    @FXML
-    private TableColumn<User, String> clmUsername, clmEmail, clmRole;
+    @FXML private Button logoutBtn, addUserBtn, editUserBtn, deleteUserBtn, assignCoordBtn, deleteEventBtn;
+    @FXML private Label lblHeader;
+    @FXML private TextField userSearch, eventSearch;
+    @FXML private TableView<User> userManageView;
+    @FXML private TableView<Event> eventManageView;
+    @FXML private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
+    @FXML private TableColumn<Event, LocalDateTime> clmDate;
+    @FXML private TableColumn<Event, Integer> clmTickets;
+    @FXML private TableColumn<User, String> clmUsername, clmEmail, clmRole;
 
     private FilteredList<User> filteredUsers;
-
     private FilteredList<Event> filteredEvents;
+    private ControllerModelFacade facade;
 
-    private UserModel userModel;
-    private EventModel eventModel;
-
-    public AdminController() {
-
-        try {
-            userModel = new UserModel();
-            eventModel = new EventModel();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
+    public AdminController() {}
 
     @FXML
     private void onLogoutBtnClick() {
@@ -95,7 +68,7 @@ public class AdminController implements Initializable {
 
             AddUserController addUserController = fxmlLoader.getController();
             addUserController.setStage(stage);
-            addUserController.setModel(userModel);
+            addUserController.setModel(facade.userModel);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -132,7 +105,7 @@ public class AdminController implements Initializable {
 
             EditUserController editUserController = fxmlLoader.getController();
             editUserController.setStage(stage);
-            editUserController.setModel(userModel); // share the model
+            editUserController.setModel(facade.userModel); // share the model
             editUserController.setUser(selectedUser); // populate fields
 
             stage.initModality(Modality.APPLICATION_MODAL);
@@ -159,7 +132,7 @@ public class AdminController implements Initializable {
 
                 AssignCoordController assignCoordController = fxmlLoader.getController();
                 try {
-                    assignCoordController.initializeClass(stage, eventModel, userModel.getUsersWithRole(Roles.Coordinator), selectedEvent);
+                    assignCoordController.initializeClass(stage, facade.eventModel, facade.userModel.getUsersWithRole(Roles.Coordinator), selectedEvent);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -198,7 +171,7 @@ public class AdminController implements Initializable {
 
         if (result.isPresent() && result.get() == ButtonType.OK) {
             try {
-                userModel.deleteUser(selectedUser);
+                facade.userModel.deleteUser(selectedUser);
             } catch (Exception e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error Deleting User");
@@ -245,18 +218,21 @@ public class AdminController implements Initializable {
         });
     }
 
-    public void setStage(Stage stage) {
+    public void initializeClass(Stage currentStage, String username, ControllerModelFacade facade) {
 
-        this.currentStage = stage;
+        this.currentStage = currentStage;
+        lblHeader.setText("Welcome, " + username);
+        this.facade = facade;
+
+        UISetup();
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private void UISetup() {
 
 
         // User Table View
-        userManageView.setItems(userModel.getUsers());
+        userManageView.setItems(facade.userModel.getUsers());
         clmUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
         clmEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         clmRole.setCellValueFactory(new PropertyValueFactory<>("role"));
@@ -265,14 +241,14 @@ public class AdminController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmEmail);
         TooltipMaker.addTooltipsToColumns(clmRole);
 
-        filteredUsers = new FilteredList<>(userModel.getUsers(), p -> true);
+        filteredUsers = new FilteredList<>(facade.userModel.getUsers(), p -> true);
         userManageView.setItems(filteredUsers);
 
         userSearch.textProperty().addListener((observable, oldValue, newValue) -> filterUsers());
 
 
         // Event Table View
-        eventManageView.setItems(eventModel.getEvents());
+        eventManageView.setItems(facade.eventModel.getEvents());
 
         clmEventName.setCellValueFactory(new PropertyValueFactory<>("name"));
         clmDate.setCellValueFactory(new PropertyValueFactory<>("date"));
@@ -286,7 +262,7 @@ public class AdminController implements Initializable {
         TooltipMaker.addTooltipsToColumns(clmCoordinators);
         TooltipMaker.addTooltipsToColumns(clmTickets);
 
-        filteredEvents = new FilteredList<>(eventModel.getEvents(), p -> true);
+        filteredEvents = new FilteredList<>(facade.eventModel.getEvents(), p -> true);
         eventManageView.setItems(filteredEvents);
 
         eventSearch.textProperty().addListener((observable, oldValue, newValue) -> filterEvents());

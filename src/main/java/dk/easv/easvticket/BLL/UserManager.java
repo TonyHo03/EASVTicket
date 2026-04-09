@@ -26,6 +26,10 @@ public class UserManager {
         return userDataAccess.getUsersWithRole(role);
     }
 
+    public User getUserFromUsername(String username) throws Exception {
+        return userDataAccess.getUserFromUsername(username);
+    }
+
     public void updateUser(User updatedUser) throws Exception {
         userDataAccess.updateUser(updatedUser);
     }

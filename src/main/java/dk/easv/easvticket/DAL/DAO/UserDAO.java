@@ -112,6 +112,37 @@ public class UserDAO implements IUserDataAccess {
     }
 
     @Override
+    public User getUserFromUsername(String username) throws Exception {
+
+        String sql = "SELECT * FROM [User] WHERE Username = ?";
+
+        try (Connection connection = dbConnector.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql))
+        {
+
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            User user = null;
+
+            if (rs.next()) {
+
+                user = new User(rs.getString("Username"), rs.getString("Password"), rs.getString("Email"), rs.getString("Role"));
+
+            }
+
+            return user;
+
+        }
+        catch (Exception e) {
+
+            throw new Exception("Could not fetch user from username " + username, e);
+
+        }
+
+    }
+
+    @Override
     public void updateUser(User user) throws Exception {
         String sql = "UPDATE [User] SET Username = ?, Password = ?, Email = ?, Role = ? WHERE UserId = ?";
 

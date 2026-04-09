@@ -2,7 +2,7 @@ package dk.easv.easvticket.GUI.Models;
 
 import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.User;
-import dk.easv.easvticket.Facade.TicketSystemFacade;
+import dk.easv.easvticket.Facade.ModelManagerFacade;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class EventModel {
-    private TicketSystemFacade facade = new TicketSystemFacade();
+    private ModelManagerFacade facade = new ModelManagerFacade();
     private ObservableList<Event> eventObservableList;
 
     public EventModel() throws Exception {

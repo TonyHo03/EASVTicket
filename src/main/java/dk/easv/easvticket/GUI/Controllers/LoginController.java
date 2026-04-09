@@ -1,8 +1,10 @@
 package dk.easv.easvticket.GUI.Controllers;
 
+import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.BLL.PasswordEncrypter;
 import dk.easv.easvticket.DAL.DAO.DBConnector;
 import dk.easv.easvticket.DAL.Interfaces.IPasswordEncrypter;
+import dk.easv.easvticket.Facade.ControllerModelFacade;
 import dk.easv.easvticket.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,10 +37,16 @@ public class LoginController implements Initializable {
 
     private Stage currentStage;
     private boolean isHidden = true;
-    private DBConnector dbConnector = new DBConnector();
     private IPasswordEncrypter encrypter = new PasswordEncrypter();
+    private ControllerModelFacade facade;
 
-    public LoginController() throws IOException {
+    public LoginController() {
+        try {
+            facade = new ControllerModelFacade();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -47,68 +55,55 @@ public class LoginController implements Initializable {
     @FXML
     private void onSignInBtnClick() throws Exception {
 
-        String sql = "SELECT * FROM [User] WHERE Username = ?";
+        if (txtFldUser.getText().isEmpty() || txtFldPass.getText().isEmpty()) {
+            lblSignIn.setText("Please fill out all fields.");
+            lblSignIn.getStyleClass().remove("error-label"); // prevents stacking
+            lblSignIn.getStyleClass().add("error-label");
+            return;
+        }
 
-        try (Connection connection = dbConnector.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+        User user = facade.userModel.getUserFromUsername(txtFldUser.getText().strip());
 
-            ps.setString(1, txtFldUser.getText());
-            ResultSet rs = ps.executeQuery();
+        if (user == null || !encrypter.verifyPassword(txtFldPass.getText(), user.getPassword())) {
+            lblSignIn.setText("Incorrect username or password. Please try again.");
+            lblSignIn.getStyleClass().remove("error-label"); // prevents stacking
+            lblSignIn.getStyleClass().add("error-label");
+            return;
+        }
 
-            if (txtFldUser.getText().isEmpty() || txtFldPass.getText().isEmpty()) {
-                lblSignIn.setText("Please fill out all fields.");
-                lblSignIn.getStyleClass().remove("error-label"); // prevents stacking
-                lblSignIn.getStyleClass().add("error-label");
-                return;
-            }
+        String role = user.getRole();
 
-            if (!rs.next() || !encrypter.verifyPassword(txtFldPass.getText(), rs.getString("Password"))) {
-                lblSignIn.setText("Incorrect username or password. Please try again.");
-                lblSignIn.getStyleClass().remove("error-label"); // prevents stacking
-                lblSignIn.getStyleClass().add("error-label");
-                return;
-            }
+        if (role.equalsIgnoreCase("Admin")) {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
 
-            String role = rs.getString("Role");
+            AdminController adminController = fxmlLoader.getController();
+            adminController.initializeClass(stage, user.getUsername(), facade);
 
-            if (role.equalsIgnoreCase("Admin")) {
-                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AdminView.fxml"));
-                Scene scene = new Scene(fxmlLoader.load());
-                Stage stage = new Stage();
+            stage.resizableProperty().setValue(false);
 
-                AdminController adminController = fxmlLoader.getController();
-                adminController.setStage(stage);
+            stage.setTitle("Admin Dashboard");
+            stage.setScene(scene);
+            stage.show();
 
-                stage.resizableProperty().setValue(false);
+            currentStage.close();
+        }
+        else if (role.equalsIgnoreCase("Coordinator")) {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CoordinatorView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
 
-                stage.setTitle("Admin Dashboard");
-                stage.setScene(scene);
-                stage.show();
+            CoordinatorController coordinatorController = fxmlLoader.getController();
+            coordinatorController.initializeClass(stage, user.getUsername(), facade);
 
-                currentStage.close();
-            }
-            else if (role.equalsIgnoreCase("Coordinator")) {
-                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CoordinatorView.fxml"));
-                Scene scene = new Scene(fxmlLoader.load());
-                Stage stage = new Stage();
+            stage.resizableProperty().setValue(false);
 
-                CoordinatorController coordinatorController = fxmlLoader.getController();
-                coordinatorController.setStage(stage);
+            stage.setTitle("Coordinator Dashboard");
+            stage.setScene(scene);
+            stage.show();
 
-                stage.resizableProperty().setValue(false);
-
-                stage.setTitle("Coordinator Dashboard");
-                stage.setScene(scene);
-                stage.show();
-
-                currentStage.close();
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Error");
-            alert.setContentText("Something went wrong. Please try again.");
-            alert.showAndWait();
+            currentStage.close();
         }
     }
 

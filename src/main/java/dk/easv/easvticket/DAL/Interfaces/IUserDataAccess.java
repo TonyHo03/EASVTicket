@@ -9,6 +9,7 @@ public interface IUserDataAccess {
     User createUser(User newUser) throws Exception;
     List<User> getUsers() throws Exception;
     List<User> getUsersWithRole(Roles role) throws Exception;
+    User getUserFromUsername(String username) throws Exception;
     void updateUser(User user) throws Exception;
     void deleteUser(int userID) throws Exception;
 }

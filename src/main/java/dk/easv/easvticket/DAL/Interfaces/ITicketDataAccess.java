@@ -10,5 +10,5 @@ public interface ITicketDataAccess {
     List<Ticket> getTickets() throws Exception;
     List<TicketTypes> getTicketTypes() throws Exception;
     void updateTicket(Ticket ticket) throws Exception;
-    void deleteTicket(int TicketID) throws Exception;
+    void deleteTicket(Ticket ticket) throws Exception;
 }

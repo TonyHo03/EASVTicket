@@ -60,15 +60,14 @@ public class AssignCoordController {
                 alert.showAndWait();
                 return;
             }
-        }
-
-        else {
-            try {
-                eventModel.assignCoordinatorToEvent(cbCoordinators.getValue(), selectedEvent);
-                updateAssignedList();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
+            else {
+                try {
+                    eventModel.assignCoordinatorToEvent(cbCoordinators.getValue(), selectedEvent);
+                    updateAssignedList();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 

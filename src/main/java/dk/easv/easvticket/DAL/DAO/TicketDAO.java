@@ -33,12 +33,12 @@ public class TicketDAO implements ITicketDataAccess {
 
             ResultSet generatedIds = ps.getGeneratedKeys();
             int generatedId;
-            Ticket createdTicket = new Ticket(0, "0", null, "", "", 0, new TicketTypes(0, ""));
+            Ticket createdTicket = new Ticket(0, "0", null, "", "", 0, new TicketTypes(0, ""), false);
 
             if (generatedIds.next()) {
 
                 generatedId = generatedIds.getInt(1);
-                createdTicket = new Ticket(generatedId, newTicket.getTicketId(), newTicket.getEvent(), newTicket.getCustomerName(), newTicket.getEmail(), newTicket.getPrice(), newTicket.getTicketType());
+                createdTicket = new Ticket(generatedId, newTicket.getTicketId(), newTicket.getEvent(), newTicket.getCustomerName(), newTicket.getEmail(), newTicket.getPrice(), newTicket.getTicketType(), false);
 
             }
 
@@ -56,7 +56,7 @@ public class TicketDAO implements ITicketDataAccess {
     @Override
     public List<Ticket> getTickets() throws Exception {
         List<Ticket> tickets = new ArrayList<>();
-        String sql = "SELECT t.id, t.event, t.customer_name, t.email, t.price, t.ticket_type, t.ticket_id, e.event_id, e.name, e.event_date, e.location_id, e.total_tickets, e.available_tickets, e.description, l.location_id, l.location_name, l.address, l.city, tt.tickettype_id, tt.tickettype FROM Ticket t JOIN Events e ON t.event = e.event_id JOIN Location l ON e.location_id = l.location_id JOIN TicketTypes tt ON t.ticket_type = tt.tickettype_id";
+        String sql = "SELECT t.id, t.event, t.customer_name, t.email, t.price, t.ticket_type, t.isDeleted, t.ticket_id, e.event_id, e.name, e.event_date, e.location_id, e.total_tickets, e.available_tickets, e.description, l.location_id, l.location_name, l.address, l.city, tt.tickettype_id, tt.tickettype FROM Ticket t JOIN Events e ON t.event = e.event_id JOIN Location l ON e.location_id = l.location_id JOIN TicketTypes tt ON t.ticket_type = tt.tickettype_id";
 
         try (Connection con = dbConnector.getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -87,7 +87,7 @@ public class TicketDAO implements ITicketDataAccess {
                         rs.getString("customer_name"),
                         rs.getString("email"),
                         rs.getDouble("price"),
-                        new TicketTypes(rs.getInt("tickettype_id"), rs.getString("tickettype"))
+                        new TicketTypes(rs.getInt("tickettype_id"), rs.getString("tickettype")), rs.getBoolean("isDeleted")
                 );
                 tickets.add(ticket);
             }
@@ -134,10 +134,43 @@ public class TicketDAO implements ITicketDataAccess {
     @Override
     public void updateTicket(Ticket ticket) throws Exception {
 
+        String sql = "UPDATE Ticket SET customer_name = ?, email = ?, price = ?, ticket_type = ? WHERE id = ?";
+
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {
+
+            ps.setString(1, ticket.getCustomerName());
+            ps.setString(2, ticket.getEmail());
+            ps.setDouble(3, ticket.getPrice());
+            ps.setInt(4, ticket.getTicketType().getId());
+            ps.setInt(5, ticket.getId());
+
+            ps.executeUpdate();
+
+        }
+        catch (SQLException e) {
+
+            throw new SQLException("Could not update ticket", e);
+
+        }
+
     }
 
     @Override
-    public void deleteTicket(int TicketID) throws Exception {
+    public void deleteTicket(Ticket ticket) throws Exception {
+
+        String sql = "UPDATE Ticket SET isDeleted = 1 WHERE id = ?";
+
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql))
+        {
+            updateAvailableTickets(ticket, 1, connection);
+
+            ps.setInt(1, ticket.getId());
+            ps.executeUpdate();
+
+        }
 
     }
 

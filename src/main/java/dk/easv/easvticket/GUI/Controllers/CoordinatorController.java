@@ -1,14 +1,13 @@
 package dk.easv.easvticket.GUI.Controllers;
 
 import dk.easv.easvticket.BE.*;
+import dk.easv.easvticket.Facade.ControllerModelFacade;
 import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.Models.TicketModel;
 import dk.easv.easvticket.GUI.util.DateTimeFormatting;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,18 +21,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class CoordinatorController implements Initializable {
+public class CoordinatorController {
     @FXML private Button addEventBtn, assignCoordBtn, editEventBtn, deleteEventBtn, createTicketBtn, printBtn, logoutBtn, backBtn;
+    @FXML private Label lblHeader;
     @FXML private TableView<Ticket> ticketManageView;
     @FXML private TableView<Event> eventManageView;
     @FXML private TableColumn<Event, String> clmEventName, clmLocation, clmCoordinators;
@@ -48,22 +43,11 @@ public class CoordinatorController implements Initializable {
 
     private FilteredList<Event> filteredEvents;
     private Stage currentStage;
-    private Event selectedEvent;
+    private int selectedEventId;
 
-    private EventModel eventModel;
-    private TicketModel ticketModel;
+    private ControllerModelFacade facade;
 
-    public CoordinatorController() {
-
-        try {
-            eventModel = new EventModel();
-            ticketModel  = new TicketModel();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
+    public CoordinatorController() {}
 
     @FXML
     private void onLogoutBtnClick() {
@@ -85,7 +69,7 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             CreateEventController createEventController = fxmlLoader.getController();
-            createEventController.initializeClass(stage, eventModel);
+            createEventController.initializeClass(stage, facade.eventModel);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -105,7 +89,9 @@ public class CoordinatorController implements Initializable {
 
     @FXML
     private void onAssignCoordBtnClick() {
+
         Event selected = eventManageView.getSelectionModel().getSelectedItem();
+        System.out.println(selected);
 
         if (selected == null) {
             new Alert(Alert.AlertType.WARNING, "Please select an event to assign coordinators to.").showAndWait();
@@ -119,7 +105,12 @@ public class CoordinatorController implements Initializable {
 
             AssignCoordController assignCoordController = fxmlLoader.getController();
 
-            assignCoordController.initializeClass(stage, eventModel, selected.getCoordinators(), selected);
+            try {
+                assignCoordController.initializeClass(stage, facade.eventModel, facade.userModel.getUsersWithRole(Roles.Coordinator), selected);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
 
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.resizableProperty().setValue(false);
@@ -147,7 +138,7 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             EditEventController editEventController = fxmlLoader.getController();
-            editEventController.initializeClass(stage, selected, eventModel, () -> eventManageView.refresh());
+            editEventController.initializeClass(stage, selected, facade.eventModel, () -> eventManageView.refresh());
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -181,7 +172,7 @@ public class CoordinatorController implements Initializable {
                 System.out.println("About to archive: " + selected.getName() + " with ID: " + selected.getId());
 
                 // 1. CALL THE ARCHIVE METHOD (This runs the specific SQL for isDeleted = 1)
-                eventModel.archiveEvent(selected);
+                facade.eventModel.archiveEvent(selected);
 
                 // 2. REFRESH THE FILTER (This makes it vanish from the TableView)
                 filteredEvents.setPredicate(event -> !event.isDeleted());
@@ -198,27 +189,121 @@ public class CoordinatorController implements Initializable {
 
     @FXML
     private void onCreateTicketBtnClick() {
+
+        Event selectedEvent = getSelectedEvent(selectedEventId);
+        if (selectedEvent.getAvailableTickets() > 0) {
+            try {
+
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CreateTicketView.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                Stage stage = new Stage();
+
+                CreateTicketController createTicketController = fxmlLoader.getController();
+                createTicketController.initializeClass(stage, facade.eventModel, facade.ticketModel, selectedEvent);
+
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.resizableProperty().setValue(false);
+
+                stage.setTitle("Create Ticket");
+                stage.setScene(scene);
+                stage.show();
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+        }
+        else {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("No available ticket left");
+            alert.setContentText("There are no available tickets for this event. Please try a different event or check back later.");
+            alert.showAndWait();
+
+        }
+    }
+
+    @FXML
+    private void onEditTicketBtnClick() {
         try {
+            Ticket selectedTicket = ticketManageView.getSelectionModel().getSelectedItem();
+            Event selectedEvent = getSelectedEvent(selectedEventId);
 
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CreateTicketView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
+            if (selectedTicket != null) {
 
-            CreateTicketController createTicketController = fxmlLoader.getController();
-            createTicketController.initializeClass(stage, eventModel, ticketModel, selectedEvent);
+                FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/EditTicketView.fxml"));
+                Scene scene = new Scene(fxmlLoader.load());
+                Stage stage = new Stage();
 
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.resizableProperty().setValue(false);
+                EditTicketController editTicketController = fxmlLoader.getController();
+                editTicketController.initializeClass(stage, facade.eventModel, facade.ticketModel, selectedEvent, selectedTicket);
 
-            stage.setTitle("Create Tickets");
-            stage.setScene(scene);
-            stage.show();
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.resizableProperty().setValue(false);
+
+                stage.setTitle("Edit Ticket");
+                stage.setScene(scene);
+                stage.show();
+            }
+            else {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Could not find selected ticket.");
+                alert.setContentText("Please select a ticket before attempting to edit.");
+                alert.showAndWait();
+
+            }
         }
         catch (Exception e) {
 
             e.printStackTrace();
 
         }
+    }
+
+    @FXML
+    private void onDeleteTicketBtnClick() {
+
+        Ticket selectedTicket = ticketManageView.getSelectionModel().getSelectedItem();
+        Event selectedEvent = getSelectedEvent(selectedEventId);
+
+
+        if (selectedTicket != null) {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Delete ticket");
+            alert.setContentText("Are you sure you want to delete this ticket?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                try {
+                    facade.ticketModel.deleteTicket(selectedTicket);
+                    facade.eventModel.refreshEvents();
+
+                    for (Event event: facade.eventModel.getEvents()) {
+                        if (event.getId() == selectedEvent.getId()) {
+                            selectedEvent = event;
+                            facade.ticketModel.refreshTickets(selectedEvent);
+                            System.out.println("Found updated event, replacing old variable.");
+                            break;
+                        }
+                    }
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else {
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Could not find selected ticket");
+            alert.setContentText("Please select a ticket before attempting to delete.");
+            alert.showAndWait();
+
+        }
+
     }
 
     @FXML
@@ -233,7 +318,7 @@ public class CoordinatorController implements Initializable {
             Stage stage = new Stage();
 
             TicketPDFController ticketPDFController = fxmlLoader.getController();
-            ticketPDFController.initializeClass(stage, ticketModel, selectedTicket);
+            ticketPDFController.initializeClass(stage, facade.ticketModel, selectedTicket);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -274,14 +359,33 @@ public class CoordinatorController implements Initializable {
         });
     }
 
-    public void setStage(Stage stage) {
+    public void initializeClass(Stage currentStage, String username, ControllerModelFacade facade) {
 
-        this.currentStage = stage;
+        this.currentStage = currentStage;
+        lblHeader.setText("Welcome, " + username);
+        this.facade = facade;
+
+        UISetup();
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    private Event getSelectedEvent(int eventId) {
+
+        for (Event event: eventManageView.getItems()) {
+
+            if (event.getId() == eventId) {
+
+                return event;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+    private void UISetup() {
 
         eventManageCard.setManaged(true);
         ticketManageCard.setManaged(false);
@@ -292,9 +396,10 @@ public class CoordinatorController implements Initializable {
 
         eventManageView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
-                selectedEvent = eventManageView.getSelectionModel().getSelectedItem();
+                Event selectedEvent = eventManageView.getSelectionModel().getSelectedItem();
                 if (selectedEvent != null) {
-                    FilteredList<Ticket> filteredList = new FilteredList<>(ticketModel.getTickets());
+                    selectedEventId = selectedEvent.getId();
+                    FilteredList<Ticket> filteredList = new FilteredList<>(facade.ticketModel.getTickets());
                     filteredList.setPredicate(ticket -> {
 
                         return ticket.getEvent().getName().equals(selectedEvent.getName());
@@ -321,8 +426,6 @@ public class CoordinatorController implements Initializable {
         clmPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         clmType.setCellValueFactory(new PropertyValueFactory<>("ticketType"));
 
-        //ticketManageView.setItems(ticketModel.getTickets());
-
         TooltipMaker.addTooltipsToColumns(clmTicketId);
         TooltipMaker.addTooltipsToColumns(clmEvent);
         TooltipMaker.addTooltipsToColumns(clmCustomer);
@@ -338,7 +441,7 @@ public class CoordinatorController implements Initializable {
         clmCoordinators.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getCoordinators().stream().map(User::getUsername).collect(Collectors.joining(", "))));
         clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
 
-        eventManageView.setItems(eventModel.getEvents());
+        eventManageView.setItems(facade.eventModel.getEvents());
 
         TooltipMaker.addTooltipsToColumns(clmEventName);
         TooltipMaker.addTooltipsToColumns(clmDate);
@@ -348,7 +451,7 @@ public class CoordinatorController implements Initializable {
 
         DateTimeFormatting.changeFormat(clmDate);
 
-        filteredEvents = new FilteredList<>(eventModel.getEvents(), event -> !event.isDeleted());
+        filteredEvents = new FilteredList<>(facade.eventModel.getEvents(), event -> !event.isDeleted());
         eventManageView.setItems(filteredEvents);
 
         eventSearch.textProperty().addListener((observable, oldValue, newValue) -> {

@@ -16,17 +16,27 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" stylesheets="@../css/admin.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.AdminController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="1000.0" stylesheets="@../css/admin.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dk.easv.easvticket.GUI.Controllers.AdminController">
    <children>
       <HBox fx:id="topCard" alignment="CENTER" prefHeight="75.0" prefWidth="600.0">
          <children>
             <Region prefHeight="72.0" prefWidth="2.0" />
-            <Label prefHeight="54.0" prefWidth="224.0" text="Admin Dashboard">
-               <font>
-                  <Font name="Calibri Bold" size="23.0" />
-               </font>
-            </Label>
-            <Region prefHeight="72.0" prefWidth="677.0" />
+            <VBox prefHeight="72.0" prefWidth="273.0">
+               <children>
+                  <Region prefHeight="8.0" prefWidth="224.0" />
+                  <Label fx:id="lblHeader" prefHeight="40.0" prefWidth="270.0" text="Welcome, Placeholder">
+                     <font>
+                        <Font name="Calibri Bold" size="23.0" />
+                     </font>
+                  </Label>
+                  <Label text="ADMIN DASHBOARD" textFill="#a8a8a8">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Region prefHeight="72.0" prefWidth="637.0" />
             <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
                <children>
                   <Button fx:id="logoutBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onLogoutBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
@@ -325,9 +335,9 @@
                                                 <Font name="Arial Bold" size="16.0" />
                                              </font>
                                           </Label>
-                                          <Region layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="380.0" />
-                                          <TextField fx:id="eventSearch" prefHeight="26.0" prefWidth="219.0" promptText="Filter Events" />
-                                          <Region prefHeight="35.0" prefWidth="49.0" />
+                                          <Region layoutX="10.0" layoutY="10.0" prefHeight="35.0" prefWidth="350.0" />
+                                          <TextField fx:id="eventSearch" alignment="CENTER" prefHeight="26.0" prefWidth="255.0" promptText="Filter Events" />
+                                          <Region prefHeight="35.0" prefWidth="32.0" />
                                           <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="35.0">
                                              <children>
                                                 <Button fx:id="assignCoordBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#onAssignCoordBtnClick" prefHeight="35.0" prefWidth="35.0" styleClass="Invisible_Buttons">
