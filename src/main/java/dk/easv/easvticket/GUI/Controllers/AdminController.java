@@ -184,13 +184,25 @@ public class AdminController {
 
     @FXML
     private void onDeleteEventBtnClick() {
+        Event selected = eventManageView.getSelectionModel().getSelectedItem();
+
+        if (selected == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select an event to be deleted.").showAndWait();
+            return;
+        }
 
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setHeaderText("Delete Event");
-        confirmation.setContentText("Are you sure you want to delete this event? This action cannot be undone.");
+        confirmation.setContentText("Are you sure you want to delete \"" + selected.getName() + "\"?");
 
         Optional<ButtonType> result = confirmation.showAndWait();
-
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            try {
+                facade.eventModel.deleteEvent(selected);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML

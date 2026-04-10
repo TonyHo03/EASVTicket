@@ -10,11 +10,9 @@ import javafx.stage.Stage;
 
 public class EditEventController {
 
-    // Add FXML fields for your form controls
     @FXML private TextField nameField;
     @FXML private TextField locationField;
     @FXML private DatePicker dateField;
-    // Add other fields as needed
 
     private Stage currentStage;
     private Event event;
@@ -27,7 +25,6 @@ public class EditEventController {
         this.eventModel = eventModel;
         this.onSaveCallback = onSaveCallback;
 
-        // Populate form fields with event data
         populateFields();
     }
 

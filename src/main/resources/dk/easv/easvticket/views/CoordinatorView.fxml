@@ -227,11 +227,11 @@
                <children>
                   <TableView fx:id="eventManageView" prefHeight="255.0" prefWidth="920.0">
                      <columns>
-                        <TableColumn fx:id="clmEventName" prefWidth="75.0" text="Event Name" />
-                        <TableColumn fx:id="clmDate" prefWidth="75.0" text="Date" />
-                        <TableColumn fx:id="clmLocation" prefWidth="75.0" text="Location" />
-                        <TableColumn fx:id="clmCoordinators" prefWidth="75.0" text="Coordinators" />
-                        <TableColumn fx:id="clmTickets" prefWidth="75.0" text="Available Tickets" />
+                        <TableColumn fx:id="clmEventName" prefWidth="75.0" text="Event Name" editable="false" />
+                        <TableColumn fx:id="clmDate" prefWidth="75.0" text="Date" editable="false" />
+                        <TableColumn fx:id="clmLocation" prefWidth="75.0" text="Location" editable="false" />
+                        <TableColumn fx:id="clmCoordinators" prefWidth="75.0" text="Coordinators" editable="false" />
+                        <TableColumn fx:id="clmTickets" prefWidth="75.0" text="Available Tickets" editable="false" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -376,12 +376,12 @@
             <Region prefHeight="25.0" prefWidth="542.0" />
             <TableView fx:id="ticketManageView" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="255.0" prefWidth="920.0">
                <columns>
-                  <TableColumn fx:id="clmTicketId" prefWidth="75.0" text="Ticket ID" />
-                  <TableColumn fx:id="clmEvent" prefWidth="75.0" text="Event" />
-                  <TableColumn fx:id="clmCustomer" prefWidth="75.0" text="Customer" />
-                  <TableColumn fx:id="clmEmail" prefWidth="75.0" text="Email" />
-                  <TableColumn fx:id="clmPrice" prefWidth="75.0" text="Price" />
-                  <TableColumn fx:id="clmType" prefWidth="75.0" text="Type" />
+                  <TableColumn fx:id="clmTicketId" prefWidth="75.0" text="Ticket ID" editable="false" />
+                  <TableColumn fx:id="clmEvent" prefWidth="75.0" text="Event" editable="false" />
+                  <TableColumn fx:id="clmCustomer" prefWidth="75.0" text="Customer" editable="false" />
+                  <TableColumn fx:id="clmEmail" prefWidth="75.0" text="Email" editable="false" />
+                  <TableColumn fx:id="clmPrice" prefWidth="75.0" text="Price" editable="false" />
+                  <TableColumn fx:id="clmType" prefWidth="75.0" text="Type" editable="false" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

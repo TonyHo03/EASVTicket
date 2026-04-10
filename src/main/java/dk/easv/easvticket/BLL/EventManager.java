@@ -27,13 +27,11 @@ public class EventManager {
         eventDataAccess.updateEvent(updatedEvent);
     }
 
-    public void archiveEvent(Event event) throws Exception {
-        eventDataAccess.archiveEvent(event);
+    public void deleteEvent(Event event) throws Exception {
+        eventDataAccess.deleteEvent(event.getId());
     }
 
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {
-
         eventDataAccess.assignCoordinatorToEvent(coordinator, selectedEvent);
-
     }
 }

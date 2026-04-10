@@ -11,5 +11,4 @@ public interface IEventDataAccess {
     void updateEvent(Event event) throws Exception;
     void deleteEvent(int eventID) throws Exception;
     void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception;
-    void archiveEvent(Event event) throws Exception;
 }

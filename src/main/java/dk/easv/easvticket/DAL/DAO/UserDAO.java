@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class UserDAO implements IUserDataAccess {
 
     @Override
     public User createUser(User newUser) throws Exception {
-        String sql = "INSERT INTO [User] (Username, Password, Email, Role, is_deleted) VALUES (?, ?, ?, ?, 0)";
+        String sql = "INSERT INTO [User] (Username, Password, Email, Role) VALUES (?, ?, ?, ?)";
 
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
@@ -51,7 +52,7 @@ public class UserDAO implements IUserDataAccess {
 
         try (Connection connection = dbConnector.getConnection()) {
 
-            PreparedStatement ps = connection.prepareStatement("SELECT UserId, Username, Email, Role FROM [User] WHERE is_deleted = 0");
+            PreparedStatement ps = connection.prepareStatement("SELECT UserId, Username, Email, Role FROM [User] WHERE deleted_at IS NULL");
 
             ResultSet rs = ps.executeQuery();
 
@@ -84,7 +85,7 @@ public class UserDAO implements IUserDataAccess {
 
         try (Connection connection = dbConnector.getConnection()) {
 
-            PreparedStatement ps = connection.prepareStatement("SELECT UserId, Username, Email, Role FROM [User] WHERE Role = ? AND is_deleted = 0");
+            PreparedStatement ps = connection.prepareStatement("SELECT UserId, Username, Email, Role FROM [User] WHERE Role = ? AND deleted_at IS NULL");
             ps.setString(1, roles.toString());
 
             ResultSet rs = ps.executeQuery();
@@ -163,14 +164,14 @@ public class UserDAO implements IUserDataAccess {
 
     @Override
     public void deleteUser(int userID) throws Exception {
-        String sql = "UPDATE [User] SET is_deleted = 1 WHERE UserId = ?";
+        String sql = "UPDATE [User] SET deleted_at = ? WHERE UserId = ?";
 
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            ps.setInt(1, userID);
-            int rowsAffected = ps.executeUpdate();
-            System.out.println("UserID: " + userID + " | Rows affected: " + rowsAffected);
+            ps.setObject(1, LocalDateTime.now());
+            ps.setInt(2, userID);
+            ps.executeUpdate();
 
         } catch (SQLException e) {
             throw new Exception("Could not delete user", e);

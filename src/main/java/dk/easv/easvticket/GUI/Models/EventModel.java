@@ -16,21 +16,9 @@ public class EventModel {
 
     public EventModel() throws Exception {
         eventObservableList = FXCollections.observableArrayList();
-
-        List<Event> allEvents = facade.eventManager.getEvents();
-        System.out.println("=== Loading Events ===");
-        for (Event event : allEvents) {
-            System.out.println("Event: " + event.getName() + " | Deleted: " + event.isDeleted());
-        }
-
-
-        List<Event> activeEvents = allEvents.stream().filter(event -> !event.isDeleted()).collect(Collectors.toList());
-        System.out.println("Total events: " + allEvents.size() + " | Active events: " + activeEvents.size());
-
-
-        eventObservableList.setAll(activeEvents);
-
+        eventObservableList.setAll(facade.eventManager.getEvents());
     }
+
     // Event Management
     public void createEvent(Event newEvent) throws Exception{
         Event createdEvent  = facade.eventManager.createEvent(newEvent);
@@ -41,10 +29,9 @@ public class EventModel {
         return eventObservableList;
     }
 
-    public void archiveEvent(Event event) throws Exception {
-        facade.eventManager.archiveEvent(event); // This updates the Database
-        event.setDeleted(true);
-        eventObservableList.remove(event);       // This hides it from the UI instantly
+    public void deleteEvent(Event event) throws Exception {
+        facade.eventManager.deleteEvent(event); // This updates the Database
+        eventObservableList.remove(event);      // This hides it from the UI instantly
     }
 
     public void updateEvent(Event event) throws Exception {

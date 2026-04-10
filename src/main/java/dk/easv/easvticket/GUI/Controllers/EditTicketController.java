@@ -30,7 +30,7 @@ public class EditTicketController {
     @FXML
     private void onSaveChangesBtnClick() {
 
-        Ticket newTicket = new Ticket(selectedTicket.getId(), selectedTicket.getTicketId(), cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue(), false);
+        Ticket newTicket = new Ticket(selectedTicket.getId(), selectedTicket.getTicketId(), cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue());
         try {
             ticketModel.updateTicket(selectedTicket, newTicket);
             currentStage.close();

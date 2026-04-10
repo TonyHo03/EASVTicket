@@ -9,6 +9,7 @@ import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -154,9 +155,11 @@ public class CoordinatorController {
         }
 
     }
+
     @FXML
     private void onDeleteEventBtnClick() {
         Event selected = eventManageView.getSelectionModel().getSelectedItem();
+
         if (selected == null) {
             new Alert(Alert.AlertType.WARNING, "Please select an event to be deleted.").showAndWait();
             return;
@@ -164,25 +167,14 @@ public class CoordinatorController {
 
         Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
         confirmation.setHeaderText("Delete Event");
-        confirmation.setContentText("Are you sure you want to archive \"" + selected.getName() + "\"?");
+        confirmation.setContentText("Are you sure you want to delete \"" + selected.getName() + "\"?");
 
         Optional<ButtonType> result = confirmation.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
             try {
-                System.out.println("About to archive: " + selected.getName() + " with ID: " + selected.getId());
-
-                // 1. CALL THE ARCHIVE METHOD (This runs the specific SQL for isDeleted = 1)
-                facade.eventModel.archiveEvent(selected);
-
-                // 2. REFRESH THE FILTER (This makes it vanish from the TableView)
-                filteredEvents.setPredicate(event -> !event.isDeleted());
-
-                System.out.println("Archive completed successfully");
-                new Alert(Alert.AlertType.INFORMATION, "Event archived successfully.").showAndWait();
+                facade.eventModel.deleteEvent(selected);
             } catch (Exception e) {
-                System.out.println("Archive FAILED: " + e.getMessage());
                 e.printStackTrace();
-                new Alert(Alert.AlertType.ERROR, "Failed to archive event: " + e.getMessage()).showAndWait();
             }
         }
     }
@@ -350,7 +342,6 @@ public class CoordinatorController {
         String search = eventSearch.getText().toLowerCase();
 
         filteredEvents.setPredicate(event -> {
-            if (event.isDeleted()) return false;
             if (search.isBlank()) return true;
             return event.getName().toLowerCase().contains(search) ||
                     event.getDate().toString().toLowerCase().contains(search) ||
@@ -400,11 +391,7 @@ public class CoordinatorController {
                 if (selectedEvent != null) {
                     selectedEventId = selectedEvent.getId();
                     FilteredList<Ticket> filteredList = new FilteredList<>(facade.ticketModel.getTickets());
-                    filteredList.setPredicate(ticket -> {
-
-                        return ticket.getEvent().getName().equals(selectedEvent.getName());
-
-                    });
+                    filteredList.setPredicate(ticket -> ticket.getEvent().getName().equals(selectedEvent.getName()));
                     ticketManageView.setItems(filteredList);
                     eventManageCard.setManaged(false);
                     ticketManageCard.setManaged(true);
@@ -441,7 +428,7 @@ public class CoordinatorController {
         clmCoordinators.setCellValueFactory(d -> new SimpleStringProperty(d.getValue().getCoordinators().stream().map(User::getUsername).collect(Collectors.joining(", "))));
         clmTickets.setCellValueFactory(new PropertyValueFactory<>("availableTickets"));
 
-        eventManageView.setItems(facade.eventModel.getEvents());
+        //eventManageView.setItems(facade.eventModel.getEvents());
 
         TooltipMaker.addTooltipsToColumns(clmEventName);
         TooltipMaker.addTooltipsToColumns(clmDate);
@@ -451,8 +438,10 @@ public class CoordinatorController {
 
         DateTimeFormatting.changeFormat(clmDate);
 
-        filteredEvents = new FilteredList<>(facade.eventModel.getEvents(), event -> !event.isDeleted());
-        eventManageView.setItems(filteredEvents);
+        filteredEvents = new FilteredList<>(facade.eventModel.getEvents());
+        SortedList<Event> sortedEvents = new SortedList<>(filteredEvents);
+        sortedEvents.comparatorProperty().bind(eventManageView.comparatorProperty());
+        eventManageView.setItems(sortedEvents);
 
         eventSearch.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
