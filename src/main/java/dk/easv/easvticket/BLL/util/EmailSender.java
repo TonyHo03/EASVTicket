@@ -12,15 +12,17 @@ import java.util.Properties;
 public class EmailSender {
 
     private static final String FROM = "noreply.ticketsystemtest@gmail.com"; // Lavede en gmail bare som test
-    private static final String PASSWORD = "bfub uvvu adii rkaz"; // App password til gmail
+    private static final String PASSWORD = "sull kdyd sjag nrgl"; // App password til gmail
 
     public static void sendTicket(Ticket ticket) throws Exception {
 
         Properties properties = new Properties();
         properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587"); // Port til at sende mails med. åbentbart standarden.
+        properties.put("mail.smtp.port", "465"); // Port til at sende mails med. åbentbart standarden.
         properties.put("mail.smtp.auth", "true");
-        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.starttls.enable", "false");
+        properties.put("mail.debug", "true");
 
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
