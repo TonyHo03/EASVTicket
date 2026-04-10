@@ -84,7 +84,7 @@ public class UserDAO implements IUserDataAccess {
 
         try (Connection connection = dbConnector.getConnection()) {
 
-            PreparedStatement ps = connection.prepareStatement("SELECT UserId, Username, Email, Role FROM [User] WHERE Role = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT UserId, Username, Email, Role FROM [User] WHERE Role = ? AND is_deleted = 0");
             ps.setString(1, roles.toString());
 
             ResultSet rs = ps.executeQuery();
