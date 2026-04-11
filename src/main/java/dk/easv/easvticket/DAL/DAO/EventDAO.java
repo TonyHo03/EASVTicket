@@ -163,18 +163,33 @@ public class EventDAO implements IEventDataAccess {
 
     @Override
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {
+        String sql = "INSERT INTO EventCoordinators (event_id, user_id) VALUES (?, ?)";
 
-        try (Connection connection = dbConnector.getConnection()) {
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            System.out.println(coordinator.getId());
-            System.out.println(selectedEvent.getId());
-
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO EventCoordinators (event_id, user_id) VALUES (?, ?)");
             ps.setInt(1, selectedEvent.getId());
             ps.setInt(2, coordinator.getId());
+            ps.executeUpdate();
 
-            int affectedRows = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("Could not assign coordinator to event", e);
+        }
+    }
 
+    @Override
+    public void removeCoordinatorFromEvent(User coordinator, Event selectedEvent) throws Exception {
+        String sql = "DELETE FROM EventCoordinators WHERE event_id = ? AND user_id = ?";
+
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, selectedEvent.getId());
+            ps.setInt(2, coordinator.getId());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new Exception("Could not remove coordinator from event", e);
         }
     }
 }

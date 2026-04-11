@@ -92,7 +92,6 @@ public class CoordinatorController {
     private void onAssignCoordBtnClick() {
 
         Event selected = eventManageView.getSelectionModel().getSelectedItem();
-        System.out.println(selected);
 
         if (selected == null) {
             new Alert(Alert.AlertType.WARNING, "Please select an event to assign coordinators to.").showAndWait();
@@ -127,8 +126,8 @@ public class CoordinatorController {
     }
     @FXML
     private void onEditEventBtnClick() {
-        Event selected = eventManageView.getSelectionModel().getSelectedItem();
-        if (selected == null) {
+        Event selectedEvent = eventManageView.getSelectionModel().getSelectedItem();
+        if (selectedEvent == null) {
             new Alert(Alert.AlertType.WARNING, "Please select an event to be edited.").showAndWait();
             return;
         }
@@ -139,10 +138,11 @@ public class CoordinatorController {
             Stage stage = new Stage();
 
             EditEventController editEventController = fxmlLoader.getController();
-            editEventController.initializeClass(stage, selected, facade.eventModel, () -> eventManageView.refresh());
+            editEventController.setStage(stage);
+            editEventController.setModel(facade.eventModel);
+            editEventController.setEvent(selectedEvent);
 
             stage.initModality(Modality.APPLICATION_MODAL);
-
             stage.resizableProperty().setValue(false);
             stage.setTitle("Edit Event");
             stage.setScene(scene);
@@ -277,7 +277,6 @@ public class CoordinatorController {
                         if (event.getId() == selectedEvent.getId()) {
                             selectedEvent = event;
                             facade.ticketModel.refreshTickets(selectedEvent);
-                            System.out.println("Found updated event, replacing old variable.");
                             break;
                         }
                     }
