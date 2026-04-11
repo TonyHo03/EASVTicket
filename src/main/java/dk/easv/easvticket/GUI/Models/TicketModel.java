@@ -17,26 +17,13 @@ public class TicketModel {
     public TicketModel() throws Exception {
         ticketObservableList = FXCollections.observableArrayList();
 
-        FilteredList<Ticket> filteredList = new FilteredList<>(FXCollections.observableArrayList(facade.ticketManager.getTickets()));
-        filteredList.setPredicate(ticket -> {
-
-            if (!ticket.isDeleted()) {
-                return true;
-            }
-            else {
-                return false;
-            }
-
-        });
-
-        ticketObservableList.setAll(filteredList);
+        ticketObservableList.setAll(facade.ticketManager.getTickets());
     }
     public ObservableList<Ticket> getTickets() {
         return ticketObservableList;
     }
     public void deleteTicket(Ticket ticket) throws Exception {
         facade.ticketManager.deleteTicket(ticket);
-        ticket.setDeleted(true);
         ticketObservableList.remove(ticket);
     }
     public List<TicketTypes> getTicketTypes() throws Exception {

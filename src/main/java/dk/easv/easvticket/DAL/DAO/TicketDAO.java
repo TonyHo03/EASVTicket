@@ -5,6 +5,7 @@ import dk.easv.easvticket.DAL.Interfaces.ITicketDataAccess;
 
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,12 +34,12 @@ public class TicketDAO implements ITicketDataAccess {
 
             ResultSet generatedIds = ps.getGeneratedKeys();
             int generatedId;
-            Ticket createdTicket = new Ticket(0, "0", null, "", "", 0, new TicketTypes(0, ""), false);
+            Ticket createdTicket = new Ticket(0, "0", null, "", "", 0, new TicketTypes(0, ""));
 
             if (generatedIds.next()) {
 
                 generatedId = generatedIds.getInt(1);
-                createdTicket = new Ticket(generatedId, newTicket.getTicketId(), newTicket.getEvent(), newTicket.getCustomerName(), newTicket.getEmail(), newTicket.getPrice(), newTicket.getTicketType(), false);
+                createdTicket = new Ticket(generatedId, newTicket.getTicketId(), newTicket.getEvent(), newTicket.getCustomerName(), newTicket.getEmail(), newTicket.getPrice(), newTicket.getTicketType());
 
             }
 
@@ -56,7 +57,7 @@ public class TicketDAO implements ITicketDataAccess {
     @Override
     public List<Ticket> getTickets() throws Exception {
         List<Ticket> tickets = new ArrayList<>();
-        String sql = "SELECT t.id, t.event, t.customer_name, t.email, t.price, t.ticket_type, t.isDeleted, t.ticket_id, e.event_id, e.name, e.event_date, e.location_id, e.total_tickets, e.available_tickets, e.description, l.location_id, l.location_name, l.address, l.city, tt.tickettype_id, tt.tickettype FROM Ticket t JOIN Events e ON t.event = e.event_id JOIN Location l ON e.location_id = l.location_id JOIN TicketTypes tt ON t.ticket_type = tt.tickettype_id";
+        String sql = "SELECT t.id, t.event, t.customer_name, t.email, t.price, t.ticket_type, t.deleted_at, t.ticket_id, e.event_id, e.name, e.event_date, e.location_id, e.total_tickets, e.available_tickets, e.description, l.location_id, l.location_name, l.address, l.city, tt.tickettype_id, tt.tickettype FROM Ticket t JOIN Events e ON t.event = e.event_id JOIN Location l ON e.location_id = l.location_id JOIN TicketTypes tt ON t.ticket_type = tt.tickettype_id WHERE t.deleted_at IS NULL";
 
         try (Connection con = dbConnector.getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -87,7 +88,7 @@ public class TicketDAO implements ITicketDataAccess {
                         rs.getString("customer_name"),
                         rs.getString("email"),
                         rs.getDouble("price"),
-                        new TicketTypes(rs.getInt("tickettype_id"), rs.getString("tickettype")), rs.getBoolean("isDeleted")
+                        new TicketTypes(rs.getInt("tickettype_id"), rs.getString("tickettype"))
                 );
                 tickets.add(ticket);
             }
@@ -160,14 +161,15 @@ public class TicketDAO implements ITicketDataAccess {
     @Override
     public void deleteTicket(Ticket ticket) throws Exception {
 
-        String sql = "UPDATE Ticket SET isDeleted = 1 WHERE id = ?";
+        String sql = "UPDATE Ticket SET deleted_at = ? WHERE id = ?";
 
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql))
         {
             updateAvailableTickets(ticket, 1, connection);
 
-            ps.setInt(1, ticket.getId());
+            ps.setObject(1, LocalDateTime.now());
+            ps.setInt(2, ticket.getId());
             ps.executeUpdate();
 
         }

@@ -18,7 +18,6 @@ public class Event {
     private int availableTickets;
     private int totalTickets;
     private String description;
-    private boolean deleted = false;
 
     public Event(int id, String name, LocalDateTime date, Location location, List<User> coordinators, int totalTickets, int availableTickets, String description) {
         this.id = id;
@@ -94,13 +93,5 @@ public class Event {
     @Override
     public String toString() {
         return this.name;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
     }
 }

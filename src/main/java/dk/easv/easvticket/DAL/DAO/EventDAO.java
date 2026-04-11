@@ -101,7 +101,7 @@ public class EventDAO implements IEventDataAccess {
     @Override
     public List<Event> getEvents() throws Exception {
         List<Event> events = new ArrayList<>();
-        String sql = "SELECT e.event_id, e.name, e.event_date, e.total_tickets, e.available_tickets, e.description, e.isDeleted, l.location_id, l.location_name, l.address, l.city FROM Events e JOIN Location l ON e.location_id = l.location_id";
+        String sql = "SELECT e.event_id, e.name, e.event_date, e.total_tickets, e.available_tickets, e.description, e.deleted_at, l.location_id, l.location_name, l.address, l.city FROM Events e JOIN Location l ON e.location_id = l.location_id WHERE e.deleted_at IS NULL";
 
         try (Connection con = dbConnector.getConnection();
              PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -132,16 +132,7 @@ public class EventDAO implements IEventDataAccess {
                 int availableTickets = rs.getInt("available_tickets");
                 String description = rs.getString("description");
 
-                // --- THE FIX IS HERE ---
-                // 1. Get the actual value from the 'isDeleted' column in the DB
-                boolean deletedInDB = rs.getBoolean("isDeleted");
-
-                // 2. Create the event object
                 Event e = new Event(eventId, eventName, eventDate, eventLocation, coordinators, totalTickets, availableTickets, description);
-
-                // 3. Set the object's status using the DB value (NOT e.isDeleted())
-                e.setDeleted(deletedInDB);
-                // -----------------------
 
                 events.add(e);
             }
@@ -156,15 +147,17 @@ public class EventDAO implements IEventDataAccess {
 
     @Override
     public void deleteEvent(int eventID) throws Exception {
-        try (Connection con = dbConnector.getConnection()) {
+        String sql = "UPDATE Events SET deleted_at = ? WHERE event_id = ?";
 
-            PreparedStatement preparedStatement = con.prepareStatement("DELETE FROM EventCoordinators WHERE event_id = ?");
-            preparedStatement.setInt(1, eventID);
-            preparedStatement.executeUpdate();
+        try (Connection con = dbConnector.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            PreparedStatement preparedStatement1 = con.prepareStatement("DELETE FROM Events WHERE event_id = ?");
-            preparedStatement1.setInt(1, eventID);
-            Integer resultSet = preparedStatement1.executeUpdate();
+            ps.setObject(1, LocalDateTime.now());
+            ps.setInt(2, eventID);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new Exception("Could not delete event", e);
         }
     }
 
@@ -182,26 +175,6 @@ public class EventDAO implements IEventDataAccess {
 
             int affectedRows = ps.executeUpdate();
 
-        }
-    }
-
-    @Override
-    public void archiveEvent(Event event) throws Exception {
-        String sql = "UPDATE Events SET isDeleted = 1 WHERE event_id = ?";
-
-        try (Connection con = dbConnector.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setInt(1, event.getId());
-            int rowsAffected = ps.executeUpdate();
-
-            System.out.println("Archived event: " + event.getName() + " | Rows updated: " + rowsAffected);
-
-            if (rowsAffected == 0) {
-                throw new Exception("Event not found with ID: " + event.getId());
-            }
-        } catch (SQLException e) {
-            throw new Exception("Could not archive event", e);
         }
     }
 }
