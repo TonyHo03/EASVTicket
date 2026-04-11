@@ -165,6 +165,7 @@ public class UserDAO implements IUserDataAccess {
     public void deleteUser(int userID) throws Exception {
         String sql = "UPDATE [User] SET is_deleted = 1 WHERE UserId = ?";
 
+
         try (Connection connection = dbConnector.getConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
 

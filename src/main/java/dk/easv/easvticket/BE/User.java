@@ -1,5 +1,7 @@
 package dk.easv.easvticket.BE;
 
+import java.time.LocalDate;
+
 public class User {
 
     private int id;
@@ -64,6 +66,8 @@ public class User {
     public void setPassword(String newPassword) {
         this.password = newPassword;
     }
+
+
 
     @Override
     public String toString() {
