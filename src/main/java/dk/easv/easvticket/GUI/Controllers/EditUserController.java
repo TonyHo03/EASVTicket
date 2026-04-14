@@ -28,7 +28,6 @@ public class EditUserController implements Initializable {
     private UserModel userModel;
     private IPasswordEncrypter encrypter = new PasswordEncrypter();
 
-
     public void setStage(Stage stage) {
         this.currentStage = stage;
     }
@@ -37,7 +36,6 @@ public class EditUserController implements Initializable {
         this.userModel = userModel;
     }
 
-    // Called from AdminController after load, to populate fields
     public void setUser(User user) {
         this.selectedUser = user;
         usernameField.setText(user.getUsername());
@@ -48,6 +46,10 @@ public class EditUserController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         choiceBox.getItems().addAll("Admin", "Event Coordinator");
+
+        usernameField.textProperty().addListener((obs, o, n) -> usernameField.getStyleClass().remove("error"));
+        emailField.textProperty().addListener((obs, o, n) -> emailField.getStyleClass().remove("error"));
+        choiceBox.valueProperty().addListener((obs, o, n) -> choiceBox.getStyleClass().remove("error"));
     }
 
     @FXML
@@ -62,13 +64,25 @@ public class EditUserController implements Initializable {
         String newRole = choiceBox.getValue();
         String newPassword = newPasswordField.getText().trim();
 
-        if (newUsername.isEmpty() || newEmail.isEmpty() || newRole == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Missing fields");
-            alert.setContentText("Please fill in username, email and role.");
-            alert.showAndWait();
-            return;
+        clearError();
+        boolean hasError = false;
+
+        if (newUsername.isEmpty()) {
+            usernameField.getStyleClass().add("error");
+            hasError = true;
         }
+
+        if (newEmail.isEmpty()) {
+            emailField.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (newRole == null) {
+            choiceBox.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (hasError) return;
 
         selectedUser.setUsername(newUsername);
         selectedUser.setEmail(newEmail);
@@ -88,6 +102,12 @@ public class EditUserController implements Initializable {
             alert.setContentText("Could not update user: " + e.getMessage());
             alert.showAndWait();
         }
+    }
+
+    private void clearError() {
+        usernameField.getStyleClass().remove("error");
+        emailField.getStyleClass().remove("error");
+        choiceBox.getStyleClass().remove("error");
     }
 
     public TextField getOldPasswordField() {

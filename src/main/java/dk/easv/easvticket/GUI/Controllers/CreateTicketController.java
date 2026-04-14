@@ -28,48 +28,6 @@ public class CreateTicketController {
     @FXML private ChoiceBox<TicketTypes> cbType;
     @FXML private Spinner<Double> spnPrice;
 
-    @FXML
-    private void onCreateBtnClick() {
-
-        String ticketId = "TK-" + UUID.randomUUID();
-
-        if (txtFldCName.getText().isBlank() || txtFldEmail.getText().isBlank() || cbType.getValue() == null) {
-
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("MISSING FIELDS!");
-            alert.setContentText("Please insert values into the missing fields!");
-            alert.showAndWait();
-
-        }
-        else {
-            try {
-                ticketModel.createTicket(new Ticket(ticketId, cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue()));
-                eventModel.refreshEvents();
-
-                for (Event event: eventModel.getEvents()) {
-                    if (event.getId() == selectedEvent.getId()) {
-                        selectedEvent = event;
-                        ticketModel.refreshTickets(selectedEvent);
-                        System.out.println("Found updated event, replacing old variable.");
-                        break;
-                    }
-                }
-
-                currentStage.close();
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @FXML
-    private void onCancelBtnClick() {
-
-        currentStage.close();
-
-    }
-
     public void initializeClass(Stage stage, EventModel eventModel, TicketModel ticketModel, Event selectedEvent) {
 
         this.currentStage = stage;
@@ -98,6 +56,69 @@ public class CreateTicketController {
         catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    @FXML
+    private void onCreateBtnClick() {
+
+        String ticketId = "TK-" + UUID.randomUUID();
+
+        clearError();
+        boolean hasError = false;
+
+        if (txtFldCName.getText().isBlank()) {
+            txtFldCName.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (txtFldEmail.getText().isBlank()) {
+            txtFldEmail.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (spnPrice.getValue() == null) {
+            spnPrice.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (cbType.getValue() == null) {
+            cbType.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (hasError) {
+            return;
+        }
+
+        try {
+            ticketModel.createTicket(new Ticket(ticketId, cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue()));
+            eventModel.refreshEvents();
+
+            for (Event event: eventModel.getEvents()) {
+                if (event.getId() == selectedEvent.getId()) {
+                    selectedEvent = event;
+                    ticketModel.refreshTickets(selectedEvent);
+                    System.out.println("Found updated event, replacing old variable.");
+                    break;
+                }
+            }
+
+            currentStage.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onCancelBtnClick() {
+        currentStage.close();
+    }
+
+    private void clearError() {
+        txtFldCName.getStyleClass().remove("error");
+        txtFldEmail.getStyleClass().remove("error");
+        spnPrice.getStyleClass().remove("error");
+        cbType.getStyleClass().remove("error");
     }
 }
