@@ -34,7 +34,7 @@ public class TicketDAO implements ITicketDataAccess {
 
             ResultSet generatedIds = ps.getGeneratedKeys();
             int generatedId;
-            Ticket createdTicket = new Ticket(0, "0", null, "", "", 0, new TicketTypes(0, ""));
+            Ticket createdTicket = new Ticket(0, "0", null, "", "", 0, new TicketTypes(0, "", 0));
 
             if (generatedIds.next()) {
 
@@ -88,7 +88,7 @@ public class TicketDAO implements ITicketDataAccess {
                         rs.getString("customer_name"),
                         rs.getString("email"),
                         rs.getDouble("price"),
-                        new TicketTypes(rs.getInt("tickettype_id"), rs.getString("tickettype"))
+                        new TicketTypes(rs.getInt("tickettype_id"), rs.getString("tickettype"), rs.getInt("event_id"))
                 );
                 tickets.add(ticket);
             }
@@ -102,13 +102,14 @@ public class TicketDAO implements ITicketDataAccess {
     }
 
     @Override
-    public List<TicketTypes> getTicketTypes() throws Exception {
+    public List<TicketTypes> getTicketTypes(Event event) throws Exception {
 
         List<TicketTypes> ticketTypes = new ArrayList<>();
 
         try (Connection connection = dbConnector.getConnection()) {
 
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM TicketTypes");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM TicketTypes WHERE event_id = ?");
+            ps.setInt(1, event.getId());
 
             ResultSet rs = ps.executeQuery();
 
@@ -117,7 +118,7 @@ public class TicketDAO implements ITicketDataAccess {
                 int id = rs.getInt("tickettype_id");
                 String ticketType = rs.getString("tickettype");
 
-                ticketTypes.add(new TicketTypes(id, ticketType));
+                ticketTypes.add(new TicketTypes(id, ticketType, event.getId()));
 
             }
 
@@ -170,6 +171,22 @@ public class TicketDAO implements ITicketDataAccess {
 
             ps.setObject(1, LocalDateTime.now());
             ps.setInt(2, ticket.getId());
+            ps.executeUpdate();
+
+        }
+
+    }
+
+    @Override
+    public void createType(TicketTypes type) throws Exception {
+
+        String sql = "INSERT INTO TicketTypes (tickettype, event_id) VALUES (?,?)";
+
+        try (Connection conn = dbConnector.getConnection();
+        PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, type.getTicketType());
+            ps.setInt(2, type.getEventId());
             ps.executeUpdate();
 
         }

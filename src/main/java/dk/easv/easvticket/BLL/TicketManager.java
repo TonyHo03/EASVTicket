@@ -3,6 +3,7 @@ package dk.easv.easvticket.BLL;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.encoder.QRCode;
+import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Ticket;
 import dk.easv.easvticket.BE.TicketTypes;
 import dk.easv.easvticket.BLL.util.EmailSender;
@@ -38,9 +39,15 @@ public class TicketManager {
         return ticketDataAccess.getTickets();
     }
 
-    public List<TicketTypes> getTicketTypes() throws Exception {
+    public List<TicketTypes> getTicketTypes(Event event) throws Exception {
 
-        return ticketDataAccess.getTicketTypes();
+        return ticketDataAccess.getTicketTypes(event);
+
+    }
+
+    public void createType(TicketTypes type) throws Exception {
+
+        ticketDataAccess.createType(type);
 
     }
 

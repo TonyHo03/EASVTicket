@@ -91,7 +91,7 @@ public class CreateTicketController {
 
         try {
 
-            ObservableList<TicketTypes> ticketTypes = FXCollections.observableArrayList(ticketModel.getTicketTypes());
+            ObservableList<TicketTypes> ticketTypes = FXCollections.observableArrayList(ticketModel.getTicketTypes(selectedEvent));
             cbType.setItems(ticketTypes);
 
         }

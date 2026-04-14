@@ -180,6 +180,32 @@ public class CoordinatorController {
     }
 
     @FXML
+    private void onAddTypeBtnClick() {
+
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CreateTicketTypeView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+
+            CreateTicketTypeController createTicketTypeController = fxmlLoader.getController();
+            createTicketTypeController.initializeClass(stage, facade.ticketModel, getSelectedEvent(selectedEventId));
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.resizableProperty().setValue(false);
+
+            stage.setTitle("Create Ticket Type");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+    @FXML
     private void onCreateTicketBtnClick() {
 
         Event selectedEvent = getSelectedEvent(selectedEventId);
@@ -322,7 +348,12 @@ public class CoordinatorController {
 
         }
         catch (Exception e) {
-            e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("No selected ticket.");
+            alert.setContentText("Please select a ticket before attempting to print or send.");
+            alert.showAndWait();
+
         }
     }
 

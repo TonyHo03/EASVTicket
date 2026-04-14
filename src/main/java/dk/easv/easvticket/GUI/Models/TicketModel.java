@@ -26,8 +26,11 @@ public class TicketModel {
         facade.ticketManager.deleteTicket(ticket);
         ticketObservableList.remove(ticket);
     }
-    public List<TicketTypes> getTicketTypes() throws Exception {
-        return facade.ticketManager.getTicketTypes();
+    public List<TicketTypes> getTicketTypes(Event event) throws Exception {
+        return facade.ticketManager.getTicketTypes(event);
+    }
+    public void createType(TicketTypes type) throws Exception {
+        facade.ticketManager.createType(type);
     }
     public void createTicket(Ticket newTicket) throws Exception {
         Ticket createdTicket = facade.ticketManager.createTicket(newTicket);
