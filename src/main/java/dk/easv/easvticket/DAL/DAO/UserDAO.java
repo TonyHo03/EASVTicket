@@ -165,14 +165,19 @@ public class UserDAO implements IUserDataAccess {
     @Override
     public void deleteUser(int userID) throws Exception {
         String sql = "UPDATE [User] SET deleted_at = ? WHERE UserId = ?";
+        String unassignCoordSQL = "DELETE FROM EventCoordinators WHERE user_id = ?";
 
 
         try (Connection connection = dbConnector.getConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+             PreparedStatement ps = connection.prepareStatement(sql);
+             PreparedStatement ps2 = connection.prepareStatement(unassignCoordSQL)){
 
             ps.setObject(1, LocalDateTime.now());
             ps.setInt(2, userID);
             ps.executeUpdate();
+
+            ps2.setInt(1, userID);
+            ps2.executeUpdate();
 
         } catch (SQLException e) {
             throw new Exception("Could not delete user", e);

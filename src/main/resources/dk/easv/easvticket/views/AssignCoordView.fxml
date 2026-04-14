@@ -49,6 +49,7 @@
                   </HBox>
                   <VBox fx:id="vbAssignedCoord" prefHeight="200.0" prefWidth="100.0">
                      <children>
+                        <Label fx:id="lblNoneAssigned" text="   None assigned" textFill="#135de7" />
                         <Region prefHeight="30.0" prefWidth="9.0" />
                      </children>
                   </VBox>

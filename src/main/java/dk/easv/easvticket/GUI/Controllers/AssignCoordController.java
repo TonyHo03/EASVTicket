@@ -9,8 +9,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -25,6 +27,7 @@ public class AssignCoordController {
 
     @FXML private VBox vbAssignedCoord;
     @FXML private ChoiceBox<User> cbCoordinators;
+    @FXML private Label lblNoneAssigned;
 
     public void initializeClass(Stage stage, EventModel eventModel, List<User> coordinators, Event selectedEvent) {
 
@@ -44,7 +47,7 @@ public class AssignCoordController {
         if (cbCoord == null) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Missing field");
-            alert.setContentText("Please assign a Coordinator.");
+            alert.setContentText("Please choose a coordinator to assign or exit the window.");
             alert.showAndWait();
             return;
         }
@@ -70,9 +73,15 @@ public class AssignCoordController {
                 }
             }
         }
+    }
 
-        currentStage.close();
-
+    private void onRemoveBtnClick (User user) {
+        try {
+            eventModel.removeCoordinatorFromEvent(user, selectedEvent);
+            updateAssignedList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -90,16 +99,31 @@ public class AssignCoordController {
         }
     }
 
+    // Basically updates the VBox (vbAssignedCoord) with HBoxes of coordinators (and a button to remove them) using a for-loop.
     private void updateAssignedList() {
         vbAssignedCoord.getChildren().clear();
 
         List<User> assigned = selectedEvent.getCoordinators();
 
-        if (assigned != null) {
-            for (User user : assigned) {
-                Label label = new Label("   " + user.getUsername());
-                vbAssignedCoord.getChildren().add(label);
-            }
+        if (assigned == null || assigned.isEmpty()) {
+            vbAssignedCoord.getChildren().add(lblNoneAssigned);
+            return;
+        }
+
+        for (User user : assigned) {
+            HBox row = new HBox(8);
+            row.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
+            Label nameLabel = new Label("   " + user.getUsername());
+            nameLabel.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(nameLabel, javafx.scene.layout.Priority.ALWAYS);
+
+            Button removeBtn = new Button("✕");
+            removeBtn.getStyleClass().add("removeBtn");
+            removeBtn.setOnAction(e -> onRemoveBtnClick(user));
+
+            row.getChildren().addAll(nameLabel, removeBtn);
+            vbAssignedCoord.getChildren().add(row);
         }
     }
 }

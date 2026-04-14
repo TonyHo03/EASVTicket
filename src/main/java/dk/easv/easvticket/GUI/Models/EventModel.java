@@ -45,28 +45,22 @@ public class EventModel {
     }
 
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {
-
         facade.eventManager.assignCoordinatorToEvent(coordinator, selectedEvent);
+        selectedEvent.getCoordinators().add(coordinator);
+        refreshEventInList(selectedEvent);
+    }
 
-        List<User> newCoordList = new ArrayList<>();
-        List<User> coordinatorList = selectedEvent.getCoordinators();
+    public void removeCoordinatorFromEvent(User coordinator, Event selectedEvent) throws Exception {
+        facade.eventManager.removeCoordinatorFromEvent(coordinator, selectedEvent);
+        selectedEvent.getCoordinators().removeIf(u -> u.getId() == coordinator.getId());
+        refreshEventInList(selectedEvent);
+    }
 
-        newCoordList.addAll(coordinatorList);
-        newCoordList.add(coordinator);
-        selectedEvent.setCoordinators(newCoordList);
-
-        int selectedId = selectedEvent.getId();
-
-        List<Event> tempEventList = new ArrayList<>(eventObservableList);
-
-        for (Event event: tempEventList) {
-            if (event.getId() == selectedId) {
-                int indexOf = tempEventList.indexOf(event);
-
-                eventObservableList.set(indexOf, selectedEvent);
-
+    private void refreshEventInList(Event selectedEvent) {
+        for (int i = 0; i < eventObservableList.size(); i++) {
+            if (eventObservableList.get(i).getId() == selectedEvent.getId()) {
+                eventObservableList.set(i, selectedEvent);
                 break;
-
             }
         }
     }

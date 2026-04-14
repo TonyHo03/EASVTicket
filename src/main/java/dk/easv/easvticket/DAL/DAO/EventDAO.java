@@ -46,6 +46,12 @@ public class EventDAO implements IEventDataAccess {
                     ResultSet rs = ps.getGeneratedKeys();
                     if (rs.next()) {
                         newEvent.setId(rs.getInt(1));
+
+                        PreparedStatement ps2 = connection.prepareStatement("INSERT INTO TicketTypes (tickettype, event_id) VALUES (?, ?)");
+                        ps2.setString(1, "Normal");
+                        ps2.setInt(2, rs.getInt(1));
+                        ps2.executeUpdate();
+
                     }
                 }
 
@@ -147,14 +153,25 @@ public class EventDAO implements IEventDataAccess {
 
     @Override
     public void deleteEvent(int eventID) throws Exception {
-        String sql = "UPDATE Events SET deleted_at = ? WHERE event_id = ?";
+        String deleteEventSQL = "UPDATE Events SET deleted_at = ? WHERE event_id = ?";
+        String deleteTicketSQL = "UPDATE Ticket SET deleted_at = ? WHERE event = ?";
+        String unassignCoordSQL = "DELETE FROM EventCoordinators WHERE event_id = ?";
 
         try (Connection con = dbConnector.getConnection();
-             PreparedStatement ps = con.prepareStatement(sql)) {
+             PreparedStatement ps = con.prepareStatement(deleteEventSQL);
+             PreparedStatement ps2 = con.prepareStatement(deleteTicketSQL);
+             PreparedStatement ps3 = con.prepareStatement(unassignCoordSQL)) {
 
             ps.setObject(1, LocalDateTime.now());
             ps.setInt(2, eventID);
             ps.executeUpdate();
+
+            ps2.setObject(1, LocalDateTime.now());
+            ps2.setInt(2, eventID);
+            ps2.executeUpdate();
+
+            ps3.setInt(1, eventID);
+            ps3.executeUpdate();
 
         } catch (SQLException e) {
             throw new Exception("Could not delete event", e);
@@ -163,18 +180,33 @@ public class EventDAO implements IEventDataAccess {
 
     @Override
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {
+        String sql = "INSERT INTO EventCoordinators (event_id, user_id) VALUES (?, ?)";
 
-        try (Connection connection = dbConnector.getConnection()) {
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            System.out.println(coordinator.getId());
-            System.out.println(selectedEvent.getId());
-
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO EventCoordinators (event_id, user_id) VALUES (?, ?)");
             ps.setInt(1, selectedEvent.getId());
             ps.setInt(2, coordinator.getId());
+            ps.executeUpdate();
 
-            int affectedRows = ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new Exception("Could not assign coordinator to event", e);
+        }
+    }
 
+    @Override
+    public void removeCoordinatorFromEvent(User coordinator, Event selectedEvent) throws Exception {
+        String sql = "DELETE FROM EventCoordinators WHERE event_id = ? AND user_id = ?";
+
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, selectedEvent.getId());
+            ps.setInt(2, coordinator.getId());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new Exception("Could not remove coordinator from event", e);
         }
     }
 }

@@ -27,27 +27,6 @@ public class EditTicketController {
     private Event selectedEvent;
     private Ticket selectedTicket;
 
-    @FXML
-    private void onSaveChangesBtnClick() {
-
-        Ticket newTicket = new Ticket(selectedTicket.getId(), selectedTicket.getTicketId(), cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue());
-        try {
-            ticketModel.updateTicket(selectedTicket, newTicket);
-            currentStage.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    @FXML
-    private void onCancelBtnClick() {
-
-        currentStage.close();
-
-    }
-
     public void initializeClass(Stage stage, EventModel eventModel, TicketModel ticketModel, Event selectedEvent, Ticket selectedTicket) {
 
         this.currentStage = stage;
@@ -57,7 +36,6 @@ public class EditTicketController {
         this.selectedTicket = selectedTicket;
 
         UISetup();
-
     }
 
     private void UISetup() {
@@ -76,14 +54,30 @@ public class EditTicketController {
 
         try {
 
-            ObservableList<TicketTypes> ticketTypes = FXCollections.observableArrayList(ticketModel.getTicketTypes());
+            ObservableList<TicketTypes> ticketTypes = FXCollections.observableArrayList(ticketModel.getTicketTypes(selectedEvent));
             cbType.setItems(ticketTypes);
 
         }
         catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
+    @FXML
+    private void onSaveChangesBtnClick() {
+
+        Ticket newTicket = new Ticket(selectedTicket.getId(), selectedTicket.getTicketId(), cbEvent.getValue(), txtFldCName.getText(), txtFldEmail.getText(), spnPrice.getValue(), cbType.getValue());
+        try {
+            ticketModel.updateTicket(selectedTicket, newTicket);
+            currentStage.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onCancelBtnClick() {
+        currentStage.close();
+    }
 }

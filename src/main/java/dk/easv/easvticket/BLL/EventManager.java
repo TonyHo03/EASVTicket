@@ -34,4 +34,8 @@ public class EventManager {
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {
         eventDataAccess.assignCoordinatorToEvent(coordinator, selectedEvent);
     }
+
+    public void removeCoordinatorFromEvent(User coordinator, Event selectedEvent) throws Exception {
+        eventDataAccess.removeCoordinatorFromEvent(coordinator, selectedEvent);
+    }
 }

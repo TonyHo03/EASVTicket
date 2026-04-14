@@ -92,7 +92,6 @@ public class CoordinatorController {
     private void onAssignCoordBtnClick() {
 
         Event selected = eventManageView.getSelectionModel().getSelectedItem();
-        System.out.println(selected);
 
         if (selected == null) {
             new Alert(Alert.AlertType.WARNING, "Please select an event to assign coordinators to.").showAndWait();
@@ -127,8 +126,8 @@ public class CoordinatorController {
     }
     @FXML
     private void onEditEventBtnClick() {
-        Event selected = eventManageView.getSelectionModel().getSelectedItem();
-        if (selected == null) {
+        Event selectedEvent = eventManageView.getSelectionModel().getSelectedItem();
+        if (selectedEvent == null) {
             new Alert(Alert.AlertType.WARNING, "Please select an event to be edited.").showAndWait();
             return;
         }
@@ -139,10 +138,11 @@ public class CoordinatorController {
             Stage stage = new Stage();
 
             EditEventController editEventController = fxmlLoader.getController();
-            editEventController.initializeClass(stage, selected, facade.eventModel, () -> eventManageView.refresh());
+            editEventController.setStage(stage);
+            editEventController.setModel(facade.eventModel);
+            editEventController.setEvent(selectedEvent);
 
             stage.initModality(Modality.APPLICATION_MODAL);
-
             stage.resizableProperty().setValue(false);
             stage.setTitle("Edit Event");
             stage.setScene(scene);
@@ -177,6 +177,32 @@ public class CoordinatorController {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    private void onAddTypeBtnClick() {
+
+        try {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CreateTicketTypeView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+
+            CreateTicketTypeController createTicketTypeController = fxmlLoader.getController();
+            createTicketTypeController.initializeClass(stage, facade.ticketModel, getSelectedEvent(selectedEventId));
+
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.resizableProperty().setValue(false);
+
+            stage.setTitle("Create Ticket Type");
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+        }
+
     }
 
     @FXML
@@ -277,7 +303,6 @@ public class CoordinatorController {
                         if (event.getId() == selectedEvent.getId()) {
                             selectedEvent = event;
                             facade.ticketModel.refreshTickets(selectedEvent);
-                            System.out.println("Found updated event, replacing old variable.");
                             break;
                         }
                     }
@@ -322,7 +347,12 @@ public class CoordinatorController {
 
         }
         catch (Exception e) {
-            e.printStackTrace();
+
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("No selected ticket.");
+            alert.setContentText("Please select a ticket before attempting to print or send.");
+            alert.showAndWait();
+
         }
     }
 

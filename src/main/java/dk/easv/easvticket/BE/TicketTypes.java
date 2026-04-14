@@ -4,10 +4,17 @@ public class TicketTypes {
 
     private int id;
     private String ticketType;
+    private int eventId;
 
-    public TicketTypes(int id, String ticketType) {
+    public TicketTypes(int id, String ticketType, int eventId) {
         this.id = id;
         this.ticketType = ticketType;
+        this.eventId = eventId;
+    }
+
+    public TicketTypes(String ticketType, int eventId) {
+        this.ticketType = ticketType;
+        this.eventId = eventId;
     }
 
     public int getId() {
@@ -20,6 +27,14 @@ public class TicketTypes {
 
     public void setTicketType(String ticketType) {
         this.ticketType = ticketType;
+    }
+
+    public int getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(int eventId) {
+        this.eventId = eventId;
     }
 
     @Override

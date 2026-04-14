@@ -4,15 +4,12 @@ import dk.easv.easvticket.BE.Event;
 import dk.easv.easvticket.BE.Roles;
 import dk.easv.easvticket.BE.User;
 import dk.easv.easvticket.Facade.ControllerModelFacade;
-import dk.easv.easvticket.GUI.Models.UserModel;
-import dk.easv.easvticket.GUI.Models.EventModel;
 import dk.easv.easvticket.GUI.util.TooltipMaker;
 import dk.easv.easvticket.MainApplication;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,11 +17,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class AdminController {
@@ -62,13 +56,13 @@ public class AdminController {
     private void onAddUserBtnClick() {
 
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/AddUserView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("views/CreateUserView.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 356, 471);
             Stage stage = new Stage();
 
-            AddUserController addUserController = fxmlLoader.getController();
-            addUserController.setStage(stage);
-            addUserController.setModel(facade.userModel);
+            CreateUserController createUserController = fxmlLoader.getController();
+            createUserController.setStage(stage);
+            createUserController.setModel(facade.userModel);
 
             stage.initModality(Modality.APPLICATION_MODAL);
 

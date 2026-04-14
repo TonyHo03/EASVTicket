@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class AddUserController implements Initializable {
+public class CreateUserController implements Initializable {
 
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
@@ -52,23 +52,34 @@ public class AddUserController implements Initializable {
     @FXML
     private void onClickSave(ActionEvent actionEvent) {
         String username = usernameField.getText().trim();
-        String password = encrypter.hashedPassword(passwordField.getText().trim());
+        String password = encrypter.hashedPassword(passwordField.getText());
         String email = emailField.getText().trim();
         Roles role = choiceBox.getValue();
 
-        if (username.isEmpty() || password.isEmpty() || email.isEmpty() || role == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Missing fields");
-            alert.setContentText("Please fill in all fields and select a role.");
-            alert.showAndWait();
-            return;
+        clearError();
+        boolean hasError = false;
+
+        if (username.isBlank()) {
+            usernameField.getStyleClass().add("error");
+            hasError = true;
         }
 
-        if (password.contains(" ")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Invalid password");
-            alert.setContentText("Your password can not contain a whitespace.");
-            alert.showAndWait();
+        if (password.isBlank()) {
+            passwordField.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (email.isBlank()) {
+            emailField.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (role == null) {
+            choiceBox.getStyleClass().add("error");
+            hasError = true;
+        }
+
+        if (hasError) {
             return;
         }
 
@@ -83,5 +94,11 @@ public class AddUserController implements Initializable {
             alert.setContentText("Could not create user: " + e.getMessage());
             alert.showAndWait();
         }
+    }
+    private void clearError() {
+        usernameField.getStyleClass().remove("error");
+        passwordField.getStyleClass().remove("error");
+        emailField.getStyleClass().remove("error");
+        choiceBox.getStyleClass().remove("error");
     }
 }
