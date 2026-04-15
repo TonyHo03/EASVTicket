@@ -37,7 +37,7 @@ public class CreateEventController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        SpinnerValueFactory<Integer> integerSpinnerValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 999, 0, 1);
+        SpinnerValueFactory<Integer> integerSpinnerValueFactory =new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 999, 0, 1);
         spnTotalTickets.setValueFactory(integerSpinnerValueFactory);
 
         // "TimePicker" using javafx only. Source - https://stackoverflow.com/q/32613619.

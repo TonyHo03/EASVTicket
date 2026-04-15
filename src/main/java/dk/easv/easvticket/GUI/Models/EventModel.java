@@ -39,9 +39,7 @@ public class EventModel {
     }
 
     public void refreshEvents() throws Exception {
-
         eventObservableList.setAll(facade.eventManager.getEvents());
-
     }
 
     public void assignCoordinatorToEvent(User coordinator, Event selectedEvent) throws Exception {

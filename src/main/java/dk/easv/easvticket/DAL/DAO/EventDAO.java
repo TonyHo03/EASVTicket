@@ -16,7 +16,6 @@ import java.util.List;
 public class EventDAO implements IEventDataAccess {
 
     private DBConnector dbConnector = new DBConnector();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
     public EventDAO() throws IOException {
     }
@@ -26,15 +25,11 @@ public class EventDAO implements IEventDataAccess {
         String sql = "INSERT INTO [Events] (name, event_date, location_id, total_tickets, available_tickets, description) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = dbConnector.getConnection()) {
-
             connection.setAutoCommit(false); // start transaction
 
             try {
-
                 int locationId = getOrCreateLocationId(connection, newEvent.getLocation());
-
                 try (PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
-
                     ps.setString(1, newEvent.getName());
                     ps.setTimestamp(2, Timestamp.valueOf(newEvent.getDate()));
                     ps.setInt(3, locationId);
@@ -51,13 +46,10 @@ public class EventDAO implements IEventDataAccess {
                         ps2.setString(1, "Normal");
                         ps2.setInt(2, rs.getInt(1));
                         ps2.executeUpdate();
-
                     }
                 }
-
                 connection.commit(); // end transaction (everything worked)
                 return newEvent;
-
             } catch (SQLException e) {
                 connection.rollback(); // something failed
                 throw e;
@@ -147,8 +139,26 @@ public class EventDAO implements IEventDataAccess {
     }
 
     @Override
-    public void updateEvent(Event event) throws Exception {
+    public void updateEvent(Event updatedEvent) throws Exception {
+        String sql = "UPDATE Events SET name = ?, event_date = ?, location_id = ?, total_tickets = ?, available_tickets = ?, description = ? WHERE event_id = ?";
 
+        try (Connection connection = dbConnector.getConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            int locationId = getOrCreateLocationId(connection, updatedEvent.getLocation());
+
+            ps.setString(1, updatedEvent.getName());
+            ps.setTimestamp(2, Timestamp.valueOf(updatedEvent.getDate()));
+            ps.setInt(3, locationId);
+            ps.setInt(4, updatedEvent.getTotalTickets());
+            ps.setInt(5, updatedEvent.getAvailableTickets());
+            ps.setString(6, updatedEvent.getDescription());
+            ps.setInt(7, updatedEvent.getId());
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new Exception("Could not update event", e);
+        }
     }
 
     @Override

@@ -16,6 +16,14 @@ public class CreateTicketTypeController {
     private Stage currentStage;
     private Event selectedEvent;
 
+    public void initializeClass(Stage currentStage, TicketModel ticketModel, Event selectedEvent) {
+
+        this.currentStage = currentStage;
+        this.ticketModel = ticketModel;
+        this.selectedEvent = selectedEvent;
+
+    }
+
     @FXML
     private void onCreateBtnClick() {
 
@@ -42,17 +50,6 @@ public class CreateTicketTypeController {
 
     @FXML
     private void onCancelBtnClick() {
-
         currentStage.close();
-
     }
-
-    public void initializeClass(Stage currentStage, TicketModel ticketModel, Event selectedEvent) {
-
-        this.currentStage = currentStage;
-        this.ticketModel = ticketModel;
-        this.selectedEvent = selectedEvent;
-
-    }
-
 }

@@ -109,12 +109,4 @@ public class EditUserController implements Initializable {
         emailField.getStyleClass().remove("error");
         choiceBox.getStyleClass().remove("error");
     }
-
-    public TextField getOldPasswordField() {
-        return oldPasswordField;
-    }
-
-    public void setOldPasswordField(TextField oldPasswordField) {
-        this.oldPasswordField = oldPasswordField;
-    }
 }

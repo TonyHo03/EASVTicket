@@ -46,7 +46,7 @@ public class CoordinatorController {
     private Stage currentStage;
     private int selectedEventId;
 
-    private ControllerModelFacade facade;
+    public static ControllerModelFacade facade;
 
     public CoordinatorController() {}
 

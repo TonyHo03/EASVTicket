@@ -154,7 +154,7 @@ public class EditEventController implements Initializable {
             Event updatedEvent = new Event(selectedEvent.getId(), eventName, date, location, selectedEvent.getCoordinators(), newTotal, available, descr);
 
             eventModel.updateEvent(updatedEvent);
-
+            CoordinatorController.facade.eventModel.refreshEvents();
             currentStage.close();
 
         } catch (Exception e) {
